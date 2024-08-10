@@ -1,0 +1,8 @@
+rootProject.name = 'core'
+
+// 공통 패키지
+include 'core-common'
+include 'core-domain'
+
+// beads-api 설정
+include 'kitten-beads-api'
