@@ -1,13 +1,15 @@
-package kitten.core.corecommon;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class CoreCommonApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(CoreCommonApplication.class, args);
-    }
-
-}
+//package kitten.core.corecommon;
+//
+//import org.springframework.boot.SpringApplication;
+//import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+//
+//@SpringBootApplication
+////@EnableJpaRepositories(basePackages = {"kitten.core"})
+//public class CoreCommonApplication {
+//
+//    public static void main(String[] args) {
+//        SpringApplication.run(CoreCommonApplication.class, args);
+//    }
+//
+//}
