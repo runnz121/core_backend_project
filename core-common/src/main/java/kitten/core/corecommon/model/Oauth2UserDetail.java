@@ -44,6 +44,7 @@ public record Oauth2UserDetail(
     public static Oauth2UserDetail ofToken(Users users) {
         return Oauth2UserDetail.builder()
                 .email(users.getEmail())
+                .role(users.getAuthRoles())
                 .authorities(createAuthorities(users.getAuthRoles().getRoleValue()))
                 .build();
     }

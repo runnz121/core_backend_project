@@ -28,7 +28,7 @@ public abstract class Audit implements Serializable  {
     /** 생성시간 */
     @CreatedDate
     @Column(name = "CREATE_TIME", nullable = false, updatable = false)
-    protected LocalDateTime createUtc;
+    protected LocalDateTime createTime;
 
     /** 수정자 */
     @LastModifiedBy
@@ -38,5 +38,5 @@ public abstract class Audit implements Serializable  {
     /** 수정시간 */
     @LastModifiedDate
     @Column(name = "UPDATE_TIME", nullable = false)
-    protected LocalDateTime updateUtc;
+    protected LocalDateTime updateTime;
 }

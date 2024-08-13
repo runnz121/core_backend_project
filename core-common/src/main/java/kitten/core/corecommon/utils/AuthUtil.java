@@ -14,5 +14,5 @@ public class AuthUtil {
     public static final String ERROR = "error";
     public static final String OAUTH_REQUEST_COOKIE = "oauth2_auth_request";
     public static final Integer COOKIE_EXPIRATION = 100;
-    public static final String KITTEN_COOKIE_NAME = "kttten-COOKIE";
+    public static final String KITTEN_COOKIE_NAME = "kitten-cookie";
 }

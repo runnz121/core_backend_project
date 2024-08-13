@@ -19,10 +19,10 @@ public class Users extends Audit {
     @Column(name = "USER_KEY", nullable = false)
     private Long key;
 
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "EMAIL", nullable = false, length = 100)
     private String email;
 
-    @Column(name = "user_role", nullable = false)
+    @Column(name = "AUTH_ROLE", nullable = false)
     @Enumerated(EnumType.STRING)
     private AuthRoles authRoles;
 }
