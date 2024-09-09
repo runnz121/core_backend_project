@@ -3,4 +3,4 @@ rootProject.name = 'core'
 include 'core-common'
 include 'core-domain'
 // beads-api 설정
-include 'kitten-beads-api'
+include 'kitten-api'
