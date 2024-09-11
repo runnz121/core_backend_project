@@ -17,6 +17,6 @@ public class TermsCommandService implements TermsCommandUseCase {
     @Transactional
     public void agreeTerms(TermsAgreementCommand command) {
 
-        termsAgreementPort.saveUserTermsAgreement();
+        termsAgreementPort.saveUserTermsAgreement(command);
     }
 }
