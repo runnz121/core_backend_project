@@ -112,3 +112,8 @@ spring:
             token-uri: https://www.linkedin.com/oauth/v2/accessToken
             user-info-uri: https://api.linkedin.com/v2/me
             user-name-attribute: id
+
+aws.s3:
+  aws-access-key-id: AKIA2UC3AUG77KT4FTOZ
+  aws-secret-access-key: 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
+  aws-bucket-name: mium-eunsun
