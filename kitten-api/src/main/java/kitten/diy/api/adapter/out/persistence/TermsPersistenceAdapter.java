@@ -7,8 +7,10 @@ import kitten.core.coredomain.user.repository.UsersRepository;
 import kitten.diy.api.application.port.in.command.TermsAgreementCommand;
 import kitten.diy.api.application.port.out.TermsAgreementPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Component
 @RequiredArgsConstructor
 public class TermsPersistenceAdapter implements TermsAgreementPort {
 
