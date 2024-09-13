@@ -14,4 +14,9 @@ public class Controller {
     public void test() {
         testService.test();
     }
+
+    @GetMapping("/health/check")
+    public String healthCheck() {
+        return "ok";
+    }
 }
