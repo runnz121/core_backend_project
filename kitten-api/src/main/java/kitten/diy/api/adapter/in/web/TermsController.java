@@ -5,10 +5,7 @@ import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.diy.api.adapter.in.web.request.TermsAgreementRequest;
 import kitten.diy.api.application.port.in.TermsCommandUseCase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/terms")
@@ -21,5 +18,10 @@ public class TermsController {
     public void termsAgreement(@AccessAccount CurrentAccount account,
                                @RequestBody TermsAgreementRequest request) {
         termsCommandUseCase.agreeTerms(request.toCommand(account.getUserEmail()));
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "file/test";
     }
 }

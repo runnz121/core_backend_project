@@ -14,4 +14,9 @@ public class S3Properties {
     private String awsDefaultRegion = "ap-northeast-2";
 
     private String awsBucketName;
+
+    private String awsAccessKeyId;
+
+    private String awsSecretAccessKey;
+
 }

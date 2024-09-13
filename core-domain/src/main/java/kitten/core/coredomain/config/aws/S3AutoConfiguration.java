@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
@@ -28,9 +30,11 @@ public class S3AutoConfiguration {
     @ConditionalOnMissingBean
     public S3Client s3Client(S3Properties properties,
                              AwsCredentialsProvider credentialsProvider) {
+        AwsBasicCredentials credentials = AwsBasicCredentials.create(properties.getAwsAccessKeyId(), properties.getAwsSecretAccessKey());
+
         return S3Client.builder()
                 .region(Region.of(properties.getAwsDefaultRegion()))
-                .credentialsProvider(credentialsProvider)
+                .credentialsProvider(StaticCredentialsProvider.create(credentials))
                 .build();
     }
 }

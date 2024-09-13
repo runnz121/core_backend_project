@@ -12,8 +12,11 @@ kitten.core.corecommon.security.oauth2.Oauth2FailureHandler
 kitten.core.corecommon.security.interceptor.AuthInterceptor
 kitten.core.corecommon.security.jwt.CurrentAccount
 
-#
 #kitten.core.corecommon.security.jwt.AuditConfig
 #kitten.core.corecommon.security.config.AuthConfigurer
-#
+
 #kitten.core.corecommon.security.filter.AuthorizationFilter
+#
+kitten.core.coredomain.config.aws.AwsAutoConfiguration
+kitten.core.coredomain.config.aws.S3AutoConfiguration
+
