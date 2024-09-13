@@ -5,7 +5,7 @@ cd $REPOSITORY
 
 APP_NAME=deploy
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep 'SNAPSHOT.jar' | tail -n 1)
-JAR_PATH=$REPOSITORY/build/libs/deploy-0.0.1-SNAPSHOT.jar
+JAR_PATH=$REPOSITORY/build/libs/kitten-api-0.0.1-SNAPSHOT.jar
 #CURRENT_PID=$(pgrep -f $APP_NAME)
 
 #if [ -z $CURRENT_PID ]
@@ -24,5 +24,5 @@ sudo killall java
 echo "> $JAR_PATH start"
 #sudo nohup java -jar /home/ubuntu/deploy_test/build/libs/deploy-0.0.1-SNAPSHOT.jar
 #sudo nohup java -jar $JAR_PATH > /dev/null 2> /dev/null < /dev/null
-sudo nohup java -jar /home/ubuntu/kitten-api/build/libs/deploy-0.0.1-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null &
+sudo nohup java -jar /home/ubuntu/kitten-api/build/libs/kitten-api-0.0.1-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null &
 #sudo nohup java -jar /home/ubuntu/deploy_test/build/libs/deploy-0.0.1-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null
