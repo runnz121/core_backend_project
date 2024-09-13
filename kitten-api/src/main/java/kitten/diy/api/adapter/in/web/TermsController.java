@@ -19,9 +19,4 @@ public class TermsController {
                                @RequestBody TermsAgreementRequest request) {
         termsCommandUseCase.agreeTerms(request.toCommand(account.getUserEmail()));
     }
-
-    @GetMapping("/test")
-    public String test() {
-        return "file/test";
-    }
 }

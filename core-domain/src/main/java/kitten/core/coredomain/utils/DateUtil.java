@@ -1,4 +1,4 @@
-package kitten.diy.api.infrastructure.utils;
+package kitten.core.coredomain.utils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

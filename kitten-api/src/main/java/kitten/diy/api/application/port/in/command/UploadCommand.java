@@ -1,6 +1,7 @@
 package kitten.diy.api.application.port.in.command;
 
-import kitten.diy.api.infrastructure.utils.DateUtil;
+
+import kitten.core.coredomain.utils.DateUtil;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -43,8 +44,9 @@ public record UploadCommand(
 
 
     public String getUploadKey(String randomPath) {
-        return "%s/%s%s.%s".formatted(
+        return "%s/%s/%s/%s.%s".formatted(
                 IMAGE_PREFIX,
+                sort,
                 DateUtil.toString(LocalDateTime.now(), DateUtil.YYMMDD_STRING),
                 randomPath,
                 getOriginalFileExtension());
