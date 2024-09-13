@@ -14,7 +14,10 @@ public class CorsProperties {
     private boolean enabled = true;
     private List<String> allowOriginPatterns = List.of(
             "http://localhost:[*]",
-            "https://localhost:[*]"
+            "https://localhost:[*]",
+            "http://diykitten.com:[*]",
+            "https://diykitten.com:[*]",
+            "https://www.diykitten.com:[*]"
     );
     private boolean allowCredential = true;
     private long maxAge = 3600L;
