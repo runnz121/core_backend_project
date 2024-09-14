@@ -5,3 +5,7 @@ aws.s3:
 
 id:
   gen: 123
+
+core:
+  jpa:
+    querydsl:

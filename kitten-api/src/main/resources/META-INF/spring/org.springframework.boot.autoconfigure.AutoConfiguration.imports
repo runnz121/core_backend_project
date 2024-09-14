@@ -1,5 +1,8 @@
 kitten.core.coredomain.config.db.DataSourceAutoConfiguration
+
 kitten.core.coredomain.config.orm.JpaAuditingAutoConfiguration
+kitten.core.coredomain.config.orm.QuerydslConfiguration
+kitten.core.coredomain.config.orm.QuerydslProperties
 
 kitten.core.corecommon.security.oauth2.Oauth2CustomUserService
 kitten.core.corecommon.security.oauth2.Oauth2AuthorizationRequestRepository
@@ -19,4 +22,5 @@ kitten.core.corecommon.security.jwt.CurrentAccount
 #
 kitten.core.coredomain.config.aws.AwsAutoConfiguration
 kitten.core.coredomain.config.aws.S3AutoConfiguration
+#
 kitten.core.coredomain.config.utils.IdGeneratorConfiguration
