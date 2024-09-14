@@ -42,7 +42,6 @@ public record UploadCommand(
                 .substring(file.getOriginalFilename().lastIndexOf('.') + 1);
     }
 
-
     public String getUploadKey(String randomPath) {
         return "%s/%s/%s/%s.%s".formatted(
                 IMAGE_PREFIX,
