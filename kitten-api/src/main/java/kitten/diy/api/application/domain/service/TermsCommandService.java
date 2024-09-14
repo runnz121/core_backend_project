@@ -1,7 +1,7 @@
 package kitten.diy.api.application.domain.service;
 
-import kitten.diy.api.application.port.in.TermsCommandUseCase;
-import kitten.diy.api.application.port.in.command.TermsAgreementCommand;
+import kitten.diy.api.application.port.in.command.TermsCommandUseCase;
+import kitten.diy.api.application.port.in.command.command.TermsAgreementCommand;
 import kitten.diy.api.application.port.out.TermsAgreementPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -4,7 +4,7 @@ import kitten.core.coredomain.terms.repository.TermsAgreementRepository;
 import kitten.core.coredomain.terms.repository.TermsRepository;
 import kitten.core.coredomain.user.entity.Users;
 import kitten.core.coredomain.user.repository.UsersRepository;
-import kitten.diy.api.application.port.in.command.TermsAgreementCommand;
+import kitten.diy.api.application.port.in.command.command.TermsAgreementCommand;
 import kitten.diy.api.application.port.out.TermsAgreementPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

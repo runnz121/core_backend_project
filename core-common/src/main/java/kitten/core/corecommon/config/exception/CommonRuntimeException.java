@@ -27,4 +27,13 @@ public class CommonRuntimeException extends RuntimeException {
                                   Object detail,
                                   Objects detail1) {
     }
+
+    public String getDetailString() {
+        StringBuilder sb = new StringBuilder();
+        for (Object message : detail) {
+            sb.append("\n").append(message.toString());
+        }
+        sb.delete(0, 1);
+        return sb.toString();
+    }
 }

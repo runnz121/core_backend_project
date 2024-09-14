@@ -2,7 +2,7 @@ package kitten.diy.api.adapter.in.web.request;
 
 import kitten.core.corecommon.annotation.Description;
 import kitten.diy.api.application.domain.consts.SortType;
-import kitten.diy.api.application.port.in.command.BoardInfoSearchCommand;
+import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
 import org.springframework.data.domain.PageRequest;
 
 public record BoardSearchRequest(

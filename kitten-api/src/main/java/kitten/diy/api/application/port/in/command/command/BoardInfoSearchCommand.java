@@ -1,4 +1,4 @@
-package kitten.diy.api.application.port.in.command;
+package kitten.diy.api.application.port.in.command.command;
 
 import kitten.diy.api.application.domain.consts.SortType;
 import lombok.Builder;

@@ -3,7 +3,7 @@ package kitten.diy.api.adapter.in.web;
 import kitten.core.corecommon.security.jwt.AccessAccount;
 import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.diy.api.adapter.in.web.request.TermsAgreementRequest;
-import kitten.diy.api.application.port.in.TermsCommandUseCase;
+import kitten.diy.api.application.port.in.command.TermsCommandUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

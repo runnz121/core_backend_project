@@ -1,8 +1,8 @@
 package kitten.diy.api.application.domain.service;
 
 
-import kitten.diy.api.application.port.in.FileCommandUseCase;
-import kitten.diy.api.application.port.in.command.UploadCommand;
+import kitten.diy.api.application.port.in.command.FileCommandUseCase;
+import kitten.diy.api.application.port.in.command.command.UploadCommand;
 import kitten.diy.api.application.port.out.ImageInfraPort;
 import kitten.diy.api.application.port.out.ImagePersistentPort;
 import lombok.RequiredArgsConstructor;

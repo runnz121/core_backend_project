@@ -3,8 +3,8 @@ package kitten.diy.api.adapter.in.web;
 
 import kitten.core.corecommon.security.jwt.AccessAccount;
 import kitten.core.corecommon.security.jwt.CurrentAccount;
-import kitten.diy.api.application.port.in.FileCommandUseCase;
-import kitten.diy.api.application.port.in.command.UploadCommand;
+import kitten.diy.api.application.port.in.command.FileCommandUseCase;
+import kitten.diy.api.application.port.in.command.command.UploadCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

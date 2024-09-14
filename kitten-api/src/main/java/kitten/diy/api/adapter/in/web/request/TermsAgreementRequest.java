@@ -1,6 +1,6 @@
 package kitten.diy.api.adapter.in.web.request;
 
-import kitten.diy.api.application.port.in.command.TermsAgreementCommand;
+import kitten.diy.api.application.port.in.command.command.TermsAgreementCommand;
 import lombok.Builder;
 
 import java.util.List;

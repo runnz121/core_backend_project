@@ -1,7 +1,7 @@
 package kitten.diy.api.adapter.out.persistence;
 
 import kitten.core.coredomain.user.repository.UsersRepository;
-import kitten.diy.api.application.port.in.command.UploadCommand;
+import kitten.diy.api.application.port.in.command.command.UploadCommand;
 import kitten.diy.api.application.port.out.ImagePersistentPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

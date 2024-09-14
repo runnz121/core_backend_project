@@ -10,7 +10,7 @@ import kitten.core.coredomain.board.entity.QBoardLike;
 import kitten.core.coredomain.board.entity.QBoardView;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.adapter.out.model.QBoardQueryData;
-import kitten.diy.api.application.port.in.command.BoardInfoSearchCommand;
+import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

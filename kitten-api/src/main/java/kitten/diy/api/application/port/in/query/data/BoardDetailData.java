@@ -1,4 +1,4 @@
-package kitten.diy.api.application.port.in.query;
+package kitten.diy.api.application.port.in.query.data;
 
 import kitten.core.coredomain.board.entity.Board;
 import lombok.Builder;

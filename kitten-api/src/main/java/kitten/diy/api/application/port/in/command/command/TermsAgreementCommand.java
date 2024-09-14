@@ -1,4 +1,4 @@
-package kitten.diy.api.application.port.in.command;
+package kitten.diy.api.application.port.in.command.command;
 
 import kitten.core.coredomain.terms.entity.Terms;
 import kitten.core.coredomain.terms.entity.TermsAgreement;
