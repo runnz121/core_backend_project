@@ -1,6 +1,7 @@
 package kitten.diy.api.adapter.in.web.request;
 
 import kitten.core.corecommon.annotation.Description;
+import kitten.diy.api.application.port.in.command.command.JoinCommand;
 
 import java.util.List;
 
@@ -21,4 +22,14 @@ public record JoinRequest(
         @Description("동의한 항목")
         List<Long> termsKeys
 ) {
+
+        public JoinCommand toCommand() {
+                return JoinCommand.builder()
+                        .email(email)
+                        .nickName(nickName)
+                        .profileImageUrl(profileImageUrl)
+                        .phoneNumber(phoneNumber)
+                        .termsKeys(termsKeys)
+                        .build();
+        }
 }

@@ -14,6 +14,13 @@ public record TermsAgreementCommand(
 
         String userEmail
 ) {
+    public static TermsAgreementCommand of(String userEmail,
+                                           List<Long> agreementTermsKeys) {
+        return TermsAgreementCommand.builder()
+                .userEmail(userEmail)
+                .agreementTermsKeys(agreementTermsKeys)
+                .build();
+    }
 
     public TermsAgreement toEntity(Terms terms,
                                    Users users) {
@@ -22,5 +29,4 @@ public record TermsAgreementCommand(
                 .users(users)
                 .build();
     }
-
 }

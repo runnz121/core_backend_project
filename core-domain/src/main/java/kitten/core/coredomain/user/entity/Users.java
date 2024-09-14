@@ -25,6 +25,12 @@ public class Users extends Audit {
     @Column(name = "NICK_NAME", length = 100)
     private String nickName;
 
+    @Column(name = "PHONE_NUMBER", length = 100)
+    private String phoneNumber;
+
+    @Column(name = "PROFILE_IMG_URL")
+    private String profileImgUrl;
+
     @Column(name = "AUTH_ROLE", nullable = false)
     @Enumerated(EnumType.STRING)
     private AuthRoles authRoles;
