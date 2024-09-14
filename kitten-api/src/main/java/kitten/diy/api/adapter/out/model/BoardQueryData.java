@@ -5,7 +5,7 @@ import kitten.core.corecommon.annotation.Description;
 
 import java.time.LocalDateTime;
 
-public record MainHomeQueryData(
+public record BoardQueryData(
 
         @Description("게시글 key")
         Long boardKey,
@@ -25,7 +25,7 @@ public record MainHomeQueryData(
 ) {
 
         @QueryProjection
-        public MainHomeQueryData{
+        public BoardQueryData {
 
         }
 }

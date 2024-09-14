@@ -4,39 +4,37 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kitten.core.coredomain.board.QBoard;
-import kitten.core.coredomain.board.QBoardLike;
-import kitten.core.coredomain.board.QBoardView;
-import kitten.core.coredomain.config.orm.QuerydslConfiguration;
-import kitten.diy.api.adapter.out.model.MainHomeQueryData;
-import kitten.diy.api.adapter.out.model.QMainHomeQueryData;
-import kitten.diy.api.application.port.in.command.HomeInfoSearchCommand;
-import lombok.NoArgsConstructor;
+
+import kitten.core.coredomain.board.entity.QBoard;
+import kitten.core.coredomain.board.entity.QBoardLike;
+import kitten.core.coredomain.board.entity.QBoardView;
+import kitten.diy.api.adapter.out.model.BoardQueryData;
+import kitten.diy.api.adapter.out.model.QBoardQueryData;
+import kitten.diy.api.application.port.in.command.BoardInfoSearchCommand;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static kitten.core.coredomain.board.QBoard.board;
-import static kitten.core.coredomain.board.QBoardImage.boardImage;
-import static kitten.core.coredomain.board.QBoardLike.boardLike;
-import static kitten.core.coredomain.board.QBoardTag.boardTag;
-import static kitten.core.coredomain.board.QBoardView.boardView;
+import static kitten.core.coredomain.board.entity.QBoard.board;
+import static kitten.core.coredomain.board.entity.QBoardImage.boardImage;
+import static kitten.core.coredomain.board.entity.QBoardLike.boardLike;
+import static kitten.core.coredomain.board.entity.QBoardTag.boardTag;
+import static kitten.core.coredomain.board.entity.QBoardView.boardView;
+
 
 @Repository
 @RequiredArgsConstructor
-public class MainHomeQueryFetchImpl implements MainHomeQueryFetch {
+public class BoardQueryFetchImpl implements BoardQueryFetch {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<MainHomeQueryData> getMainHomeDatas(HomeInfoSearchCommand command) {
-        JPAQuery<MainHomeQueryData> datas = jpaQueryFactory.select(
-                new QMainHomeQueryData(
+    public Page<BoardQueryData> getMainHomeDatas(BoardInfoSearchCommand command) {
+        JPAQuery<BoardQueryData> datas = jpaQueryFactory.select(
+                new QBoardQueryData(
                         board.key,
                         boardImage.image.imageUrl,
                         board.createTime,
@@ -59,14 +57,14 @@ public class MainHomeQueryFetchImpl implements MainHomeQueryFetch {
 
         int size = datas.fetch().size();
 
-        List<MainHomeQueryData> fetchQueryDatas = datas
+        List<BoardQueryData> fetchQueryDatas = datas
                 .offset(command.pageRequest().getOffset())
                 .limit(command.pageRequest().getPageSize())
                 .fetch();
         return new PageImpl<>(fetchQueryDatas, command.pageRequest(), size);
     }
 
-    private BooleanBuilder searchByTag(HomeInfoSearchCommand command) {
+    private BooleanBuilder searchByTag(BoardInfoSearchCommand command) {
         BooleanBuilder br = new BooleanBuilder();
         if (command.isSearchByTag() == false) {
             return null;
@@ -74,7 +72,7 @@ public class MainHomeQueryFetchImpl implements MainHomeQueryFetch {
         return br.and(boardTag.tag.like(command.searchTag()));
     }
 
-    private OrderSpecifier[] getOrderBy(HomeInfoSearchCommand command,
+    private OrderSpecifier[] getOrderBy(BoardInfoSearchCommand command,
                                         QBoardLike boardLike,
                                         QBoardView boardView,
                                         QBoard board) {

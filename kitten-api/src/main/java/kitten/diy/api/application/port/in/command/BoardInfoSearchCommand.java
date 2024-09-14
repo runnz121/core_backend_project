@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.util.StringUtils;
 
 @Builder
-public record HomeInfoSearchCommand(
+public record BoardInfoSearchCommand(
 
         PageRequest pageRequest,
 

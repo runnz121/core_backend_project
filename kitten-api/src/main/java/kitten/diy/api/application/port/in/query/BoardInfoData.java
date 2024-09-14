@@ -1,13 +1,13 @@
 package kitten.diy.api.application.port.in.query;
 
 import kitten.core.corecommon.annotation.Description;
-import kitten.diy.api.adapter.out.model.MainHomeQueryData;
+import kitten.diy.api.adapter.out.model.BoardQueryData;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
 @Builder
-public record MainHomeInfoData(
+public record BoardInfoData(
 
         @Description("게시글 key")
         Long boardKey,
@@ -25,8 +25,8 @@ public record MainHomeInfoData(
         Integer viewCount
 ) {
 
-    public static MainHomeInfoData of(MainHomeQueryData data) {
-        return MainHomeInfoData.builder()
+    public static BoardInfoData of(BoardQueryData data) {
+        return BoardInfoData.builder()
                 .boardKey(data.boardKey())
                 .imageUrl(data.imageUrl())
                 .createTime(data.createTime())

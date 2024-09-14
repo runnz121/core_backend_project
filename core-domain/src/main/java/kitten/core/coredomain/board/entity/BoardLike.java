@@ -1,4 +1,4 @@
-package kitten.core.coredomain.board;
+package kitten.core.coredomain.board.entity;
 
 import jakarta.persistence.*;
 import kitten.core.coredomain.model.Audit;

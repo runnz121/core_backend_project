@@ -2,10 +2,10 @@ package kitten.diy.api.adapter.in.web.request;
 
 import kitten.core.corecommon.annotation.Description;
 import kitten.diy.api.application.domain.consts.SortType;
-import kitten.diy.api.application.port.in.command.HomeInfoSearchCommand;
+import kitten.diy.api.application.port.in.command.BoardInfoSearchCommand;
 import org.springframework.data.domain.PageRequest;
 
-public record HomeSearchRequest(
+public record BoardSearchRequest(
 
         @Description("페이징 처리")
         Paging paging,
@@ -35,8 +35,8 @@ public record HomeSearchRequest(
     ) {
     }
 
-    public HomeInfoSearchCommand toCommand() {
-        return HomeInfoSearchCommand.builder()
+    public BoardInfoSearchCommand toCommand() {
+        return BoardInfoSearchCommand.builder()
                 .pageRequest(
                         PageRequest.of(
                                 paging.no,
