@@ -3,11 +3,13 @@ package kitten.diy.api.adapter.out.persistence;
 import kitten.core.corecommon.config.exception.CommonRuntimeException;
 import kitten.core.coredomain.board.entity.*;
 import kitten.core.coredomain.board.repository.*;
+import kitten.core.coredomain.user.entity.Users;
 import kitten.diy.api.adapter.out.consts.BoardErrorCode;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.adapter.out.persistence.query.BoardQueryFetch;
 import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
+import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
 import kitten.diy.api.application.port.out.BoardPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -48,6 +50,16 @@ public class BoardFetchAdapter implements BoardPort {
         );
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<BoardLikeUsersData> getBoardLikeUsers(Long boardKey) {
+        Board board = boardRepository.findByKey(boardKey)
+                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+        List<BoardLike> boardLikes = boardLikeRepository.findByBoard(board);
+        List<Users> likeUsers = boardLikes.stream().map(BoardLike::getUsers).toList();
+        return likeUsers.stream().map(user -> BoardLikeUsersData.of(user.getNickName(), user.getProfileImgUrl())).toList();
+    }
+
     private String getBoardImage(Board board) {
         return boardImageRepository.findByBoardAndRepresentativeIsTrue(board)
                 .map(BoardImage::getImageUrl)
@@ -56,8 +68,7 @@ public class BoardFetchAdapter implements BoardPort {
 
     private Integer getLikeCounts(Board board) {
         return boardLikeRepository.findByBoard(board)
-                .map(BoardLike::getLikeCount)
-                .orElse(0);
+                .size();
     }
 
     private Integer getViewCounts(Board board) {

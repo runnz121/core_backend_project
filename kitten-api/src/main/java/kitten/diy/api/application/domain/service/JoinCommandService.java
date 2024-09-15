@@ -21,5 +21,6 @@ public class JoinCommandService implements JoinCommandUseCase {
     public void joinUser(JoinCommand command) {
         joinPersistentPort.saveNewUser(command);
         termsAgreementPort.saveUserTermsAgreement(TermsAgreementCommand.of(command.email(), command.termsKeys()));
+        // 토큰 반환
     }
 }

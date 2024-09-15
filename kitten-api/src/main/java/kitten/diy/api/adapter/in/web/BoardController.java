@@ -6,6 +6,7 @@ import kitten.diy.api.application.port.in.command.BoardCommandUseCase;
 import kitten.diy.api.application.port.in.query.BoardQueryUseCase;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
 import kitten.diy.api.application.port.in.query.data.BoardInfoData;
+import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +30,10 @@ public class BoardController {
         // 접속시 조회수 증가하도록 조건 추가
         //boardCommandUseCase
         return boardQueryUseCase.getDetailData(boardKey);
+    }
+
+    @GetMapping("/detail/{boardKey}/like/users")
+    public  List<BoardLikeUsersData> getBoardLikeUsers(@PathVariable("boardKey") Long boardKey) {
+        return boardQueryUseCase.getBoardLikeUsers(boardKey);
     }
 }
