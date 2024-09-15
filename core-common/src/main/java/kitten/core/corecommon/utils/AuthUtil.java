@@ -3,8 +3,8 @@ package kitten.core.corecommon.utils;
 public class AuthUtil {
     public static final int MAX_AGE = 24 * 60 * 60 * 100;
     public static final String REDIRECT_URL = "http://localhost:3000/signup";
-    public static final String DOMAIN = "kttten.kr";
-    public static final String ISSUER = "kttten.com";
+    public static final String DOMAIN = "diykitten.com";
+    public static final String ISSUER = "diykitten.com";
     public static final String TOKEN_SUBJECT = "kttten";
     public static final String ROLE = "role";
     public static final Long NOT_EXPIRED = 3600 * 24 * 30 * 12 * 999L;
