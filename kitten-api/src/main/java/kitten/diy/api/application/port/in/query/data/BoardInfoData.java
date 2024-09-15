@@ -30,7 +30,7 @@ public record BoardInfoData(
                 .boardKey(data.boardKey())
                 .imageUrl(data.imageUrl())
                 .createTime(data.createTime())
-                .likeCount(data.likeCount())
+                .likeCount(data.likeCount().intValue())
                 .viewCount(data.viewCount())
                 .build();
     }

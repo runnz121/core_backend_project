@@ -26,7 +26,4 @@ public class BoardLike extends Audit {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Users users;
-
-    @Column(name = "LIKE_COUNT")
-    private Integer likeCount;
 }

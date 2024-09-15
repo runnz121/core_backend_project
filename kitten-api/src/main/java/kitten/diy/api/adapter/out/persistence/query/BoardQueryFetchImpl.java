@@ -1,7 +1,10 @@
 package kitten.diy.api.adapter.out.persistence.query;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -38,9 +41,10 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                         board.key,
                         boardImage.image.imageUrl,
                         board.createTime,
-                        boardLike.likeCount,
+                        getLikeCount(boardLike),
                         boardView.viewCount
                 ))
+                .distinct()
                 .from(board)
                 .leftJoin(boardImage)
                 .on(boardImage.board.eq(board).and(boardImage.representative.isTrue()))
@@ -64,6 +68,12 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
         return new PageImpl<>(fetchQueryDatas, command.pageRequest(), size);
     }
 
+    private JPQLQuery<Long> getLikeCount(QBoardLike like) {
+        return JPAExpressions
+                .select(like.key.count())
+                .from(like);
+    }
+
     private BooleanBuilder searchByTag(BoardInfoSearchCommand command) {
         BooleanBuilder br = new BooleanBuilder();
         if (command.isSearchByTag() == false) {
@@ -77,7 +87,7 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                                         QBoardView boardView,
                                         QBoard board) {
         return switch (command.sortType()) {
-            case LIKE -> new OrderSpecifier[]{boardLike.likeCount.desc()};
+            case LIKE -> new OrderSpecifier[]{new OrderSpecifier<>(Order.DESC, getLikeCount(boardLike))};
             case VIEW -> new OrderSpecifier[]{boardView.viewCount.desc()};
             case RECENT -> new OrderSpecifier[]{board.createTime.desc()};
         };

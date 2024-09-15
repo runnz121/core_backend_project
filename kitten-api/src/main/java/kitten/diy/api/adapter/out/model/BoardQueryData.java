@@ -17,7 +17,7 @@ public record BoardQueryData(
         LocalDateTime createTime,
 
         @Description("찜 갯수")
-        Integer likeCount,
+        Long likeCount,
 
         @Description("조회수")
         Integer viewCount
