@@ -3,14 +3,14 @@ package kitten.diy.api.adapter.out.persistence;
 import kitten.core.corecommon.config.exception.CommonRuntimeException;
 import kitten.core.coredomain.user.repository.UsersRepository;
 import kitten.diy.api.adapter.out.consts.UserErrorCode;
-import kitten.diy.api.application.port.out.JoinPort;
+import kitten.diy.api.application.port.out.JoinFetchPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class JoinFetchAdapter implements JoinPort {
+public class JoinFetchAdapter implements JoinFetchPort {
 
     private final UsersRepository usersRepository;
 

@@ -1,5 +1,7 @@
 package kitten.diy.api.adapter.in.web.request;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import kitten.core.corecommon.annotation.Description;
 import kitten.diy.api.application.port.in.command.command.JoinCommand;
 
@@ -23,13 +25,16 @@ public record JoinRequest(
         List<Long> termsKeys
 ) {
 
-        public JoinCommand toCommand() {
+        public JoinCommand toCommand(HttpServletRequest request,
+                                     HttpServletResponse response) {
                 return JoinCommand.builder()
                         .email(email)
                         .nickName(nickName)
                         .profileImageUrl(profileImageUrl)
                         .phoneNumber(phoneNumber)
                         .termsKeys(termsKeys)
+                        .request(request)
+                        .response(response)
                         .build();
         }
 }

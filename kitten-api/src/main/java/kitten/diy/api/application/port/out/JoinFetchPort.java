@@ -1,6 +1,6 @@
 package kitten.diy.api.application.port.out;
 
-public interface JoinPort {
+public interface JoinFetchPort {
 
     void checkNickName(String nickName);
 }

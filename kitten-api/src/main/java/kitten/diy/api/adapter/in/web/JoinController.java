@@ -1,5 +1,7 @@
 package kitten.diy.api.adapter.in.web;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import kitten.diy.api.adapter.in.web.request.JoinRequest;
 import kitten.diy.api.adapter.in.web.request.ValidateValueRequest;
 import kitten.diy.api.application.port.in.command.JoinCommandUseCase;
@@ -17,8 +19,10 @@ public class JoinController {
     private final JoinQueryUseCase joinQueryUseCase;
 
     @PostMapping
-    public void join(@RequestBody JoinRequest request) {
-        joinCommandUseCase.joinUser(request.toCommand());
+    public void join(@RequestBody JoinRequest joinRequest,
+                     HttpServletRequest request,
+                     HttpServletResponse response) {
+        joinCommandUseCase.joinUser(joinRequest.toCommand(request, response));
     }
 
     @PostMapping("/check/nick-name")
