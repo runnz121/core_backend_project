@@ -5,6 +5,7 @@ import kitten.core.corecommon.annotation.Description;
 import kitten.core.coredomain.board.consts.BoardType;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record BoardQueryData(
 

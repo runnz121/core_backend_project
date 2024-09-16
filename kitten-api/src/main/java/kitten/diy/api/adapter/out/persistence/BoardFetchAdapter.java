@@ -67,6 +67,15 @@ public class BoardFetchAdapter implements BoardPort {
         return boardQueryFetch.getTagLikes(command);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getTagsByBoardKey(Long boardKey) {
+        return boardTagRepository
+                .findByBoard_Key(boardKey).stream()
+                .map(BoardTag::getTag)
+                .toList();
+    }
+
     private String getBoardImage(Board board) {
         return boardImageRepository.findByBoardAndRepresentativeIsTrue(board)
                 .map(BoardImage::getImageUrl)

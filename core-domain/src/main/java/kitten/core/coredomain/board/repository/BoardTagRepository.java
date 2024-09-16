@@ -9,4 +9,6 @@ import java.util.List;
 public interface BoardTagRepository extends CrudRepository<BoardTag, Long> {
 
     List<BoardTag> findByBoard(Board board);
+
+    List<BoardTag> findByBoard_Key(Long boardKey);
 }

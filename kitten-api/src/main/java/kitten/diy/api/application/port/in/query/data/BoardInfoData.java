@@ -6,6 +6,7 @@ import kitten.diy.api.adapter.out.model.BoardQueryData;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 public record BoardInfoData(
@@ -26,10 +27,14 @@ public record BoardInfoData(
         Integer likeCount,
 
         @Description("조회수")
-        Integer viewCount
+        Integer viewCount,
+
+        @Description("태그")
+        List<String> tags
 ) {
 
-    public static BoardInfoData of(BoardQueryData data) {
+    public static BoardInfoData of(BoardQueryData data,
+                                   List<String> tags) {
         return BoardInfoData.builder()
                 .boardKey(data.boardKey())
                 .imageUrl(data.imageUrl())
@@ -37,6 +42,7 @@ public record BoardInfoData(
                 .createTime(data.createTime())
                 .likeCount(data.likeCount().intValue())
                 .viewCount(data.viewCount())
+                .tags(tags)
                 .build();
     }
 }

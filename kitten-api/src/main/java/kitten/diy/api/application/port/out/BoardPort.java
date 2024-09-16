@@ -18,4 +18,6 @@ public interface BoardPort {
     List<BoardLikeUsersData> getBoardLikeUsers(Long boardKey);
 
     List<String> getLikeTags(TagLikeSearchCommand command);
+
+    List<String> getTagsByBoardKey(Long boardKey);
 }

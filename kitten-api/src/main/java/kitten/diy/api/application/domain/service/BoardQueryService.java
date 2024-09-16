@@ -26,7 +26,7 @@ public class BoardQueryService implements BoardQueryUseCase {
     @Override
     public PageableData<List<BoardInfoData>> getBoardInfos(BoardInfoSearchCommand command) {
         Page<BoardQueryData> boardPages = boardPort.getBoardDatas(command);
-        List<BoardInfoData> boardList = boardPages.stream().map(BoardInfoData::of).toList();
+        List<BoardInfoData> boardList = boardPages.stream().map(board -> BoardInfoData.of(board, boardPort.getTagsByBoardKey(board.boardKey()))).toList();
         return new PageableData<>(boardList, PageData.of(boardPages));
     }
 

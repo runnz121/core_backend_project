@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import kitten.core.coredomain.board.entity.QBoard;
 import kitten.core.coredomain.board.entity.QBoardLike;
+import kitten.core.coredomain.board.entity.QBoardTag;
 import kitten.core.coredomain.board.entity.QBoardView;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.adapter.out.model.QBoardQueryData;
@@ -91,7 +92,7 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
         if (command.isNotSearchByTag()) {
             return null;
         }
-        command.searchTags().forEach(searchTag -> br.or(boardTag.tag.contains(searchTag)));
+        command.searchTags().forEach(searchTag -> br.or(boardTag.tag.eq(searchTag)));
         return br;
     }
 

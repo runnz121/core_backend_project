@@ -35,6 +35,10 @@ public class MoruParts extends Audit {
     @Column(name = "NAME")
     private String name;
 
+    @Description("모루 파츠 태그")
+    @Column(name = "TAG")
+    private String tag;
+
     @Description("모루 파츠 이미지 url")
     @Column(name = "IMG_URL")
     private String imageUrl;
