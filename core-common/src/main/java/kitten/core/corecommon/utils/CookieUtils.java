@@ -33,6 +33,7 @@ public class CookieUtils {
         cookie.setHttpOnly(false);
         cookie.setSecure(false);
         cookie.setPath("/");
+        cookie.setAttribute("SameSite", "None");
         // TODO 다시 활성화
 //        cookie.setDomain(AuthUtil.DOMAIN);
         cookie.setMaxAge(maxAge);
