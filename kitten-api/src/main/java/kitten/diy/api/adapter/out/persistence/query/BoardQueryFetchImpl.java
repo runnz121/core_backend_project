@@ -41,6 +41,7 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                 new QBoardQueryData(
                         board.key,
                         boardImage.image.imageUrl,
+                        board.type,
                         board.createTime,
                         getLikeCount(boardLike),
                         boardView.viewCount
