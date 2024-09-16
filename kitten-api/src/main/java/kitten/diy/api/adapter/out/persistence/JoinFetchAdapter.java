@@ -1,8 +1,6 @@
 package kitten.diy.api.adapter.out.persistence;
 
-import kitten.core.corecommon.config.exception.CommonRuntimeException;
 import kitten.core.coredomain.user.repository.UsersRepository;
-import kitten.diy.api.adapter.out.consts.UserErrorCode;
 import kitten.diy.api.application.port.out.JoinFetchPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,9 +14,7 @@ public class JoinFetchAdapter implements JoinFetchPort {
 
     @Override
     @Transactional(readOnly = true)
-    public void checkNickName(String nickName) {
-        if (usersRepository.existsByNickName(nickName)) {
-            throw new CommonRuntimeException(UserErrorCode.NICK_NAME_ALREADY_EXISTS);
-        };
+    public Boolean checkNickName(String nickName) {
+        return usersRepository.existsByNickName(nickName);
     }
 }

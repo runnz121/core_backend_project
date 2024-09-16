@@ -7,6 +7,7 @@ import kitten.diy.api.adapter.in.web.request.ValidateValueRequest;
 import kitten.diy.api.application.port.in.command.JoinCommandUseCase;
 import kitten.diy.api.application.port.in.command.command.ValidateValueCommand;
 import kitten.diy.api.application.port.in.query.JoinQueryUseCase;
+import kitten.diy.api.application.port.in.query.data.CheckNickNameData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class JoinController {
     }
 
     @PostMapping("/check/nick-name")
-    public void checkNickName(@RequestBody ValidateValueRequest request) {
-        joinQueryUseCase.validateNickName(new ValidateValueCommand(request.value()));
+    public CheckNickNameData checkNickName(@RequestBody ValidateValueRequest request) {
+        return joinQueryUseCase.checkNickName(new ValidateValueCommand(request.value()));
     }
 }
