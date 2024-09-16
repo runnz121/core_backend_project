@@ -57,7 +57,8 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                 .leftJoin(boardView)
                 .on(boardView.board.eq(board))
                 .where(
-                        searchByTag(command)
+                        searchByTag(command),
+                        filterByType(command)
                 )
                 .orderBy(getOrderBy(command, boardLike, boardView, board));
 
@@ -91,6 +92,14 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
             return null;
         }
         return br.and(boardTag.tag.like(command.searchTag()));
+    }
+
+    private BooleanBuilder filterByType(BoardInfoSearchCommand command) {
+        BooleanBuilder br = new BooleanBuilder();
+        if (command.isFilterBySearchType() == false) {
+            return null;
+        }
+        return br.and(board.type.eq(command.searchType()));
     }
 
     private OrderSpecifier[] getOrderBy(BoardInfoSearchCommand command,

@@ -1,6 +1,7 @@
 package kitten.diy.api.adapter.in.web.request;
 
 import kitten.core.corecommon.annotation.Description;
+import kitten.core.coredomain.board.consts.BoardType;
 import kitten.diy.api.application.domain.consts.SortType;
 import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +32,10 @@ public record BoardSearchRequest(
             String sortType,
 
             @Description("태그 검색")
-            String searchTag
+            String searchTag,
+
+            @Description("필터링 조건[BEADS, GEM_STITCH, MORU, NULL]")
+            String searchType
     ) {
     }
 
@@ -44,7 +48,8 @@ public record BoardSearchRequest(
                         )
                 )
                 .sortType(SortType.valueOf(criteria.sortType))
-                .searchTag(criteria().searchTag)
+                .searchTag(criteria.searchTag)
+                .searchType(BoardType.of(criteria.searchType))
                 .build();
     }
 }
