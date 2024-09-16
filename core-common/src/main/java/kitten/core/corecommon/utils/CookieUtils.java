@@ -3,6 +3,7 @@ package kitten.core.corecommon.utils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseCookie;
 import org.springframework.util.SerializationUtils;
 
 import java.util.Base64;
@@ -26,16 +27,31 @@ public class CookieUtils {
     public static void addCookie(HttpServletResponse response,
                                  String name,
                                  String value,
-                                 int maxAge){
+                                 int maxAge) {
         Cookie cookie = new Cookie(name, value);
         // TODO 다시 활성화
-//        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setSecure(true);
         cookie.setPath("/");
         // TODO 다시 활성화
 //        cookie.setDomain(AuthUtil.DOMAIN);
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
+    }
+
+    public static void addResponseCookie(HttpServletResponse response,
+                                         String name,
+                                         String value,
+                                         int maxAge) {
+        ResponseCookie cookie = ResponseCookie.from(name, value)
+                .path("/")
+                .sameSite("None")
+                .httpOnly(false)
+                .secure(true)
+                .maxAge(maxAge)
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
     public static void deleteCookie(HttpServletRequest request,
