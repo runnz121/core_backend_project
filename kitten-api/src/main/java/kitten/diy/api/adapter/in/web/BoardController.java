@@ -2,6 +2,7 @@ package kitten.diy.api.adapter.in.web;
 
 import kitten.core.coredomain.page.PageableData;
 import kitten.diy.api.adapter.in.web.request.BoardSearchRequest;
+import kitten.diy.api.adapter.in.web.request.TagLikeSearchRequest;
 import kitten.diy.api.application.port.in.command.BoardCommandUseCase;
 import kitten.diy.api.application.port.in.query.BoardQueryUseCase;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
@@ -35,5 +36,10 @@ public class BoardController {
     @GetMapping("/detail/{boardKey}/like/users")
     public  List<BoardLikeUsersData> getBoardLikeUsers(@PathVariable("boardKey") Long boardKey) {
         return boardQueryUseCase.getBoardLikeUsers(boardKey);
+    }
+
+    @PostMapping("/like/tags")
+    public List<String> getLikeTags(@RequestBody TagLikeSearchRequest request) {
+        return boardQueryUseCase.getLikeTags(request.toCommand());
     }
 }

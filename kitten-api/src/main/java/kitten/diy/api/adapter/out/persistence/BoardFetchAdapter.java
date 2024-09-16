@@ -8,6 +8,7 @@ import kitten.diy.api.adapter.out.consts.BoardErrorCode;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.adapter.out.persistence.query.BoardQueryFetch;
 import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
+import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
 import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
 import kitten.diy.api.application.port.out.BoardPort;
@@ -58,6 +59,12 @@ public class BoardFetchAdapter implements BoardPort {
         List<BoardLike> boardLikes = boardLikeRepository.findByBoard(board);
         List<Users> likeUsers = boardLikes.stream().map(BoardLike::getUsers).toList();
         return likeUsers.stream().map(user -> BoardLikeUsersData.of(user.getNickName(), user.getProfileImgUrl())).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getLikeTags(TagLikeSearchCommand command) {
+        return boardQueryFetch.getTagLikes(command);
     }
 
     private String getBoardImage(Board board) {

@@ -14,6 +14,7 @@ import kitten.core.coredomain.board.entity.QBoardView;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.adapter.out.model.QBoardQueryData;
 import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
+import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -66,6 +67,15 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                 .limit(command.pageRequest().getPageSize())
                 .fetch();
         return new PageImpl<>(fetchQueryDatas, command.pageRequest(), size);
+    }
+
+    @Override
+    public List<String> getTagLikes(TagLikeSearchCommand command) {
+        return jpaQueryFactory.select(boardTag.tag)
+                .from(boardTag)
+                .where(boardTag.tag.contains(command.searchTag()))
+                .limit(command.limit())
+                .fetch();
     }
 
     private JPQLQuery<Long> getLikeCount(QBoardLike like) {

@@ -50,6 +50,11 @@ public class MoruUserArt extends Audit {
     @Builder.Default
     private Integer corZ = 0;
 
+    @Description("모루 파츠 회전 각도")
+    @Column(name = "ROTATION")
+    @Builder.Default
+    private Integer rotation = 0;
+
     @Description("모루 인형 정면 / 후면 적용 위치")
     @Column(name = "SIDE")
     @Enumerated(EnumType.STRING)
