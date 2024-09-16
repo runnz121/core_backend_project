@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JoinTokenAdapter implements JoinTokenPort {
 
+    private static final String AUTHORIZATION = "Authorization";
+
     private final TokenService tokenService;
 
     @Override
@@ -20,5 +22,6 @@ public class JoinTokenAdapter implements JoinTokenPort {
         String accessToken = tokenService.generateJwt(AuthRoles.ROLE_USER, command.email());
         CookieUtils.deleteCookie(command.request(), command.response(), AuthUtil.KITTEN_COOKIE_NAME);
         CookieUtils.addCookie(command.response(), AuthUtil.KITTEN_COOKIE_NAME, accessToken, AuthUtil.MAX_AGE);
+        command.response().setHeader(AUTHORIZATION, accessToken);
     }
 }

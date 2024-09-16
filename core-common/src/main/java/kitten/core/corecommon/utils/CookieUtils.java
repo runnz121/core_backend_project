@@ -3,7 +3,6 @@ package kitten.core.corecommon.utils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.ResponseCookie;
 import org.springframework.util.SerializationUtils;
 
 import java.util.Base64;
@@ -33,7 +32,6 @@ public class CookieUtils {
         cookie.setHttpOnly(false);
         cookie.setSecure(false);
         cookie.setPath("/");
-        cookie.setAttribute("SameSite", "None");
         // TODO 다시 활성화
 //        cookie.setDomain(AuthUtil.DOMAIN);
         cookie.setMaxAge(maxAge);
