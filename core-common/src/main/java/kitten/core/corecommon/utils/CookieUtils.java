@@ -31,7 +31,7 @@ public class CookieUtils {
         Cookie cookie = new Cookie(name, value);
         // TODO 다시 활성화
         cookie.setHttpOnly(false);
-        cookie.setSecure(true);
+        cookie.setSecure(false);
         cookie.setPath("/");
         // TODO 다시 활성화
 //        cookie.setDomain(AuthUtil.DOMAIN);
