@@ -4,8 +4,9 @@ import kitten.core.coredomain.board.consts.BoardType;
 import kitten.diy.api.application.domain.consts.SortType;
 import lombok.Builder;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.Objects;
 
 @Builder
@@ -15,13 +16,13 @@ public record BoardInfoSearchCommand(
 
         SortType sortType,
 
-        String searchTag,
+        List<String> searchTags,
 
         BoardType searchType
 ) {
 
-    public boolean isSearchByTag() {
-        return StringUtils.hasText(searchTag);
+    public boolean isNotSearchByTag() {
+        return CollectionUtils.isEmpty(searchTags);
     }
 
     public boolean isFilterBySearchType() {

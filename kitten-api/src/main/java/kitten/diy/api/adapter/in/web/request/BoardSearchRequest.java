@@ -6,6 +6,8 @@ import kitten.diy.api.application.domain.consts.SortType;
 import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 public record BoardSearchRequest(
 
         @Description("페이징 처리")
@@ -32,7 +34,7 @@ public record BoardSearchRequest(
             String sortType,
 
             @Description("태그 검색")
-            String searchTag,
+            List<String> searchTags,
 
             @Description("필터링 조건[BEADS, GEM_STITCH, MORU, NULL]")
             String searchType
@@ -48,7 +50,7 @@ public record BoardSearchRequest(
                         )
                 )
                 .sortType(SortType.valueOf(criteria.sortType))
-                .searchTag(criteria.searchTag)
+                .searchTags(criteria.searchTags)
                 .searchType(BoardType.of(criteria.searchType))
                 .build();
     }

@@ -88,10 +88,11 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
 
     private BooleanBuilder searchByTag(BoardInfoSearchCommand command) {
         BooleanBuilder br = new BooleanBuilder();
-        if (command.isSearchByTag() == false) {
+        if (command.isNotSearchByTag()) {
             return null;
         }
-        return br.and(boardTag.tag.like(command.searchTag()));
+        command.searchTags().forEach(searchTag -> br.or(boardTag.tag.contains(searchTag)));
+        return br;
     }
 
     private BooleanBuilder filterByType(BoardInfoSearchCommand command) {
