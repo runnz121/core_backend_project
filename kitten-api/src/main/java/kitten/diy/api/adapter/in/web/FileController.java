@@ -21,8 +21,7 @@ public class FileController {
 
     @PostMapping("/upload")
     public String upload(@RequestParam("uploadFile") MultipartFile file,
-                       @RequestParam("imageSort") String imageSort,
-                       @AccessAccount CurrentAccount account)  {
-        return fileCommandUseCase.upload(new UploadCommand(file, account.getUserEmail(), imageSort));
+                         @RequestParam("imageSort") String imageSort)  {
+        return fileCommandUseCase.upload(new UploadCommand(file, imageSort));
     }
 }

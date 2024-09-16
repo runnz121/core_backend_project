@@ -32,7 +32,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String userRole = getUserRole(userPrincipal);
         String accessToken = tokenService.generateJwt(userRole, userEmail);
         CookieUtils.deleteCookie(request, response, AuthUtil.KITTEN_COOKIE_NAME);
-        CookieUtils.addResponseCookie(response, AuthUtil.KITTEN_COOKIE_NAME, accessToken, AuthUtil.MAX_AGE);
+        CookieUtils.addCookie(response, AuthUtil.KITTEN_COOKIE_NAME, accessToken, AuthUtil.MAX_AGE);
         sendRedirectUrl(request, response, accessToken, userEmail);
     }
 

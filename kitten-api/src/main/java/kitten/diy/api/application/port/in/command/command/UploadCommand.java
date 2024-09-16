@@ -13,8 +13,6 @@ public record UploadCommand(
 
         MultipartFile file,
 
-        String userEmail,
-
         String sort
 ) {
 

@@ -39,21 +39,6 @@ public class CookieUtils {
         response.addCookie(cookie);
     }
 
-    public static void addResponseCookie(HttpServletResponse response,
-                                         String name,
-                                         String value,
-                                         int maxAge) {
-        ResponseCookie cookie = ResponseCookie.from(name, value)
-                .path("/")
-                .sameSite("None")
-                .httpOnly(false)
-                .secure(true)
-                .maxAge(maxAge)
-                .build();
-
-        response.addHeader("Set-Cookie", cookie.toString());
-    }
-
     public static void deleteCookie(HttpServletRequest request,
                                     HttpServletResponse response,
                                     String name){
