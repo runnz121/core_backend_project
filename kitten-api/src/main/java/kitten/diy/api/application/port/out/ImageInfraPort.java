@@ -4,5 +4,5 @@ import kitten.diy.api.application.port.in.command.command.UploadCommand;
 
 public interface ImageInfraPort {
 
-    void uploadImage(UploadCommand command);
+    String uploadImage(UploadCommand command);
 }

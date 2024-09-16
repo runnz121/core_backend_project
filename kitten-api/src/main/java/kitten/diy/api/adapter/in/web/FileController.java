@@ -20,9 +20,9 @@ public class FileController {
     private final FileCommandUseCase fileCommandUseCase;
 
     @PostMapping("/upload")
-    public void upload(@RequestParam("uploadFile") MultipartFile file,
+    public String upload(@RequestParam("uploadFile") MultipartFile file,
                        @RequestParam("imageSort") String imageSort,
                        @AccessAccount CurrentAccount account)  {
-        fileCommandUseCase.upload(new UploadCommand(file, account.getUserEmail(), imageSort));
+        return fileCommandUseCase.upload(new UploadCommand(file, account.getUserEmail(), imageSort));
     }
 }

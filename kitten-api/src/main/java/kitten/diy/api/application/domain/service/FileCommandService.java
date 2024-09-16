@@ -18,9 +18,8 @@ public class FileCommandService implements FileCommandUseCase {
 
     @Override
     @Transactional
-    public void upload(UploadCommand command) {
-
+    public String upload(UploadCommand command) {
         imagePersistentPort.uploadImage(command);
-        imageInfraPort.uploadImage(command);
+        return imageInfraPort.uploadImage(command);
     }
 }

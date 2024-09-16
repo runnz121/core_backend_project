@@ -4,5 +4,5 @@ import kitten.diy.api.application.port.in.command.command.UploadCommand;
 
 public interface FileCommandUseCase {
 
-    void upload(UploadCommand command);
+    String upload(UploadCommand command);
 }
