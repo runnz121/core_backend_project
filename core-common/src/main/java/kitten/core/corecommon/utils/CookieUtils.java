@@ -28,7 +28,8 @@ public class CookieUtils {
                                  String value,
                                  int maxAge){
         Cookie cookie = new Cookie(name, value);
-        cookie.setHttpOnly(true);
+        // TODO 다시 활성화
+//        cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
         // TODO 다시 활성화
