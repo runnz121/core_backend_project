@@ -51,8 +51,6 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                 .on(boardImage.board.eq(board).and(boardImage.representative.isTrue()))
                 .leftJoin(boardTag)
                 .on(boardTag.board.eq(board))
-                .leftJoin(boardLike)
-                .on(boardLike.board.eq(board))
                 .leftJoin(boardView)
                 .on(boardView.board.eq(board))
                 .where(
