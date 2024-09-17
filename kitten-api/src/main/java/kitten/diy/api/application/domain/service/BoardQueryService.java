@@ -44,4 +44,9 @@ public class BoardQueryService implements BoardQueryUseCase {
     public List<String> getLikeTags(TagLikeSearchCommand command) {
         return boardPort.getLikeTags(command);
     }
+
+    @Override
+    public void getPartsInfos(Long boardKey) {
+
+    }
 }

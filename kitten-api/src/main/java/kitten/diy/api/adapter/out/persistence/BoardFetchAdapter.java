@@ -11,6 +11,7 @@ import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand
 import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
 import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
+import kitten.diy.api.application.port.in.query.data.BoardPartsInfo;
 import kitten.diy.api.application.port.out.BoardPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -74,6 +75,13 @@ public class BoardFetchAdapter implements BoardPort {
                 .findByBoard_Key(boardKey).stream()
                 .map(BoardTag::getTag)
                 .toList();
+    }
+
+    @Override
+    public List<BoardPartsInfo> getBoardPartsInfos(Long boardKey) {
+        Board board = boardRepository.findByKey(boardKey)
+                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+        return null;
     }
 
     private String getBoardImage(Board board) {

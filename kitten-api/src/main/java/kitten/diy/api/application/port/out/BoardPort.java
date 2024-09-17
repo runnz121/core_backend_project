@@ -5,6 +5,7 @@ import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand
 import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
 import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
+import kitten.diy.api.application.port.in.query.data.BoardPartsInfo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface BoardPort {
     List<String> getLikeTags(TagLikeSearchCommand command);
 
     List<String> getTagsByBoardKey(Long boardKey);
+
+    List<BoardPartsInfo> getBoardPartsInfos(Long boardKey);
 }

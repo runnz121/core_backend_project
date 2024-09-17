@@ -34,8 +34,13 @@ public class BoardController {
     }
 
     @GetMapping("/detail/{boardKey}/like/users")
-    public  List<BoardLikeUsersData> getBoardLikeUsers(@PathVariable("boardKey") Long boardKey) {
+    public List<BoardLikeUsersData> getBoardLikeUsers(@PathVariable("boardKey") Long boardKey) {
         return boardQueryUseCase.getBoardLikeUsers(boardKey);
+    }
+
+    @GetMapping("/detail/{boardKey}/parts")
+    public void getPartsInfos(Long boardKey) {
+
     }
 
     @PostMapping("/like/tags")

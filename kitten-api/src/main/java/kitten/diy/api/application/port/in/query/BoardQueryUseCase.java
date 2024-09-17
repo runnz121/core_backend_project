@@ -18,4 +18,6 @@ public interface BoardQueryUseCase {
     List<BoardLikeUsersData> getBoardLikeUsers(Long boardKey);
 
     List<String> getLikeTags(TagLikeSearchCommand command);
+
+    void getPartsInfos(Long boardKey);
 }

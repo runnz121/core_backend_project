@@ -7,10 +7,8 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
 import kitten.core.coredomain.board.entity.QBoard;
 import kitten.core.coredomain.board.entity.QBoardLike;
-import kitten.core.coredomain.board.entity.QBoardTag;
 import kitten.core.coredomain.board.entity.QBoardView;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.adapter.out.model.QBoardQueryData;
