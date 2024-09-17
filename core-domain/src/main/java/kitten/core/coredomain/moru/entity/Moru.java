@@ -1,23 +1,22 @@
 package kitten.core.coredomain.moru.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import kitten.core.coredomain.config.annotation.Description;
-import kitten.core.coredomain.model.Audit;
+import kitten.core.coredomain.item.entity.Item;
 import lombok.*;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
+@DiscriminatorValue("MORU")
 @Table(name = "MORU")
-public class Moru extends Audit {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MORU_KEY", nullable = false)
-    private Long key;
+public class Moru extends Item {
 
     @Description("모루 이름")
     @Column(name = "NAME")
