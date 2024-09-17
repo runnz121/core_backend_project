@@ -3,7 +3,6 @@ package kitten.core.coredomain.moru.entity;
 import io.hypersistence.utils.hibernate.type.json.JsonStringType;
 import jakarta.persistence.*;
 import kitten.core.coredomain.config.annotation.Description;
-import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.moru.consts.MoruStatus;
 import kitten.core.coredomain.parts.entity.Parts;
 import lombok.*;
@@ -22,6 +21,10 @@ public class MoruParts extends Parts {
     @Description("모루 파츠 부모키")
     @Column(name = "PARENT_KEY")
     private Long parentKey;
+
+    @Description("모루 대표 파츠 여부")
+    @Column(name = "REPRESENTATIVE")
+    private Boolean representative;
 
     @Description("모루 승인 상태 [APPROVE : 관리자 승인, PENDING : 관리자 승인 대기]")
     @Column(name = "STATUS")

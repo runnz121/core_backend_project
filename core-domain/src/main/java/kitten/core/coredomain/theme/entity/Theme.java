@@ -1,7 +1,9 @@
 package kitten.core.coredomain.theme.entity;
 
 import jakarta.persistence.*;
+import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
+import kitten.core.coredomain.theme.consts.ThemeType;
 import lombok.*;
 
 @Getter
@@ -20,6 +22,11 @@ public class Theme extends Audit {
 
     @Column(name = "TITLE", nullable = false)
     private String title;
+
+    @Description("테마 타입")
+    @Column(name = "TYPE")
+    @Enumerated(EnumType.STRING)
+    private ThemeType type;
 
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;

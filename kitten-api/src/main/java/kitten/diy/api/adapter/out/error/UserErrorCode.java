@@ -1,4 +1,4 @@
-package kitten.diy.api.adapter.out.consts;
+package kitten.diy.api.adapter.out.error;
 
 import kitten.core.corecommon.config.exception.ErrorCode;
 import lombok.Getter;

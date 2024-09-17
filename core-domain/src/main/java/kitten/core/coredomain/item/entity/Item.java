@@ -1,6 +1,7 @@
 package kitten.core.coredomain.item.entity;
 
 import jakarta.persistence.*;
+import kitten.core.coredomain.item.consts.ItemType;
 import kitten.core.coredomain.model.Audit;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,6 +22,10 @@ public abstract class Item extends Audit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ITEM_KEY", nullable = false)
     private Long key;
+
+    @Column(name = "ITEM_TYPE")
+    @Enumerated(EnumType.STRING)
+    private ItemType type;
 
     @Override
     public boolean equals(Object o) {

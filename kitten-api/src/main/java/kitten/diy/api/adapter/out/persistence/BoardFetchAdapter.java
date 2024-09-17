@@ -4,7 +4,7 @@ import kitten.core.corecommon.config.exception.CommonRuntimeException;
 import kitten.core.coredomain.board.entity.*;
 import kitten.core.coredomain.board.repository.*;
 import kitten.core.coredomain.user.entity.Users;
-import kitten.diy.api.adapter.out.consts.BoardErrorCode;
+import kitten.diy.api.adapter.out.error.BoardErrorCode;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.adapter.out.persistence.query.BoardQueryFetch;
 import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
