@@ -81,6 +81,7 @@ public class BoardFetchAdapter implements BoardPort {
     public List<BoardPartsInfo> getBoardPartsInfos(Long boardKey) {
         Board board = boardRepository.findByKey(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+
         return null;
     }
 

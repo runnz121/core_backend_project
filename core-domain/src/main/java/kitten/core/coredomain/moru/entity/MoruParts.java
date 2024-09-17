@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.moru.consts.MoruStatus;
+import kitten.core.coredomain.parts.entity.Parts;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -14,13 +15,9 @@ import org.hibernate.annotations.Type;
 @Builder
 @EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
+@DiscriminatorValue("MORU_PARTS")
 @Table(name = "MORU_PARTS")
-public class MoruParts extends Audit {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MORU_PARTS_KEY", nullable = false)
-    private Long key;
+public class MoruParts extends Parts {
 
     @Description("모루 파츠 부모키")
     @Column(name = "PARENT_KEY")

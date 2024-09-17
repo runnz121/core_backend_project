@@ -47,6 +47,6 @@ public class BoardQueryService implements BoardQueryUseCase {
 
     @Override
     public void getPartsInfos(Long boardKey) {
-
+        boardPort.getBoardPartsInfos(boardKey);
     }
 }

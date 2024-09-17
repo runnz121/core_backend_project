@@ -10,8 +10,8 @@ import lombok.*;
 
 @Getter
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
+@Builder
 @EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
 @DiscriminatorValue("MORU")

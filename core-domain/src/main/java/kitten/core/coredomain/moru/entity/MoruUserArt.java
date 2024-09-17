@@ -1,6 +1,7 @@
 package kitten.core.coredomain.moru.entity;
 
 import jakarta.persistence.*;
+import kitten.core.coredomain.arts.entity.UserArts;
 import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.moru.consts.MoruSide;
@@ -14,16 +15,7 @@ import lombok.*;
 @EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
 @Table(name = "MORU_USER_ART")
-public class MoruUserArt extends Audit {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MORU_USER_ART_KEY", nullable = false)
-    private Long key;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "USER_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Users users;
+public class MoruUserArt extends UserArts {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "MORU_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))

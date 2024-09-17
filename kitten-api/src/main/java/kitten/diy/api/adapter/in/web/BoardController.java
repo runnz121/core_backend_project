@@ -39,8 +39,8 @@ public class BoardController {
     }
 
     @GetMapping("/detail/{boardKey}/parts")
-    public void getPartsInfos(Long boardKey) {
-
+    public void getPartsInfos(@PathVariable Long boardKey) {
+        boardQueryUseCase.getPartsInfos(boardKey);
     }
 
     @PostMapping("/like/tags")
