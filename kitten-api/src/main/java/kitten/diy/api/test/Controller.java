@@ -28,7 +28,7 @@ public class Controller {
     }
 
     @GetMapping("/test/auth/anonymous")
-    @Secured(value = "ROLE_USER")
+    @Secured(value = "ROLE_ANONYMOUS")
     public String checkAnonymous() {
         return "ROLE_ANONYMOUS access";
     }

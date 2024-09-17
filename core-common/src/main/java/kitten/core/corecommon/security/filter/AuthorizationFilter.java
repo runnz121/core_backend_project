@@ -37,12 +37,21 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String authToken = getAuthToken(request);
+        // TODO 일시적으로 헤더에서 토큰 갖고오도록 설정
+        String authToken = getAuthTokenByHeader(request);
         if (StringUtils.hasText(authToken)) {
             Authentication authentication = getAuthentication(authToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
+    }
+
+    private String getAuthTokenByHeader(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+        return null;
     }
 
     private String getAuthToken(HttpServletRequest request) {
