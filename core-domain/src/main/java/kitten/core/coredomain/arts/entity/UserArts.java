@@ -1,7 +1,9 @@
 package kitten.core.coredomain.arts.entity;
 
 import jakarta.persistence.*;
+import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
+import kitten.core.coredomain.theme.entity.Theme;
 import kitten.core.coredomain.user.entity.Users;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,6 +28,11 @@ public abstract class UserArts extends Audit {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Users users;
+
+    @Description("현재는 1:1 관계")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "THEME_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Theme theme;
 
     @Override
     public boolean equals(Object o) {
