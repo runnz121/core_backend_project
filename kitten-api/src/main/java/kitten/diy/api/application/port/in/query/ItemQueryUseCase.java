@@ -1,11 +1,9 @@
 package kitten.diy.api.application.port.in.query;
 
-import kitten.diy.api.application.port.in.command.command.PartsSearchCommand;
-import kitten.diy.api.application.port.in.query.data.PartsThemeData;
-
-import java.util.List;
+import kitten.diy.api.application.port.in.command.command.ItemSearchCommand;
+import kitten.diy.api.application.port.in.query.data.ItemThemeData;
 
 public interface ItemQueryUseCase {
 
-    List<PartsThemeData> getPartsByTheme(PartsSearchCommand command);
+    ItemThemeData getThemeItemData(ItemSearchCommand command);
 }

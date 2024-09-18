@@ -3,6 +3,7 @@ package kitten.core.coredomain.moru.entity;
 import jakarta.persistence.*;
 import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.item.entity.Item;
+import kitten.core.coredomain.theme.entity.Theme;
 import lombok.*;
 
 @Getter
@@ -14,6 +15,11 @@ import lombok.*;
 @DiscriminatorValue("MORU")
 @Table(name = "MORU")
 public class Moru extends Item {
+
+    @Description("현재는 1:1 관계")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "THEME_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Theme theme;
 
     @Description("모루 이름")
     @Column(name = "NAME")
