@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -58,7 +59,7 @@ public class ItemFetchAdapter implements ItemFetchPort {
     private PartsThemeData.PartsData createPartsData(ThemeParts parent) {
         return moruPartsRepository.findByKey(parent.getParts().getKey())
                 .map(parentParts -> {
-                    List<String> partTags = getTags(parentParts.getParentKey());
+                    List<String> partTags = getTags(parentParts.getKey());
                     List<PartsThemeData.PartsData> childDatas = getPartsData(parent);
                     return PartsThemeData.PartsData.createMoruParts(parentParts, childDatas, partTags, false);
                 })
@@ -68,9 +69,13 @@ public class ItemFetchAdapter implements ItemFetchPort {
     private List<PartsThemeData.PartsData> getPartsData(ThemeParts partParent) {
         Long parentPartKey = partParent.getParts().getKey();
         List<MoruParts> childMoruParts = moruPartsRepository.findAllByParentKey(parentPartKey);
-        return childMoruParts.stream()
+        MoruParts parentMoruParts = moruPartsRepository.findByKey(parentPartKey).get();
+        List<PartsThemeData.PartsData> childData = childMoruParts.stream()
                 .map(childMoruPart -> PartsThemeData.PartsData.createMoruParts(childMoruPart,null,null, true))
-                .toList();
+                .collect(Collectors.toList());
+        childData.add(PartsThemeData.PartsData.createMoruParts(parentMoruParts,null,null, true));
+        childData.sort(Comparator.comparing(PartsThemeData.PartsData::partsKey));
+        return childData;
     }
 
     private List<String> getTags(Long moruPartParentKey) {

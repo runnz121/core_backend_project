@@ -49,6 +49,12 @@ public record PartsThemeData(
 
             String colorHexCode,
 
+            @Description("대표 여부")
+            Boolean isRepresentative,
+
+            @Description("파츠 이미지 url")
+            String partsImageUrl,
+
             @Description("자식 파츠 데이터")
             List<PartsData> childData
     ) {
@@ -66,6 +72,8 @@ public record PartsThemeData(
                     .width(moruParts.getWidth())
                     .height(moruParts.getHeight())
                     .colorHexCode(moruParts.getColorHexCode())
+                    .isRepresentative(moruParts.getRepresentative())
+                    .partsImageUrl(moruParts.getImageUrl())
                     .build();
         }
     }
