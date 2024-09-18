@@ -21,6 +21,17 @@ public record PartsThemeData(
         List<PartsData> parentData
 
 ) {
+
+    public static PartsThemeData createPartsThemeData(ThemeType themeType,
+                                                      ThemePosition position,
+                                                      List<PartsData> partsData) {
+        return PartsThemeData.builder()
+                .themeType(themeType)
+                .themePosition(position)
+                .parentData(partsData)
+                .build();
+    }
+
     @Builder
     public record PartsData(
 
