@@ -15,6 +15,7 @@ import kitten.diy.api.application.port.out.PartsFetchPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -69,6 +70,10 @@ public class PartsFetchAdapter implements PartsFetchPort {
     private List<PartsThemeData.PartsData> getPartsData(ThemeParts partParent) {
         Long parentPartKey = partParent.getParts().getKey();
         List<MoruParts> childMoruParts = moruPartsRepository.findAllByParentKey(parentPartKey);
+        // 대표 이미지만 존재할 경우 child data는 보내지 않음
+        if (CollectionUtils.isEmpty(childMoruParts)) {
+            return Collections.emptyList();
+        }
         MoruParts parentMoruParts = moruPartsRepository.findByKey(parentPartKey).get();
         List<PartsThemeData.PartsData> childData = childMoruParts.stream()
                 .map(childMoruPart -> PartsThemeData.PartsData.createMoruParts(childMoruPart,null,null, true))
