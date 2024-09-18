@@ -1,8 +1,11 @@
 package kitten.diy.api.test;
 
+import kitten.core.corecommon.security.jwt.AccessAccount;
+import kitten.core.corecommon.security.jwt.CurrentAccount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -11,6 +14,7 @@ public class Controller {
 
     private final TestService testService;
 
+    @Secured(value = "ROLE_USER")
     @GetMapping("/test")
     public void test() {
         testService.test();
@@ -31,5 +35,11 @@ public class Controller {
     @Secured(value = "ROLE_ANONYMOUS")
     public String checkAnonymous() {
         return "ROLE_ANONYMOUS access";
+    }
+
+    @Secured(value = "ROLE_USER")
+    @PostMapping("/test/moru")
+    public void saveMoru(@AccessAccount CurrentAccount currentAccount) {
+        testService.testSaveMoru();
     }
 }

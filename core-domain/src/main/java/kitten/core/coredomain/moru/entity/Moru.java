@@ -1,9 +1,6 @@
 package kitten.core.coredomain.moru.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.item.entity.Item;
 import lombok.*;

@@ -5,7 +5,7 @@ import kitten.diy.api.application.port.in.query.data.PartsThemeData;
 
 import java.util.List;
 
-public interface ItemPort {
+public interface ItemFetchPort {
 
     List<PartsThemeData> getPartsByTheme(PartsSearchCommand command);
 }

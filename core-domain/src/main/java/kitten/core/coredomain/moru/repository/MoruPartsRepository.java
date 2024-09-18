@@ -10,5 +10,5 @@ public interface MoruPartsRepository extends CrudRepository<MoruParts, Long> {
 
     List<MoruParts> findAllByParentKey(Long parentKey);
 
-    Optional<MoruParts> findByParentKey(Long parentKey);
+    Optional<MoruParts> findByKey(Long parentKey);
 }

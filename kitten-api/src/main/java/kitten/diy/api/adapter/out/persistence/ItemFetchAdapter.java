@@ -11,7 +11,7 @@ import kitten.core.coredomain.theme.repository.ThemePartsRepository;
 import kitten.core.coredomain.theme.repository.ThemeRepository;
 import kitten.diy.api.application.port.in.command.command.PartsSearchCommand;
 import kitten.diy.api.application.port.in.query.data.PartsThemeData;
-import kitten.diy.api.application.port.out.ItemPort;
+import kitten.diy.api.application.port.out.ItemFetchPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.groupingBy;
 
 @Component
 @RequiredArgsConstructor
-public class ItemFetchAdapter implements ItemPort {
+public class ItemFetchAdapter implements ItemFetchPort {
 
     private final MoruPartsRepository moruPartsRepository;
     private final MoruPartsTagRepository moruPartsTagRepository;
@@ -56,9 +56,9 @@ public class ItemFetchAdapter implements ItemPort {
     }
 
     private PartsThemeData.PartsData createPartsData(ThemeParts parent) {
-        return moruPartsRepository.findByParentKey(parent.getParts().getKey())
+        return moruPartsRepository.findByKey(parent.getParts().getKey())
                 .map(parentParts -> {
-                    List<String> partTags = getTags(parentParts);
+                    List<String> partTags = getTags(parentParts.getParentKey());
                     List<PartsThemeData.PartsData> childDatas = getPartsData(parent);
                     return PartsThemeData.PartsData.createMoruParts(parentParts, childDatas, partTags, false);
                 })
@@ -73,8 +73,8 @@ public class ItemFetchAdapter implements ItemPort {
                 .toList();
     }
 
-    private List<String> getTags(MoruParts moruParts) {
-        return moruPartsTagRepository.findAllByMoruParts(moruParts).stream()
+    private List<String> getTags(Long moruPartParentKey) {
+        return moruPartsTagRepository.findAllByMoruParts_Key(moruPartParentKey).stream()
                 .map(MoruPartsTag::getTag)
                 .toList();
     }

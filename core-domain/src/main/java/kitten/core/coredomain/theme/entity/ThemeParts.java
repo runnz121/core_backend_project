@@ -25,6 +25,7 @@ public class ThemeParts extends Audit {
     @JoinColumn(name = "THEME_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Theme theme;
 
+    @Description("파츠에서 대표 파츠 키만 엮어야 한다.")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "PARTS_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Parts parts;

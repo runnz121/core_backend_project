@@ -5,17 +5,23 @@ import jakarta.persistence.*;
 import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.moru.consts.MoruStatus;
 import kitten.core.coredomain.parts.entity.Parts;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Type;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
 @DiscriminatorValue("MORU_PARTS")
 @Table(name = "MORU_PARTS")
+@EntityListeners(AuditingEntityListener.class)
 public class MoruParts extends Parts {
 
     @Description("모루 파츠 부모키")
@@ -44,6 +50,7 @@ public class MoruParts extends Parts {
     private Integer width;
 
     @Description("세로 길이 (mm 단위)")
+    @Column(name = "HEIGHT")
     private Integer height;
 
     @Description("모루 파츠 컬러 색상 코드")

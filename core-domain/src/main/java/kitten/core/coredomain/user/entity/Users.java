@@ -3,6 +3,7 @@ package kitten.core.coredomain.user.entity;
 import jakarta.persistence.*;
 import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.model.AuthRoles;
+import kitten.core.coredomain.parts.entity.Parts;
 import lombok.*;
 
 @Getter
@@ -12,7 +13,7 @@ import lombok.*;
 @EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
 @Table(name = "USERS")
-public class Users extends Audit {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

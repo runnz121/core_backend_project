@@ -2,9 +2,8 @@ package kitten.diy.api.adapter.in.web;
 
 import kitten.core.corecommon.security.jwt.AccessAccount;
 import kitten.core.corecommon.security.jwt.CurrentAccount;
-import kitten.core.coredomain.theme.consts.ThemeType;
 import kitten.diy.api.adapter.in.web.request.MoruPartsRequest;
-import kitten.diy.api.application.port.in.command.ItemCommandUseCase;
+import kitten.diy.api.application.port.in.command.PartsCommandUseCase;
 import kitten.diy.api.application.port.in.command.command.PartsSearchCommand;
 import kitten.diy.api.application.port.in.query.ItemQueryUseCase;
 import kitten.diy.api.application.port.in.query.data.PartsThemeData;
@@ -19,14 +18,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemTemplateController {
 
-    private final ItemCommandUseCase itemCommandUseCase;
+    private final PartsCommandUseCase partsCommandUseCase;
     private final ItemQueryUseCase itemQueryUseCase;
 
-    @Secured(value = "ROLE_USER")
+//    @Secured(value = "ROLE_USER")
     @PostMapping("/moru/parts")
     public void registerMoruParts(@RequestBody MoruPartsRequest request,
                                   @AccessAccount CurrentAccount account) {
-
+        partsCommandUseCase.registerMoruParts(request.toCommand(account.getUserEmail()));
     }
 
 //    @Secured(value = "ROLE_USER")

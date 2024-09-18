@@ -5,17 +5,19 @@ import kitten.core.coredomain.model.Audit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Entity
 @Getter
+@SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorColumn(name = "PARTS")
 @Table(name = "PARTS")
-public abstract class Parts extends Audit {
+public abstract class Parts extends Audit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

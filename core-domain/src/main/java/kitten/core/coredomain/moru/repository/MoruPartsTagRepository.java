@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface MoruPartsTagRepository extends CrudRepository<MoruPartsTag, Long> {
 
-    List<MoruPartsTag> findAllByMoruParts(MoruParts moruParts);
+    List<MoruPartsTag> findAllByMoruParts_Key(Long moruPartKey);
 }
