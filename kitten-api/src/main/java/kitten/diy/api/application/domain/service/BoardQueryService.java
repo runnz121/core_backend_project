@@ -10,7 +10,8 @@ import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
 import kitten.diy.api.application.port.in.query.data.BoardInfoData;
 import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
-import kitten.diy.api.application.port.out.BoardPort;
+import kitten.diy.api.application.port.in.query.data.BoardPartsInfo;
+import kitten.diy.api.application.port.out.BoardFetchPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -21,32 +22,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardQueryService implements BoardQueryUseCase {
 
-    private final BoardPort boardPort;
+    private final BoardFetchPort boardFetchPort;
 
     @Override
     public PageableData<List<BoardInfoData>> getBoardInfos(BoardInfoSearchCommand command) {
-        Page<BoardQueryData> boardPages = boardPort.getBoardDatas(command);
-        List<BoardInfoData> boardList = boardPages.stream().map(board -> BoardInfoData.of(board, boardPort.getTagsByBoardKey(board.boardKey()))).toList();
+        Page<BoardQueryData> boardPages = boardFetchPort.getBoardDatas(command);
+        List<BoardInfoData> boardList = boardPages.stream().map(board -> BoardInfoData.of(board, boardFetchPort.getTagsByBoardKey(board.boardKey()))).toList();
         return new PageableData<>(boardList, PageData.of(boardPages));
     }
 
     @Override
     public BoardDetailData getDetailData(Long boardKey) {
-        return boardPort.getBoardDetail(boardKey);
+        return boardFetchPort.getBoardDetail(boardKey);
     }
 
     @Override
     public List<BoardLikeUsersData> getBoardLikeUsers(Long boardKey) {
-        return boardPort.getBoardLikeUsers(boardKey);
+        return boardFetchPort.getBoardLikeUsers(boardKey);
     }
 
     @Override
     public List<String> getLikeTags(TagLikeSearchCommand command) {
-        return boardPort.getLikeTags(command);
+        return boardFetchPort.getLikeTags(command);
     }
 
     @Override
-    public void getPartsInfos(Long boardKey) {
-        boardPort.getBoardPartsInfos(boardKey);
+    public List<BoardPartsInfo> getPartsInfos(Long boardKey) {
+        return boardFetchPort.getBoardPartsInfos(boardKey);
     }
 }

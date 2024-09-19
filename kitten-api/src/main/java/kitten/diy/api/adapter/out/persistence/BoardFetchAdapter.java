@@ -12,7 +12,7 @@ import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
 import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
 import kitten.diy.api.application.port.in.query.data.BoardPartsInfo;
-import kitten.diy.api.application.port.out.BoardPort;
+import kitten.diy.api.application.port.out.BoardFetchPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class BoardFetchAdapter implements BoardPort {
+public class BoardFetchAdapter implements BoardFetchPort {
 
     private final BoardRepository boardRepository;
     private final BoardViewRepository boardViewRepository;

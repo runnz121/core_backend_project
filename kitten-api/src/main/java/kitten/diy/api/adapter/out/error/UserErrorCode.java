@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum UserErrorCode implements ErrorCode {
 
-    NICK_NAME_ALREADY_EXISTS("USER_E_001", "이미 존재하는 닉네임입니다.");
+    NICK_NAME_ALREADY_EXISTS("USER_E_001", "이미 존재하는 닉네임입니다."),
+    USER_NOT_EXISTS("USER_E_002", "유저 정보가 존재하지 않습니다.")
+    ;
 
     private final String code;
     private final String message;

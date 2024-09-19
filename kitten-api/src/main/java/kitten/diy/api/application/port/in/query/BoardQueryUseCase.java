@@ -6,6 +6,7 @@ import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
 import kitten.diy.api.application.port.in.query.data.BoardInfoData;
 import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
+import kitten.diy.api.application.port.in.query.data.BoardPartsInfo;
 
 import java.util.List;
 
@@ -19,5 +20,6 @@ public interface BoardQueryUseCase {
 
     List<String> getLikeTags(TagLikeSearchCommand command);
 
-    void getPartsInfos(Long boardKey);
+    List<BoardPartsInfo> getPartsInfos(Long boardKey);
+
 }
