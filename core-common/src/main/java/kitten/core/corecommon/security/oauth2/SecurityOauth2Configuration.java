@@ -37,6 +37,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @Import({
         Oauth2SuccessHandler.class,
         Oauth2EntryPointHandler.class,
+        Oauth2AccessDeniedHandler.class,
         UserDetailService.class,
         TokenService.class
 })
@@ -46,6 +47,7 @@ public class SecurityOauth2Configuration {
 
     private final Oauth2SuccessHandler oauth2SuccessHandler;
     private final Oauth2EntryPointHandler oauth2EntryPointHandler;
+    private final Oauth2AccessDeniedHandler oauth2AccessDeniedHandler;
 
     private final UserDetailService userDetailService;
     private final TokenService tokenService;
@@ -61,7 +63,11 @@ public class SecurityOauth2Configuration {
                 .httpBasic(basicConfigurer -> basicConfigurer.disable())
                 .formLogin(loginConfigurer -> loginConfigurer.disable())
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(configurationSource))
-                .exceptionHandling(handleConfigurer -> handleConfigurer.authenticationEntryPoint(oauth2EntryPointHandler))
+                .exceptionHandling(handleConfigurer ->
+                        handleConfigurer
+                                .authenticationEntryPoint(oauth2EntryPointHandler)
+                                .accessDeniedHandler(oauth2AccessDeniedHandler)
+                )
                 .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http
                 .authorizeHttpRequests(
