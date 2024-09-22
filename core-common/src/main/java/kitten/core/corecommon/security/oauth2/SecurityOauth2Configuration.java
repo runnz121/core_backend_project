@@ -68,9 +68,9 @@ public class SecurityOauth2Configuration {
                         authorize -> authorize
                                 // 임시로 모두 허용
                                 .requestMatchers("/**").permitAll()
-                                .requestMatchers("/auth/**").authenticated()
+//                                .requestMatchers("/auth/**").authenticated()
 //                                .requestMatchers("/actuator/**").permitAll()
-                                .anyRequest().authenticated()
+//                                .anyRequest().authenticated()
                 );
         http
                 .oauth2Login(
