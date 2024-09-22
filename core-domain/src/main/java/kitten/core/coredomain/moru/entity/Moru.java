@@ -10,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
 @DiscriminatorValue("MORU")
 @Table(name = "MORU")

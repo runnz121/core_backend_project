@@ -3,16 +3,13 @@ package kitten.core.coredomain.moru.entity;
 import jakarta.persistence.*;
 import kitten.core.coredomain.arts.entity.UserArts;
 import kitten.core.coredomain.config.annotation.Description;
-import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.moru.consts.MoruSide;
-import kitten.core.coredomain.user.entity.Users;
 import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
 @Table(name = "MORU_USER_ART")
 public class MoruUserArt extends UserArts {
