@@ -17,7 +17,8 @@ public class CorsProperties {
             "https://localhost:[*]",
             "http://diykitten.com:[*]",
             "https://diykitten.com:[*]",
-            "https://www.diykitten.com:[*]"
+            "https://www.diykitten.com:[*]",
+            "https://core-api.diykitten-backend.site:[*]"
     );
     private boolean allowCredential = true;
     private long maxAge = 3600L;
