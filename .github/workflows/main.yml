@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'test1'
 
 env:
   S3_BUCKET_NAME: mium-eunsun
