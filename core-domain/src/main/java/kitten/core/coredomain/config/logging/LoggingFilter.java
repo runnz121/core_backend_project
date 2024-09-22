@@ -22,6 +22,7 @@ public class LoggingFilter extends OncePerRequestFilter implements OrderedFilter
     protected void doFilterInternal(final HttpServletRequest request,
                                     final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
+        log.info("<LOGGING:FILTER:INIT: requestURL: {}", request.getRequestURL());
         putRemoteAddr(request);
         filterChain.doFilter(request, response);
         removeRemoteAddr();
