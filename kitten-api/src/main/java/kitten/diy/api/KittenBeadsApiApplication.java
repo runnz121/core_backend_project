@@ -2,9 +2,7 @@ package kitten.diy.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
 
 @ComponentScan(basePackages = "kitten.*")
 //@ComponentScans({
@@ -12,8 +10,8 @@ import org.springframework.context.annotation.ComponentScans;
 //        @ComponentScan(basePackages = "kitten.core.coredomain.config.aws.*")
 //})
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-//@SpringBootApplication
+//@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication
 public class KittenBeadsApiApplication {
 
     public static void main(String[] args) {

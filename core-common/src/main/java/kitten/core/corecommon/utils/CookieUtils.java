@@ -29,7 +29,7 @@ public class CookieUtils {
                                  int maxAge) {
         Cookie cookie = new Cookie(name, value);
         // TODO 다시 활성화
-        cookie.setHttpOnly(false);
+        cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
         // TODO 다시 활성화
