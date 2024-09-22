@@ -22,7 +22,7 @@ public class CorsAutoConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(CorsProperties properties) {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(properties.isAllowCredential());
+//        config.setAllowCredentials(properties.isAllowCredential());
         config.setAllowedOriginPatterns(properties.getAllowOriginPatterns());
         config.setAllowedHeaders(properties.getAllowedHeaders());
         config.setAllowedMethods(properties.getAllowedMethods());
