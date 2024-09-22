@@ -25,3 +25,4 @@
 - sudo ./install auto > /tmp/logfile
 - sudo service codedeploy-agent status
 - sudo apt install openjdk-21-jdk
+- sudo lsof -i :8080 # 포트 확인하기 

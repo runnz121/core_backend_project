@@ -30,7 +30,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @AutoConfiguration(after = {CorsAutoConfiguration.class})
 @ConditionalOnProperty(prefix = "core.security.oauth2", name = "jwt-signing-key")
 @ConditionalOnClass({EnableWebSecurity.class, EnableMethodSecurity.class})
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableMethodSecurity(securedEnabled = true)
 @EnableConfigurationProperties(OauthProperties.class)
 @RequiredArgsConstructor
