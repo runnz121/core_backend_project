@@ -24,3 +24,5 @@ kitten.core.coredomain.config.aws.AwsAutoConfiguration
 kitten.core.coredomain.config.aws.S3AutoConfiguration
 #
 kitten.core.coredomain.config.utils.IdGeneratorConfiguration
+
+kitten.core.coredomain.config.logging.LoggingAutoConfiguration
