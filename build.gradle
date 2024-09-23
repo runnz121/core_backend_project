@@ -77,6 +77,9 @@ subprojects {
 
 		implementation("io.hypersistence:hypersistence-utils-hibernate-62:3.6.0")
 
+		// actuator
+		implementation("org.springframework.boot:spring-boot-starter-actuator")
+
 		testImplementation 'io.projectreactor:reactor-test'
 		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 		testImplementation 'org.springframework.security:spring-security-test'

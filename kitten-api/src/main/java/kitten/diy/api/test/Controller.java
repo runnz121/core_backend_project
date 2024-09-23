@@ -2,6 +2,7 @@ package kitten.diy.api.test;
 
 import kitten.core.corecommon.security.jwt.AccessAccount;
 import kitten.core.corecommon.security.jwt.CurrentAccount;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
     private final TestService testService;
+
+    @GetMapping("/actuator/health")
+    public String actuator() {
+        return "ok";
+    }
 
     @Secured(value = "ROLE_USER")
     @GetMapping("/test")
