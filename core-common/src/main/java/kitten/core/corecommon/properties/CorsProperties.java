@@ -19,6 +19,7 @@ public class CorsProperties {
             "https://diykitten.com:[*]",
             "https://www.diykitten.com:[*]",
             "http://13.124.132.215:[*]",
+            "http://core-api.diykitten-backend.site:[*]",
             "https://core-api.diykitten-backend.site:[*]"
     );
     private boolean allowCredential = true;
