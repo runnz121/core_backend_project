@@ -1,6 +1,7 @@
 package kitten.diy.api.adapter.in.web;
 
 
+import kitten.core.corecommon.annotation.Description;
 import kitten.core.corecommon.security.jwt.AccessAccount;
 import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.diy.api.application.port.in.command.FileCommandUseCase;
@@ -19,6 +20,7 @@ public class FileController {
 
     private final FileCommandUseCase fileCommandUseCase;
 
+    @Description("파일 업로드")
     @PostMapping("/upload")
     public String upload(@RequestParam("uploadFile") MultipartFile file,
                          @RequestParam("imageSort") String imageSort)  {
