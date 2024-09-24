@@ -95,22 +95,22 @@ public class SecurityOauth2Configuration {
                                         userInfo -> userInfo.userService(new Oauth2CustomUserService(publisher)))
                                 .successHandler(oauth2SuccessHandler)
                 );
-//        http
-//                .addFilterBefore(new AuthorizationFilter(authenticationManager(userDetailService, passwordEncoder()), userDetailService, tokenService), UsernamePasswordAuthenticationFilter.class);
+        http
+                .addFilterBefore(new AuthorizationFilter(authenticationManager(userDetailService, passwordEncoder()), userDetailService, tokenService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(UserDetailService userDetailsService,
-//                                                       PasswordEncoder passwordEncoder) {
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(userDetailsService);
-//        authenticationProvider.setPasswordEncoder(passwordEncoder);
-//        return new ProviderManager(authenticationProvider);
-//    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public AuthenticationManager authenticationManager(UserDetailService userDetailsService,
+                                                       PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        return new ProviderManager(authenticationProvider);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
