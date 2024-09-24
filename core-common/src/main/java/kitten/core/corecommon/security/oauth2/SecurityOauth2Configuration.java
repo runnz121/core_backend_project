@@ -65,23 +65,11 @@ public class SecurityOauth2Configuration {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(configurationSource))
+                .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handleConfigurer ->
                         handleConfigurer
                                 .authenticationEntryPoint(oauth2EntryPointHandler)
                                 .accessDeniedHandler(oauth2AccessDeniedHandler)
-                )
-                .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http
-                .authorizeHttpRequests(
-                        authorize -> authorize
-                                .requestMatchers("/**", "/actuator/**").permitAll()
-                                .anyRequest().permitAll()
-//                                .anyRequest().authenticated()
-                                // 임시로 모두 허용
-//                                .requestMatchers("/**").permitAll()
-//                                .requestMatchers("/auth/**").authenticated()
-//                                .requestMatchers("/actuator/**").permitAll()
-//                                .anyRequest().authenticated()
                 );
         http
                 .oauth2Login(
@@ -95,6 +83,18 @@ public class SecurityOauth2Configuration {
                                 .userInfoEndpoint(
                                         userInfo -> userInfo.userService(new Oauth2CustomUserService(publisher)))
                                 .successHandler(oauth2SuccessHandler)
+                );
+        http
+                .authorizeHttpRequests(
+                        authorize -> authorize
+                                .requestMatchers("/**", "/actuator/**").permitAll()
+                                .anyRequest().permitAll()
+//                                .anyRequest().authenticated()
+                        // 임시로 모두 허용
+//                                .requestMatchers("/**").permitAll()
+//                                .requestMatchers("/auth/**").authenticated()
+//                                .requestMatchers("/actuator/**").permitAll()
+//                                .anyRequest().authenticated()
                 );
         http
                 .addFilterBefore(new AuthorizationFilter(authenticationManager(userDetailService, passwordEncoder()), userDetailService, tokenService), UsernamePasswordAuthenticationFilter.class);
