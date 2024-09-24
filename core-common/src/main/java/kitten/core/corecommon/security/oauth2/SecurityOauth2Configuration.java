@@ -13,6 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -53,6 +54,7 @@ public class SecurityOauth2Configuration {
     private final TokenService tokenService;
 
     @Bean
+    @Order(1)
     @ConditionalOnBean(CorsConfigurationSource.class)
     public SecurityFilterChain oauth2FilterChain(HttpSecurity http,
                                                  CorsConfigurationSource configurationSource) throws Exception {
@@ -72,7 +74,7 @@ public class SecurityOauth2Configuration {
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/board/**", "/actuator/**").permitAll()
+                                .requestMatchers("/**", "/actuator/**").permitAll()
                                 .anyRequest().permitAll()
 //                                .anyRequest().authenticated()
                                 // 임시로 모두 허용
@@ -95,7 +97,7 @@ public class SecurityOauth2Configuration {
                                 .successHandler(oauth2SuccessHandler)
                 );
         http
-                .addFilterAfter(new AuthorizationFilter(authenticationManager(userDetailService, passwordEncoder()), userDetailService, tokenService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new AuthorizationFilter(authenticationManager(userDetailService, passwordEncoder()), userDetailService, tokenService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
