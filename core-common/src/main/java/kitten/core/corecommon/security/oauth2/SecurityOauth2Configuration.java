@@ -73,7 +73,7 @@ public class SecurityOauth2Configuration {
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers("/actuator/**", "/oauth2/**", "/**").permitAll()
-                                .anyRequest().authenticated()
+//                                .anyRequest().authenticated()
                                 // 임시로 모두 허용
 //                                .requestMatchers("/**").permitAll()
 //                                .requestMatchers("/auth/**").authenticated()
