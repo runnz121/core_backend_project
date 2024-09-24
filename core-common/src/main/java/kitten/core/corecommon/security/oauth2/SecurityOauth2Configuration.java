@@ -72,7 +72,7 @@ public class SecurityOauth2Configuration {
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/**", "/actuator/**").permitAll()
+                                .requestMatchers("/board/**", "/actuator/**").permitAll()
                                 .anyRequest().permitAll()
 //                                .anyRequest().authenticated()
                                 // 임시로 모두 허용
@@ -95,7 +95,7 @@ public class SecurityOauth2Configuration {
                                 .successHandler(oauth2SuccessHandler)
                 );
         http
-                .addFilterBefore(new AuthorizationFilter(authenticationManager(userDetailService, passwordEncoder()), userDetailService, tokenService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(new AuthorizationFilter(authenticationManager(userDetailService, passwordEncoder()), userDetailService, tokenService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
