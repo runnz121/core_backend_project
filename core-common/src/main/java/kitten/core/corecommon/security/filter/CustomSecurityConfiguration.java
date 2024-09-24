@@ -19,7 +19,9 @@ public class CustomSecurityConfiguration {
     public SecurityFilterChain permitAllFilterChain(HttpSecurity http,
                                                     CorsConfigurationSource configurationSource) throws Exception {
         http
-                .securityMatcher(request -> !request.getRequestURI().contains("auth"))
+                .securityMatcher(request ->
+                        !request.getRequestURI().contains("oauth2") || !request.getRequestURI().contains("auth")
+                )
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(configurationSource))

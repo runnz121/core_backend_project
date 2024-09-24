@@ -26,7 +26,7 @@ public class ItemTemplateController {
     private final PartsCommandUseCase partsCommandUseCase;
     private final PartsQueryUseCase partsQueryUseCase;
 
-    @Description("모루 파츠")
+    @Description("모루 파츠 ")
     @Secured(value = "ROLE_USER")
     @PostMapping("/auth/moru/parts")
     public void registerMoruParts(@RequestBody MoruPartsRequest request,

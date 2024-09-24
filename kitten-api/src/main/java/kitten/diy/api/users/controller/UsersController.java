@@ -18,7 +18,7 @@ public class UsersController {
     private final UsersService usersService;
 
     @Secured(value = "ROLE_USER")
-    @GetMapping("/me")
+    @GetMapping("/auth/me")
     public UserInfoData getUserMe(@AccessAccount CurrentAccount account) {
         return usersService.getUserInfo(account.getUserEmail());
     }
