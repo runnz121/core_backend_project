@@ -12,6 +12,7 @@ import kitten.diy.api.application.port.in.query.PartsQueryUseCase;
 import kitten.diy.api.application.port.in.query.data.ItemThemeData;
 import kitten.diy.api.application.port.in.query.data.PartsThemeData;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,15 +27,15 @@ public class ItemTemplateController {
     private final PartsQueryUseCase partsQueryUseCase;
 
     @Description("모루 파츠")
-//    @Secured(value = "ROLE_USER")
-    @PostMapping("/moru/parts")
+    @Secured(value = "ROLE_USER")
+    @PostMapping("/auth/moru/parts")
     public void registerMoruParts(@RequestBody MoruPartsRequest request,
                                   @AccessAccount CurrentAccount account) {
         partsCommandUseCase.registerMoruParts(request.toCommand(account.getUserEmail()));
     }
-    
-//    @Secured(value = "ROLE_USER")
-    @GetMapping("/moru/parts")
+
+    @Secured(value = "ROLE_USER")
+    @GetMapping("/auth/moru/parts")
     public List<PartsThemeData> getParts(@AccessAccount CurrentAccount account,
                                          @RequestParam("item") String item,
                                          @RequestParam("theme") String theme) {

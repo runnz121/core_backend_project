@@ -43,6 +43,6 @@ public class Oauth2AuthorizationRequestRepository implements AuthorizationReques
     public void removeAuthorizationRequestCookies(HttpServletRequest request,
                                                   HttpServletResponse response) {
         CookieUtils.deleteCookie(request, response, AuthUtil.OAUTH_REQUEST_COOKIE);
-        CookieUtils.deleteCookie(request,response, AuthUtil.REDIRECT_URI);
+        CookieUtils.deleteCookie(request, response, AuthUtil.REDIRECT_URI);
     }
 }

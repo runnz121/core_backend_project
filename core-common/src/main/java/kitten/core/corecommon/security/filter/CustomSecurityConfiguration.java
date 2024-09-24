@@ -10,19 +10,20 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-//@Configuration
+@Configuration
 public class CustomSecurityConfiguration {
 
-//    @Description("이 설정은 스프링 시큐리티 필터 체인을 타지 않는다")
-//    @Bean
-//    @Order(1)
-//    public SecurityFilterChain permitAllFilterChain(HttpSecurity http,
-//                                                    CorsConfigurationSource configurationSource) throws Exception {
-//        http.securityMatcher("/health/**")
-//                .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .cors(corsConfigurer -> corsConfigurer.configurationSource(configurationSource))
-//                .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//        return http.build();
-//    }
+    @Description("이 설정은 스프링 시큐리티 필터 체인을 타지 않는다")
+    @Bean
+    @Order(1)
+    public SecurityFilterChain permitAllFilterChain(HttpSecurity http,
+                                                    CorsConfigurationSource configurationSource) throws Exception {
+        http
+                .securityMatcher(request -> !request.getRequestURI().contains("auth"))
+                .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(configurationSource))
+                .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        return http.build();
+    }
 }

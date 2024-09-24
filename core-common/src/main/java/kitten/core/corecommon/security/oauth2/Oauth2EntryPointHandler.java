@@ -19,7 +19,7 @@ public class Oauth2EntryPointHandler implements AuthenticationEntryPoint {
 
         log.error("<AUTHENTICATION:인증이 없음, request : {}, response : {}", request, response);
 
-        response
-                .sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getLocalizedMessage());
+//        response
+//                .sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getLocalizedMessage());
     }
 }

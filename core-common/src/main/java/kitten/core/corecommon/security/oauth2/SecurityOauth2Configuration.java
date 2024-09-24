@@ -72,7 +72,7 @@ public class SecurityOauth2Configuration {
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/actuator/**").permitAll()
                                 .anyRequest().authenticated()
                                 // 임시로 모두 허용
 //                                .requestMatchers("/**").permitAll()
@@ -84,7 +84,7 @@ public class SecurityOauth2Configuration {
                 .oauth2Login(
                         oauth2 -> oauth2
                                 .authorizationEndpoint(
-                                        endpoint -> endpoint.baseUri("/oauth2/authorize")
+                                        endpoint -> endpoint.baseUri("/oauth2/authorize/**")
                                 )
                                 .redirectionEndpoint(
                                         redirect -> redirect.baseUri("/oauth2/callback/**")
