@@ -83,7 +83,6 @@ public class SecurityOauth2Configuration {
         http
                 .oauth2Login(
                         oauth2 -> oauth2
-                                .loginProcessingUrl("/oauth2/**")
                                 .authorizationEndpoint(
                                         endpoint -> endpoint.baseUri("/oauth2/authorize/**")
                                 )
