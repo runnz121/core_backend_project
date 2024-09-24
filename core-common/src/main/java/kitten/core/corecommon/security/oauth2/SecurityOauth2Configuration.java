@@ -54,7 +54,6 @@ public class SecurityOauth2Configuration {
     private final TokenService tokenService;
 
     @Bean
-    @Order(1)
     @ConditionalOnBean(CorsConfigurationSource.class)
     public SecurityFilterChain oauth2FilterChain(HttpSecurity http,
                                                  CorsConfigurationSource configurationSource) throws Exception {
@@ -72,6 +71,18 @@ public class SecurityOauth2Configuration {
                                 .accessDeniedHandler(oauth2AccessDeniedHandler)
                 );
         http
+                .authorizeHttpRequests(
+                        authorize -> authorize
+                                .requestMatchers("/**", "/actuator/**").permitAll()
+                                .anyRequest().permitAll()
+//                                .anyRequest().authenticated()
+                        // 임시로 모두 허용
+//                                .requestMatchers("/**").permitAll()
+//                                .requestMatchers("/auth/**").authenticated()
+//                                .requestMatchers("/actuator/**").permitAll()
+//                                .anyRequest().authenticated()
+                );
+        http
                 .oauth2Login(
                         oauth2 -> oauth2
                                 .authorizationEndpoint(
@@ -83,18 +94,6 @@ public class SecurityOauth2Configuration {
                                 .userInfoEndpoint(
                                         userInfo -> userInfo.userService(new Oauth2CustomUserService(publisher)))
                                 .successHandler(oauth2SuccessHandler)
-                );
-        http
-                .authorizeHttpRequests(
-                        authorize -> authorize
-                                .requestMatchers("/**", "/actuator/**").permitAll()
-                                .anyRequest().permitAll()
-//                                .anyRequest().authenticated()
-                        // 임시로 모두 허용
-//                                .requestMatchers("/**").permitAll()
-//                                .requestMatchers("/auth/**").authenticated()
-//                                .requestMatchers("/actuator/**").permitAll()
-//                                .anyRequest().authenticated()
                 );
         http
                 .addFilterBefore(new AuthorizationFilter(authenticationManager(userDetailService, passwordEncoder()), userDetailService, tokenService), UsernamePasswordAuthenticationFilter.class);
