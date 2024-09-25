@@ -27,18 +27,20 @@ public class ItemTemplateController {
     private final PartsQueryUseCase partsQueryUseCase;
 
     @Description("모루 파츠 ")
-    @Secured(value = "ROLE_USER")
+//    @Secured(value = "ROLE_USER")
     @PostMapping("/auth/moru/parts")
     public void registerMoruParts(@RequestBody MoruPartsRequest request,
                                   @AccessAccount CurrentAccount account) {
+        account = CurrentAccount.defaultValue();
         partsCommandUseCase.registerMoruParts(request.toCommand(account.getUserEmail()));
     }
 
-    @Secured(value = "ROLE_USER")
+//    @Secured(value = "ROLE_USER")
     @GetMapping("/auth/moru/parts")
     public List<PartsThemeData> getParts(@AccessAccount CurrentAccount account,
                                          @RequestParam("item") String item,
                                          @RequestParam("theme") String theme) {
+        account = CurrentAccount.defaultValue();
         return partsQueryUseCase.getPartsByTheme(PartsSearchCommand.of(item, theme));
     }
 

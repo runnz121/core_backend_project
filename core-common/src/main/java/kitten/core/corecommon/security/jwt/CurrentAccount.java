@@ -17,4 +17,8 @@ public class CurrentAccount {
     private String userEmail;
 
     private AuthRoles authRoles;
+
+    public static CurrentAccount defaultValue() {
+        return new CurrentAccount("runnz121@gmail.com", AuthRoles.USER);
+    }
 }
