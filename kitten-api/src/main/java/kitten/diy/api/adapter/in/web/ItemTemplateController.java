@@ -28,7 +28,7 @@ public class ItemTemplateController {
 
     @Description("모루 파츠 ")
 //    @Secured(value = "ROLE_USER")
-    @PostMapping("/auth/moru/parts")
+    @PostMapping("/moru/parts")
     public void registerMoruParts(@RequestBody MoruPartsRequest request,
                                   @AccessAccount CurrentAccount account) {
         account = CurrentAccount.defaultValue();
@@ -36,7 +36,7 @@ public class ItemTemplateController {
     }
 
 //    @Secured(value = "ROLE_USER")
-    @GetMapping("/auth/moru/parts")
+    @GetMapping("/moru/parts")
     public List<PartsThemeData> getParts(@AccessAccount CurrentAccount account,
                                          @RequestParam("item") String item,
                                          @RequestParam("theme") String theme) {

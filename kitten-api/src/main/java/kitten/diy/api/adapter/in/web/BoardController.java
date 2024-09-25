@@ -61,7 +61,7 @@ public class BoardController {
 
     @Description("게시글 좋아요")
 //    @Secured(value = "ROLE_USER")
-    @PostMapping("/auth/{boardKey}/like")
+    @PostMapping("/{boardKey}/like")
     public Boolean likeBoard(@AccessAccount CurrentAccount currentAccount,
                              @PathVariable("boardKey") Long boardKey) {
         currentAccount = CurrentAccount.defaultValue();
