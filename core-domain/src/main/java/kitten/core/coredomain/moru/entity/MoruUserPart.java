@@ -16,7 +16,7 @@ public class MoruUserPart extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MORU_USER_ART_KEY", nullable = false)
+    @Column(name = "MORU_USER_PART_KEY", nullable = false)
     private Long key;
 
     @Description("사용된 파츠 정보")
