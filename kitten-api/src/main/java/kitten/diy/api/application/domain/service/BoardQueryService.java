@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,9 @@ public class BoardQueryService implements BoardQueryUseCase {
 
     @Override
     public List<String> getLikeTags(TagLikeSearchCommand command) {
-        return boardFetchPort.getLikeTags(command);
+        return boardFetchPort.getLikeTags(command).stream()
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     @Override
