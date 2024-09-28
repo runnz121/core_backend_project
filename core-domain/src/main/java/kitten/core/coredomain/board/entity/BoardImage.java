@@ -1,7 +1,6 @@
 package kitten.core.coredomain.board.entity;
 
 import jakarta.persistence.*;
-import kitten.core.coredomain.image.Image;
 import lombok.*;
 
 @Getter
@@ -22,9 +21,8 @@ public class BoardImage {
     @JoinColumn(name = "BOARD_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Board board;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "IMAGE_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Image image;
+    @Column(name = "IMAGE_URL", nullable = false)
+    private String imageUrl;
 
     @Column(name = "REPRESENTATIVE")
     private Boolean representative;
@@ -32,7 +30,7 @@ public class BoardImage {
     @Column(name = "SORT")
     private Integer sort;
 
-    public String getImageUrl() {
-        return image.getImageUrl();
-    }
+    @Column(name = "DELETED", nullable = false)
+    @Builder.Default
+    private Boolean deleted = false;
 }

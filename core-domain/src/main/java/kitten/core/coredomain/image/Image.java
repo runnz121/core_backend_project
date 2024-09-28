@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import kitten.core.coredomain.model.Audit;
 import lombok.*;
 
+/**
+ * 현재 사용하지 않는 엔티티
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

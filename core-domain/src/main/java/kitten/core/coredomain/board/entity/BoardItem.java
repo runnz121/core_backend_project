@@ -2,8 +2,8 @@ package kitten.core.coredomain.board.entity;
 
 import jakarta.persistence.*;
 import kitten.core.coredomain.config.annotation.Description;
-import kitten.core.coredomain.item.entity.Item;
 import kitten.core.coredomain.model.Audit;
+import kitten.core.coredomain.moru.entity.MoruUserArtInfo;
 import lombok.*;
 
 @Getter
@@ -20,8 +20,12 @@ public class BoardItem extends Audit {
     @Column(name = "BOARD_ITEM_KEY", nullable = false)
     private Long key;
 
-    @Description("생성 작품 연관 키")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ITEM_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Item item;
+    @JoinColumn(name = "BOARD_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Board board;
+
+    @Description("유저 생성 작품 연관 키")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "MORU_USER_ART_INFO_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private MoruUserArtInfo userArtInfo;
 }

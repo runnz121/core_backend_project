@@ -1,7 +1,6 @@
 package kitten.core.coredomain.moru.entity;
 
 import jakarta.persistence.*;
-import kitten.core.coredomain.arts.entity.UserArts;
 import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.moru.consts.MoruSide;
@@ -12,8 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "MORU_USER_ART")
-public class MoruUserArt extends Audit {
+@Table(name = "MORU_USER_PART")
+public class MoruUserPart extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +23,11 @@ public class MoruUserArt extends Audit {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "MORU_PARTS_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private MoruParts moruParts;
+
+    @Description("유저가 생성한 모루 파츠 정보")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "MORU_USER_ART_INFO_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private MoruUserArtInfo moruUserArtInfo;
 
     @Description("모루 파츠 x좌표")
     @Column(name = "COR_X")
