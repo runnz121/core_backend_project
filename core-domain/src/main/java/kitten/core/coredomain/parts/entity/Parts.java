@@ -1,6 +1,7 @@
 package kitten.core.coredomain.parts.entity;
 
 import jakarta.persistence.*;
+import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,6 +21,7 @@ import java.util.Objects;
 public abstract class Parts extends Audit{
 
     @Id
+    @Description("모루 파츠는 키가 부모 / 자식도 각각 생성되는 구조")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PARTS_KEY", nullable = false)
     private Long key;

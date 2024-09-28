@@ -3,6 +3,7 @@ package kitten.core.coredomain.moru.entity;
 import jakarta.persistence.*;
 import kitten.core.coredomain.arts.entity.UserArts;
 import kitten.core.coredomain.config.annotation.Description;
+import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.moru.consts.MoruSide;
 import lombok.*;
 
@@ -12,19 +13,17 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "MORU_USER_ART")
-public class MoruUserArt extends UserArts {
+public class MoruUserArt extends Audit {
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "MORU_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Moru moru;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MORU_USER_ART_KEY", nullable = false)
+    private Long key;
 
+    @Description("사용된 파츠 정보")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "MORU_PARTS_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private MoruParts moruParts;
-
-    @Description("모루 인형 색상 코드")
-    @Column(name = "MORU_COLOR_HEX_CODE")
-    private String moruColorHexCode;
 
     @Description("모루 파츠 x좌표")
     @Column(name = "COR_X")
