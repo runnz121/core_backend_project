@@ -39,7 +39,7 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
         JPAQuery<BoardQueryData> datas = jpaQueryFactory.select(
                 new QBoardQueryData(
                         board.key,
-                        boardImage.image.imageUrl,
+                        boardImage.imageUrl,
                         board.type,
                         board.createTime,
                         getLikeCount(boardLike),
