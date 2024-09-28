@@ -1,6 +1,7 @@
 package kitten.diy.api.adapter.in.web.request;
 
 import kitten.core.corecommon.annotation.Description;
+import kitten.core.coredomain.board.consts.BoardPostStatus;
 import kitten.core.coredomain.moru.consts.MoruSide;
 import kitten.diy.api.application.port.in.command.command.AvatarCommand;
 import lombok.Builder;
@@ -86,6 +87,7 @@ public record AvatarRequest(
                 .partInfos(partInfos.stream()
                         .map(PartInfo::toInfoCommand)
                         .toList())
+                .postStatus(isPost ? BoardPostStatus.POST : BoardPostStatus.TEMP_SAVE)
                 .build();
     }
 

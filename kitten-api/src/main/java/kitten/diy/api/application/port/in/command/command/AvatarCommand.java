@@ -1,6 +1,7 @@
 package kitten.diy.api.application.port.in.command.command;
 
 import kitten.core.corecommon.annotation.Description;
+import kitten.core.coredomain.board.consts.BoardPostStatus;
 import kitten.core.coredomain.moru.consts.MoruSide;
 import lombok.Builder;
 
@@ -34,7 +35,10 @@ public record AvatarCommand(
         List<PartInfo> partInfos,
 
         @Description("유저 정보")
-        String userName
+        String userName,
+
+        @Description("게시글 게시 상태")
+        BoardPostStatus postStatus
 ) {
 
     @Builder
