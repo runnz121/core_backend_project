@@ -22,7 +22,7 @@ public class ItemFetchAdapter implements ItemFetchPort {
         return themeRepository.findByType(command.themeType())
                 .map(theme -> {
                     return moruRepository.findByTheme(theme)
-                            .map(ItemThemeData::creteMoruItemData)
+                            .map(ItemThemeData::createMoruItemData)
                             .orElseGet(() -> ItemThemeData.EMPTY);
                 })
                 .orElseGet(() -> ItemThemeData.EMPTY);

@@ -6,6 +6,8 @@ import lombok.Builder;
 @Builder
 public record ItemThemeData(
 
+        Long itemKey,
+
         String name,
 
         Integer width,
@@ -19,8 +21,9 @@ public record ItemThemeData(
 
     public static final ItemThemeData EMPTY = ItemThemeData.builder().build();
 
-    public static ItemThemeData creteMoruItemData(Moru moru) {
+    public static ItemThemeData createMoruItemData(Moru moru) {
         return ItemThemeData.builder()
+                .itemKey(moru.getKey())
                 .name(moru.getName())
                 .width(moru.getWidth())
                 .height(moru.getHeight())
