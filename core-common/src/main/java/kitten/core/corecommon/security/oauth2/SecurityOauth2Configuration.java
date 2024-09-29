@@ -63,7 +63,7 @@ public class SecurityOauth2Configuration {
         http
                 // h2-console 접속을 위해 추가
 //                .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                .headers(headersConfigurer -> headersConfigurer.httpStrictTransportSecurity(security -> security.disable()))
+//                .headers(headersConfigurer -> headersConfigurer.httpStrictTransportSecurity(security -> security.disable()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
