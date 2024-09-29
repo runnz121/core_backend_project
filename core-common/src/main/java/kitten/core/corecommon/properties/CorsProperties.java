@@ -20,11 +20,13 @@ public class CorsProperties {
             "https://www.diykitten.com:[*]",
             "http://13.124.132.215:[*]",
             "http://core-api.diykitten-backend.site:[*]",
-            "https://core-api.diykitten-backend.site:[*]"
+            "https://core-api.diykitten-backend.site:[*]",
+            "http://192.168.219.102:[*]"
     );
     private boolean allowCredential = true;
     private long maxAge = 3600L;
     private List<String> allowedHeaders = List.of("*");
     private List<String> allowedMethods = List.of("*");
-    private List<String> exposedHeaders = List.of("*");
+//    private List<String> exposedHeaders = List.of("*");
+    private List<String> exposedHeaders = List.of("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH");
 }
