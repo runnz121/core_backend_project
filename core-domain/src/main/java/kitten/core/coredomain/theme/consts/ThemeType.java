@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ThemeType {
 
-    HALLOWEEN("할로윈")
+    HALLOWEEN("할로윈"),
+    ALL("전체")
     ;
 
     private final String desc;

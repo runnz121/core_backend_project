@@ -4,9 +4,11 @@ import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.moru.entity.MoruParts;
 import kitten.core.coredomain.theme.consts.ThemePosition;
 import kitten.core.coredomain.theme.consts.ThemeType;
+import kitten.core.coredomain.theme.entity.Theme;
 import lombok.Builder;
 
 import java.util.List;
+import java.util.Objects;
 
 @Builder
 public record PartsThemeData(
@@ -22,14 +24,18 @@ public record PartsThemeData(
 
 ) {
 
-    public static PartsThemeData createPartsThemeData(ThemeType themeType,
+    public static PartsThemeData createPartsThemeData(Theme theme,
                                                       ThemePosition position,
                                                       List<PartsData> partsData) {
         return PartsThemeData.builder()
-                .themeType(themeType)
+                .themeType(getThemeType(theme))
                 .themePosition(position)
                 .parentData(partsData)
                 .build();
+    }
+
+    private static ThemeType getThemeType(Theme theme) {
+        return Objects.isNull(theme) ? ThemeType.ALL : theme.getType();
     }
 
     @Builder

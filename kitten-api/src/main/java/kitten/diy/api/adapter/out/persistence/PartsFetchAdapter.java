@@ -34,18 +34,24 @@ public class PartsFetchAdapter implements PartsFetchPort {
     @Override
     @Transactional(readOnly = true)
     public List<PartsThemeData> getPartsByTheme(PartsSearchCommand command) {
-        Optional<Theme> theme = themeRepository.findByType(command.themeType());
-        if (theme.isPresent() == false) return new ArrayList<>();
-        return getPartsThemeDatas(theme.get());
+        Theme theme = themeRepository.findByType(command.themeType()).orElse(null);
+//        if (theme.isPresent() == false) return new ArrayList<>();
+        return getPartsThemeDatas(theme);
     }
 
     private List<PartsThemeData> getPartsThemeDatas(Theme theme) {
-        List<ThemeParts> themeParts = themePartsRepository.findAllByTheme(theme);
+        List<ThemeParts> themeParts = new ArrayList<>();
+        // null 이면 전체 파츠
+        if (Objects.isNull(theme)) {
+            themeParts = (List<ThemeParts>) themePartsRepository.findAll();
+        } else {
+            themeParts = themePartsRepository.findAllByTheme(theme);
+        }
         Map<ThemePosition, List<ThemeParts>> positionMap = themeParts.stream().collect(groupingBy(ThemeParts::getPosition));
         return positionMap.entrySet().stream()
                 .map(data -> {
                     List<PartsThemeData.PartsData> parentDatas = getParentDatas(data);
-                    return PartsThemeData.createPartsThemeData(theme.getType(), data.getKey(), parentDatas);
+                    return PartsThemeData.createPartsThemeData(theme, data.getKey(), parentDatas);
                 })
                 .toList();
     }
