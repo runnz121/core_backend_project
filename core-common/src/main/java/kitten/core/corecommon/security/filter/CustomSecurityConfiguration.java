@@ -1,9 +1,11 @@
 package kitten.core.corecommon.security.filter;
 
+import kitten.core.corecommon.security.oauth2.CorsAutoConfiguration;
 import kitten.core.corecommon.security.oauth2.Oauth2AuthorizationRequestRepository;
 import kitten.core.corecommon.security.oauth2.Oauth2CustomUserService;
 import kitten.core.corecommon.security.oauth2.Oauth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-@Configuration
+@AutoConfiguration(after = {CorsAutoConfiguration.class})
 @RequiredArgsConstructor
 public class CustomSecurityConfiguration {
 
