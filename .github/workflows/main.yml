@@ -10,6 +10,7 @@ env:
   AWS_REGION: ap-northeast-2
   CODEDEPLOY_NAME: mium_cicd
   CODEDEPLOY_GROUP: kitten_backend_api
+  S3_PATH: kitten-backend-api
 
 jobs:
   build:
@@ -53,7 +54,7 @@ jobs:
         run: |
           aws s3 cp \
           --region ${{ env.AWS_REGION }} \
-          ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/kitten-backend-api
+          ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$S3_PATH
 
       - name: Code Deploy
         run: |
@@ -62,4 +63,4 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --file-exists-behavior OVERWRITE \
           --deployment-group-name $CODEDEPLOY_GROUP \
-          --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=$GITHUB_SHA.zip
+          --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=$S3_PATH/$GITHUB_SHA.zip
