@@ -1,5 +1,6 @@
 package kitten.core.corecommon.security.filter;
 
+import kitten.core.corecommon.properties.CorsProperties;
 import kitten.core.corecommon.security.oauth2.CorsAutoConfiguration;
 import kitten.core.corecommon.security.oauth2.Oauth2AuthorizationRequestRepository;
 import kitten.core.corecommon.security.oauth2.Oauth2CustomUserService;
@@ -10,12 +11,15 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @AutoConfiguration(after = {CorsAutoConfiguration.class})
 @RequiredArgsConstructor
@@ -25,18 +29,34 @@ public class CustomSecurityConfiguration {
     private final Oauth2SuccessHandler oauth2SuccessHandler;
     private final Oauth2AuthorizationRequestRepository oauth2AuthorizationRequestRepository;
 
+    @Bean(name = "customCorsConfig")
+    public CorsConfigurationSource customCorsConfig(CorsProperties properties) {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(properties.isAllowCredential());
+        config.setAllowedOriginPatterns(properties.getAllowOriginPatterns());
+        config.setAllowedHeaders(properties.getAllowedHeaders());
+        config.setAllowedMethods(properties.getAllowedMethods());
+        config.setExposedHeaders(properties.getExposedHeaders());
+        config.setMaxAge(properties.getMaxAge());
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
     @Description("이 설정은 스프링 시큐리티 필터 체인을 타지 않는다")
     @Bean
     @Order(1)
     public SecurityFilterChain permitAllFilterChain(HttpSecurity http,
-                                                    CorsConfigurationSource configurationSource) throws Exception {
+                                                    CorsConfigurationSource customCorsConfig) throws Exception {
         http
 //                .securityMatcher("/favicon.ico")
                 .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .cors(corsConfigurer -> corsConfigurer.configurationSource(configurationSource))
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(customCorsConfig))
                 .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http
