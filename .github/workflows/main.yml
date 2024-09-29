@@ -53,7 +53,7 @@ jobs:
         run: |
           aws s3 cp \
           --region ${{ env.AWS_REGION }} \
-          ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/
+          ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/kitten-backend-api
 
       - name: Code Deploy
         run: |
