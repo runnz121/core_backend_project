@@ -49,6 +49,14 @@ public record Oauth2UserDetail(
                 .build();
     }
 
+    public static Oauth2UserDetail ofAnonymous() {
+        return Oauth2UserDetail.builder()
+                .email("anonymous@kitten.com")
+                .role(AuthRoles.ANONYMOUS)
+                .authorities(createAuthorities(AuthRoles.ANONYMOUS.getRoleValue()))
+                .build();
+    }
+
     public static Collection<GrantedAuthority> createAuthorities(String roles){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(roles));

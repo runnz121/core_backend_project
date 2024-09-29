@@ -13,7 +13,7 @@ import lombok.*;
 @EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
 @Table(name = "USERS")
-public class Users {
+public class Users extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

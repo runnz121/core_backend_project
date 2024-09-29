@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kitten.core.corecommon.model.Oauth2UserDetail;
 import kitten.core.corecommon.security.service.TokenService;
 import kitten.core.corecommon.security.service.UserDetailService;
 import kitten.core.corecommon.utils.AuthUtil;
@@ -42,6 +43,9 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         if (StringUtils.hasText(authToken)) {
             Authentication authentication = getAuthentication(authToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+            Authentication authentication = getAnonymousAuthentication();
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }
@@ -63,5 +67,10 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         String userEmail = tokenService.getUserEmail(token);
         UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    public Authentication getAnonymousAuthentication() {
+        UserDetails anonymous = Oauth2UserDetail.ofAnonymous();
+        return new UsernamePasswordAuthenticationToken(anonymous, "", anonymous.getAuthorities());
     }
 }
