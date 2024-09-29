@@ -1,2 +1,2 @@
-kitten.core.coredomain.config.db.DataSourceAutoConfiguration
-kitten.core.coredomain.config.orm.JpaAuditingAutoConfiguration
+#kitten.core.coredomain.config.db.DataSourceAutoConfiguration
+#kitten.core.coredomain.config.orm.JpaAuditingAutoConfiguration

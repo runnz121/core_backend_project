@@ -3,23 +3,24 @@ package kitten.core.coredomain.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import kitten.core.coredomain.config.orm.CustomAuditEntityListener;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@SuperBuilder
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(CustomAuditEntityListener.class)
 public abstract class Audit implements Serializable  {
 
     /** 생성자 */
@@ -41,4 +42,12 @@ public abstract class Audit implements Serializable  {
     @LastModifiedDate
     @Column(name = "UPDATE_TIME", nullable = false)
     protected LocalDateTime updateTime;
+
+    public void changeCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public void changeUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
 }

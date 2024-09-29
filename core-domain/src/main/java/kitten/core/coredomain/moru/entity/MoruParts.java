@@ -6,6 +6,7 @@ import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.moru.consts.MoruStatus;
 import kitten.core.coredomain.parts.entity.Parts;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -15,7 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
+@Builder
 @Entity
 @DiscriminatorValue("MORU_PARTS")
 @Table(name = "MORU_PARTS")

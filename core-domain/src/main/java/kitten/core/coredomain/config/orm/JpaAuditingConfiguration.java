@@ -25,4 +25,10 @@ public class JpaAuditingConfiguration {
     public AuditorAware<String> auditorAware() {
         return new JwtAuditorAware();
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CustomAuditEntityListener customAuditEntityListener(@Nullable ObjectFactory<AuditingHandler> handler) {
+        return new CustomAuditEntityListener(handler, auditorAware());
+    }
 }

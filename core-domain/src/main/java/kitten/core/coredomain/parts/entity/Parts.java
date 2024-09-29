@@ -13,12 +13,11 @@ import java.util.Objects;
 
 @Entity
 @Getter
-@SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorColumn(name = "PARTS")
 @Table(name = "PARTS")
-public abstract class Parts extends Audit{
+public abstract class Parts extends Audit {
 
     @Id
     @Description("모루 파츠는 키가 부모 / 자식도 각각 생성되는 구조")
