@@ -19,18 +19,18 @@ public class AuthConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new AuthArgumentResolver(currentAccount));
+//        resolvers.add(new AuthArgumentResolver(currentAccount));
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(
-                        AuthInterceptor.builder()
+//        registry.addInterceptor(
+//                        AuthInterceptor.builder()
 //                                .authExtractor(authExtractor)
 //                                .tokenExtractor(tokenExtractor)
-                                .currentAccount(currentAccount)
-                                .build())
-                .addPathPatterns("/**");
+//                                .currentAccount(currentAccount)
+//                                .build())
+//                .addPathPatterns("/**");
 //                .excludePathPatterns("/**","/szs/signup", "/szs/login", "/3o3/**");
     }
 }
