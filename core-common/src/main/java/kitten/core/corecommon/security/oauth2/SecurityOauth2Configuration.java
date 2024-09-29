@@ -40,7 +40,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
         Oauth2EntryPointHandler.class,
         Oauth2AccessDeniedHandler.class,
         UserDetailService.class,
-        TokenService.class
+        TokenService.class,
+        Oauth2AuthorizationRequestRepository.class
 })
 public class SecurityOauth2Configuration {
 
@@ -52,6 +53,8 @@ public class SecurityOauth2Configuration {
 
     private final UserDetailService userDetailService;
     private final TokenService tokenService;
+
+    private final Oauth2AuthorizationRequestRepository oauth2AuthorizationRequestRepository;
 
     @Bean
     @ConditionalOnBean(CorsConfigurationSource.class)
@@ -88,12 +91,14 @@ public class SecurityOauth2Configuration {
                         oauth2 -> oauth2
                                 .authorizationEndpoint(
                                         endpoint -> endpoint.baseUri("/oauth2/authorize/**")
+                                                .authorizationRequestRepository(oauth2AuthorizationRequestRepository)
                                 )
                                 .redirectionEndpoint(
                                         redirect -> redirect.baseUri("/oauth2/callback/**")
                                 )
                                 .userInfoEndpoint(
-                                        userInfo -> userInfo.userService(new Oauth2CustomUserService(publisher)))
+                                        userInfo -> userInfo.userService(new Oauth2CustomUserService(publisher))
+                                )
                                 .successHandler(oauth2SuccessHandler)
                 );
         http
