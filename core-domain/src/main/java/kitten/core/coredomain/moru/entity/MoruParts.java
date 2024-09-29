@@ -1,5 +1,6 @@
 package kitten.core.coredomain.moru.entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.hypersistence.utils.hibernate.type.json.JsonStringType;
 import jakarta.persistence.*;
 import kitten.core.coredomain.config.annotation.Description;
@@ -12,6 +13,10 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
@@ -58,6 +63,10 @@ public class MoruParts extends Parts {
 
     @Description("모루 파츠 구매 정보")
     @Column(name = "PURCHASE_INFO")
-    @Type(JsonStringType.class)
+//    @Type(JsonStringType.class)
     private String purchaseInfo;
+
+    public List<String> getPurchaseInfos() {
+        return List.of(purchaseInfo.split(","));
+    }
 }

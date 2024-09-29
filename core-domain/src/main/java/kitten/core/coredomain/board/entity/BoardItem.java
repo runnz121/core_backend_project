@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
+@Description("게시글과 연관된 유저 생성 아이템 맵핑")
 @Table(name = "BOARD_ITEM")
 public class BoardItem extends Audit {
 

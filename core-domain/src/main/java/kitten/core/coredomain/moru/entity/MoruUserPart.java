@@ -20,7 +20,7 @@ public class MoruUserPart extends Audit {
     private Long key;
 
     @Description("사용된 파츠 정보")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "MORU_PARTS_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private MoruParts moruParts;
 

@@ -3,7 +3,11 @@ package kitten.diy.api.adapter.out.persistence;
 import kitten.core.corecommon.config.exception.CommonRuntimeException;
 import kitten.core.coredomain.board.entity.*;
 import kitten.core.coredomain.board.repository.*;
+import kitten.core.coredomain.moru.entity.MoruParts;
+import kitten.core.coredomain.moru.entity.MoruUserPart;
+import kitten.core.coredomain.moru.repository.MoruUsePartRepository;
 import kitten.core.coredomain.user.entity.Users;
+import kitten.core.coredomain.user.repository.UsersRepository;
 import kitten.diy.api.adapter.out.error.BoardErrorCode;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.adapter.out.persistence.query.BoardQueryFetch;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -29,6 +34,10 @@ public class BoardFetchAdapter implements BoardFetchPort {
     private final BoardLikeRepository boardLikeRepository;
     private final BoardTagRepository boardTagRepository;
     private final BoardImageRepository boardImageRepository;
+    private final BoardItemRepository boardItemRepository;
+
+    private final MoruUsePartRepository moruUsePartRepository;
+    private final UsersRepository usersRepository;
 
     private final BoardQueryFetch boardQueryFetch;
 
@@ -78,11 +87,32 @@ public class BoardFetchAdapter implements BoardFetchPort {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<BoardPartsInfo> getBoardPartsInfos(Long boardKey) {
         Board board = boardRepository.findByKey(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+        BoardItem boardItem = boardItemRepository.findByBoard_Key(boardKey)
+                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_ITEM_NOT_FOUND));
+        List<MoruUserPart> useMoruParts = moruUsePartRepository.findAllByMoruUserArtInfo(boardItem.getUserArtInfo());
 
-        return null;
+        return Stream.ofNullable(useMoruParts)
+                .flatMap(List::stream)
+                .map(usePart -> {
+                    MoruParts moruParts = usePart.getMoruParts();
+
+                    BoardPartsInfo boardPartsInfo = BoardPartsInfo.builder()
+                            .partsUserNickName(getUsersNickName(moruParts.getCreateBy()))
+                            .partsName(moruParts.getName())
+                            .width(moruParts.getWidth())
+                            .height(moruParts.getHeight())
+                            .colorHexCode(moruParts.getColorHexCode())
+                            .partImgUrl(moruParts.getImageUrl())
+                            .purchaseInfos(moruParts.getPurchaseInfos())
+                            .tags(getTags(board))
+                            .build();
+                    return boardPartsInfo;
+                })
+                .toList();
     }
 
     private String getBoardImage(Board board) {
@@ -107,5 +137,11 @@ public class BoardFetchAdapter implements BoardFetchPort {
                 .findByBoard(board).stream()
                 .map(BoardTag::getTag)
                 .toList();
+    }
+
+    private String getUsersNickName(String userEmail) {
+        return usersRepository.findByEmail(userEmail)
+                .map(Users::getNickName)
+                .orElse("");
     }
 }

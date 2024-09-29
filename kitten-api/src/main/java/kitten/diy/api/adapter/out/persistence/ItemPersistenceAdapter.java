@@ -7,7 +7,7 @@ import kitten.core.coredomain.moru.entity.MoruUserPart;
 import kitten.core.coredomain.moru.entity.MoruUserArtInfo;
 import kitten.core.coredomain.moru.repository.MoruPartsRepository;
 import kitten.core.coredomain.moru.repository.MoruRepository;
-import kitten.core.coredomain.moru.repository.MoruUseArtRepository;
+import kitten.core.coredomain.moru.repository.MoruUsePartRepository;
 import kitten.core.coredomain.moru.repository.MoruUserArtInfoRepository;
 import kitten.core.coredomain.user.entity.Users;
 import kitten.core.coredomain.user.repository.UsersRepository;
@@ -27,7 +27,7 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
     private final UsersRepository usersRepository;
     private final MoruRepository moruRepository;
     private final MoruPartsRepository moruPartsRepository;
-    private final MoruUseArtRepository moruUseArtRepository;
+    private final MoruUsePartRepository moruUsePartRepository;
     private final MoruUserArtInfoRepository moruUserArtInfoRepository;
 
     @Override
@@ -60,7 +60,7 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
                             .side(partInfo.side())
                             .build();
 
-                    moruUseArtRepository.save(userArt);
+                    moruUsePartRepository.save(userArt);
                 }
         );
         return artInfo;
