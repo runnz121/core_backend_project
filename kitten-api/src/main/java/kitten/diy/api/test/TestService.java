@@ -29,8 +29,11 @@ public class TestService {
     public void test() {
         Users users = Users.builder()
                 .authRoles(AuthRoles.USER)
-                .email("runnz121@gmail.com")
+                .email("testetestsetstst@gmail.com")
                 .build();
+
+        users.changeCreateBy("kikiUsers");
+        users.changeUpdateBy("kikiUsers");
 
         Users save = usersRepository.save(users);
 

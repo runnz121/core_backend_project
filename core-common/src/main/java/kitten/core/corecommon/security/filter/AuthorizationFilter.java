@@ -43,6 +43,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         if (StringUtils.hasText(authToken)) {
             Authentication authentication = getAuthentication(authToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+        // 권한이 없는 경우 ROLE_ANONYMOUS 로 설정
         } else {
             Authentication authentication = getAnonymousAuthentication();
             SecurityContextHolder.getContext().setAuthentication(authentication);
