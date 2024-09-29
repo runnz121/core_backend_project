@@ -57,7 +57,6 @@ public class SecurityOauth2Configuration {
     private final Oauth2AuthorizationRequestRepository oauth2AuthorizationRequestRepository;
 
     @Bean
-    @Order(1)
     @ConditionalOnBean(CorsConfigurationSource.class)
     public SecurityFilterChain oauth2FilterChain(HttpSecurity http,
                                                  CorsConfigurationSource configurationSource) throws Exception {
@@ -90,7 +89,6 @@ public class SecurityOauth2Configuration {
         http
                 .oauth2Login(
                         oauth2 -> oauth2
-                                .loginPage("/login")
                                 .authorizationEndpoint(
                                         endpoint -> endpoint.baseUri("/oauth2/authorize/**")
                                                 .authorizationRequestRepository(oauth2AuthorizationRequestRepository)
