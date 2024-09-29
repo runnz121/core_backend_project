@@ -77,7 +77,7 @@ public class SecurityOauth2Configuration {
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/oauth2/**", "/actuator/**").permitAll()
+                                .requestMatchers("/favicon.ico", "/oauth2/**", "/actuator/**").permitAll()
                                 .anyRequest().permitAll()
 //                                .anyRequest().authenticated()
                         // 임시로 모두 허용
