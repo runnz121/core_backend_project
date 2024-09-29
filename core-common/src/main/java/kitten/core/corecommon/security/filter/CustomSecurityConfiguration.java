@@ -9,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -45,7 +42,6 @@ public class CustomSecurityConfiguration {
         return source;
     }
 
-    @Description("이 설정은 스프링 시큐리티 필터 체인을 타지 않는다")
     @Bean
     @Order(1)
     public SecurityFilterChain permitAllFilterChain(HttpSecurity http,

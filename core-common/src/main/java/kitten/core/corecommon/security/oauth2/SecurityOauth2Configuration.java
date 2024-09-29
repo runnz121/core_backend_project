@@ -13,7 +13,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -79,11 +78,6 @@ public class SecurityOauth2Configuration {
                         authorize -> authorize
                                 .requestMatchers("/favicon.ico", "/oauth2/**", "/actuator/**").permitAll()
                                 .anyRequest().permitAll()
-//                                .anyRequest().authenticated()
-                        // 임시로 모두 허용
-//                                .requestMatchers("/**").permitAll()
-//                                .requestMatchers("/auth/**").authenticated()
-//                                .requestMatchers("/actuator/**").permitAll()
 //                                .anyRequest().authenticated()
                 );
         http
