@@ -89,6 +89,7 @@ public class SecurityOauth2Configuration {
         http
                 .oauth2Login(
                         oauth2 -> oauth2
+                                .loginPage("/login")
                                 .authorizationEndpoint(
                                         endpoint -> endpoint.baseUri("/oauth2/authorize/**")
                                                 .authorizationRequestRepository(oauth2AuthorizationRequestRepository)
