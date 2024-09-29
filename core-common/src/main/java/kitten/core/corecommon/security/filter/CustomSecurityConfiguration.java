@@ -29,8 +29,8 @@ public class CustomSecurityConfiguration {
     public SecurityFilterChain permitAllFilterChain(HttpSecurity http,
                                                     CorsConfigurationSource configurationSource) throws Exception {
         http
-                .securityMatcher("/favicon.ico")
-                .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/oauth2/**").permitAll())
+//                .securityMatcher("/favicon.ico")
+                .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/**").permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
