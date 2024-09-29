@@ -57,6 +57,7 @@ public class SecurityOauth2Configuration {
     private final Oauth2AuthorizationRequestRepository oauth2AuthorizationRequestRepository;
 
     @Bean
+    @Order(1)
     @ConditionalOnBean(CorsConfigurationSource.class)
     public SecurityFilterChain oauth2FilterChain(HttpSecurity http,
                                                  CorsConfigurationSource configurationSource) throws Exception {
