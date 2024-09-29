@@ -5,15 +5,23 @@ import kitten.core.corecommon.security.oauth2.CorsAutoConfiguration;
 import kitten.core.corecommon.security.oauth2.Oauth2AuthorizationRequestRepository;
 import kitten.core.corecommon.security.oauth2.Oauth2CustomUserService;
 import kitten.core.corecommon.security.oauth2.Oauth2SuccessHandler;
+import kitten.core.corecommon.security.service.TokenService;
+import kitten.core.corecommon.security.service.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -21,6 +29,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @AutoConfiguration(after = {CorsAutoConfiguration.class})
 @RequiredArgsConstructor
 public class CustomSecurityConfiguration {
+
+    private final UserDetailService userDetailService;
+    private final TokenService tokenService;
 
     private final ApplicationEventPublisher publisher;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
@@ -70,6 +81,23 @@ public class CustomSecurityConfiguration {
                                 )
                                 .successHandler(oauth2SuccessHandler)
                 );
+        http
+                .addFilterBefore(new AuthorizationFilter(customAuthenticationManager(userDetailService, customPasswordEncoder()), userDetailService, tokenService), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
+    }
+
+    @Bean(name = "customAuthenticationManager")
+    public AuthenticationManager customAuthenticationManager(UserDetailService userDetailsService,
+                                                       PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        return new ProviderManager(authenticationProvider);
+    }
+
+    @Bean(name = "customPasswordEncoder")
+    public PasswordEncoder customPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
