@@ -1,5 +1,6 @@
 package kitten.diy.api.adapter.out.persistence;
 
+import kitten.core.corecommon.config.exception.CommonRuntimeException;
 import kitten.core.coredomain.moru.entity.MoruParts;
 import kitten.core.coredomain.moru.entity.MoruPartsTag;
 import kitten.core.coredomain.moru.repository.MoruPartsRepository;
@@ -9,6 +10,7 @@ import kitten.core.coredomain.theme.entity.Theme;
 import kitten.core.coredomain.theme.entity.ThemeParts;
 import kitten.core.coredomain.theme.repository.ThemePartsRepository;
 import kitten.core.coredomain.theme.repository.ThemeRepository;
+import kitten.diy.api.adapter.out.error.ThemeError;
 import kitten.diy.api.application.port.in.command.command.PartsSearchCommand;
 import kitten.diy.api.application.port.in.query.data.PartsThemeData;
 import kitten.diy.api.application.port.out.PartsFetchPort;
@@ -34,15 +36,16 @@ public class PartsFetchAdapter implements PartsFetchPort {
     @Override
     @Transactional(readOnly = true)
     public List<PartsThemeData> getPartsByTheme(PartsSearchCommand command) {
-        Theme theme = themeRepository.findByType(command.themeType()).orElse(null);
+        Theme theme = themeRepository.findByType(command.themeType())
+                .orElseThrow(() -> new CommonRuntimeException(ThemeError.THEME_NOT_FOUND));
 //        if (theme.isPresent() == false) return new ArrayList<>();
         return getPartsThemeDatas(theme);
     }
 
     private List<PartsThemeData> getPartsThemeDatas(Theme theme) {
         List<ThemeParts> themeParts = new ArrayList<>();
-        // null 이면 전체 파츠
-        if (Objects.isNull(theme)) {
+        // ALL 이면 전체 파츠
+        if (theme.isAllTheme()) {
             themeParts = (List<ThemeParts>) themePartsRepository.findAll();
         } else {
             themeParts = themePartsRepository.findAllByTheme(theme);

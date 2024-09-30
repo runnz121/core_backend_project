@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ThemePosition {
 
+    ALL("전체"),
     NECK("목"),
     TAIL("꼬리"),
     HEAD("머리")

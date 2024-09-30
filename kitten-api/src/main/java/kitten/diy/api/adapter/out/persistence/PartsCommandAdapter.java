@@ -6,7 +6,14 @@ import kitten.core.coredomain.moru.entity.MoruParts;
 import kitten.core.coredomain.moru.entity.MoruPartsTag;
 import kitten.core.coredomain.moru.repository.MoruPartsRepository;
 import kitten.core.coredomain.moru.repository.MoruPartsTagRepository;
+import kitten.core.coredomain.theme.consts.ThemePosition;
+import kitten.core.coredomain.theme.consts.ThemeType;
+import kitten.core.coredomain.theme.entity.Theme;
+import kitten.core.coredomain.theme.entity.ThemeParts;
+import kitten.core.coredomain.theme.repository.ThemePartsRepository;
+import kitten.core.coredomain.theme.repository.ThemeRepository;
 import kitten.diy.api.adapter.out.error.PartsErrorCode;
+import kitten.diy.api.adapter.out.error.ThemeError;
 import kitten.diy.api.application.port.in.command.command.PartsRegisterCommand;
 import kitten.diy.api.application.port.out.PartsPort;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +29,9 @@ public class PartsCommandAdapter implements PartsPort {
 
     private final MoruPartsRepository moruPartsRepository;
     private final MoruPartsTagRepository moruPartsTagRepository;
+
+    private final ThemeRepository themeRepository;
+    private final ThemePartsRepository themePartsRepository;
 
     @Override
     @Transactional
@@ -46,6 +56,21 @@ public class PartsCommandAdapter implements PartsPort {
 
         MoruParts parentSave = moruPartsRepository.save(parentMoruParts);
 
+        // theme parts 저장
+        ThemeType type = ThemeType.ALL;
+        if (command.isAdmin()) {
+            type = ThemeType.HALLOWEEN;
+        }
+        Theme themeByType = getThemeByType(type);
+
+        // TOOD 파츠 저장시 부위 선택 필요 확인
+        ThemeParts themeParts = ThemeParts.builder()
+                .parts(parentSave)
+                .theme(themeByType)
+                .position(ThemePosition.ALL)
+                .build();
+        themePartsRepository.save(themeParts);
+
         List<MoruParts> childDatas = command.childData().stream()
                 .filter(data -> data.isRepresentative() == false)
                 .map(data -> MoruParts.builder()
@@ -63,6 +88,7 @@ public class PartsCommandAdapter implements PartsPort {
                 .collect(Collectors.toList());
         moruPartsRepository.saveAll(childDatas);
 
+
         List<MoruPartsTag> partsTags = command.tags().stream()
                 .map(data -> MoruPartsTag.builder()
                         .moruParts(parentSave)
@@ -71,5 +97,11 @@ public class PartsCommandAdapter implements PartsPort {
                 .collect(Collectors.toList());
 
         moruPartsTagRepository.saveAll(partsTags);
+    }
+
+    @Transactional(readOnly = true)
+    public Theme getThemeByType(ThemeType type) {
+        return themeRepository.findByType(type)
+                .orElseThrow(() -> new CommonRuntimeException(ThemeError.THEME_NOT_FOUND));
     }
 }

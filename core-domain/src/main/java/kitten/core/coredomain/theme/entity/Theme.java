@@ -33,4 +33,8 @@ public class Theme extends Audit {
 
     @Column(name = "THEME_IMAGE_URL", nullable = false)
     private String themeImgUrl;
+
+    public boolean isAllTheme() {
+        return ThemeType.ALL == type;
+    }
 }

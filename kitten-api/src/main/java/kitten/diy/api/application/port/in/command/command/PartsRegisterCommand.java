@@ -45,7 +45,13 @@ public record PartsRegisterCommand(
     ) {
     }
 
+    private static final String ADMIN_EMAIL = "diykitten.com@gmail.com";
+
     public String getPurchaseInfos() {
         return String.join(",", purchaseInfos);
+    }
+
+    public boolean isAdmin() {
+        return registerUser.equals(ADMIN_EMAIL);
     }
 }
