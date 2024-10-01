@@ -6,11 +6,13 @@ import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.parts.entity.Parts;
 import kitten.core.coredomain.theme.consts.ThemePosition;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@SQLRestriction("deleted = false")
 @EqualsAndHashCode(of = {"key"}, callSuper = false)
 @Entity
 @Table(name = "THEME_PARTS")
@@ -34,4 +36,13 @@ public class ThemeParts extends Audit {
     @Column(name = "POSITION")
     @Enumerated(EnumType.STRING)
     private ThemePosition position;
+
+    @Description("삭제처리 여부")
+    @Builder.Default
+    private Boolean deleted = false;
+
+    public ThemeParts deleteThemeParts() {
+        this.deleted = true;
+        return this;
+    }
 }

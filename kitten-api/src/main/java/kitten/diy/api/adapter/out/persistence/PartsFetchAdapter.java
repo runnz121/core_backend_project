@@ -5,6 +5,7 @@ import kitten.core.coredomain.moru.entity.MoruParts;
 import kitten.core.coredomain.moru.entity.MoruPartsTag;
 import kitten.core.coredomain.moru.repository.MoruPartsRepository;
 import kitten.core.coredomain.moru.repository.MoruPartsTagRepository;
+import kitten.core.coredomain.parts.entity.Parts;
 import kitten.core.coredomain.theme.consts.ThemePosition;
 import kitten.core.coredomain.theme.entity.Theme;
 import kitten.core.coredomain.theme.entity.ThemeParts;
@@ -61,7 +62,11 @@ public class PartsFetchAdapter implements PartsFetchPort {
                 })
                 .toList();
 
-        List<PartDetail.Position> themePosition = themePartsRepository.findAllByParts_Key(parentPartsKey).stream()
+        List<Long> partsKeys = new ArrayList<>(Arrays.asList(parentPartsKey));
+        List<Long> childKeys = childParts.stream().map(Parts::getKey).toList();
+        partsKeys.addAll(childKeys);
+
+        List<PartDetail.Position> themePosition = themePartsRepository.findAllByParts_KeyIn(partsKeys).stream()
                 .map(position -> {
                     return PartDetail.Position.builder()
                             .type(position.getTheme().getType())

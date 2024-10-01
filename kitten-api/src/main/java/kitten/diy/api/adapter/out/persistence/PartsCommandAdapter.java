@@ -7,6 +7,7 @@ import kitten.core.coredomain.moru.entity.MoruParts;
 import kitten.core.coredomain.moru.entity.MoruPartsTag;
 import kitten.core.coredomain.moru.repository.MoruPartsRepository;
 import kitten.core.coredomain.moru.repository.MoruPartsTagRepository;
+import kitten.core.coredomain.parts.entity.Parts;
 import kitten.core.coredomain.theme.consts.ThemeType;
 import kitten.core.coredomain.theme.entity.Theme;
 import kitten.core.coredomain.theme.entity.ThemeParts;
@@ -20,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,12 +105,28 @@ public class PartsCommandAdapter implements PartsPort {
     public void modifyMoruParts(PartsCommand command) {
         MoruParts parentMoruParts = moruPartsRepository.findByKey(command.parentPartsKey())
                 .orElseThrow(() -> new CommonRuntimeException(PartsErrorCode.NOT_FOUND_MORU_PARTS));
+
+        // 부모 파츠 삭제
         parentMoruParts.deleteParts();
 
-         moruPartsRepository.findAllByParentKey(command.parentPartsKey())
-                 .forEach(MoruParts::deleteParts);
+        // 자식 파츠 삭제
+        List<MoruParts> allParts = moruPartsRepository.findAllByParentKey(command.parentPartsKey());
+        allParts.forEach(MoruParts::deleteParts);
 
-         saveMoruParts(command);
+        // 테마 파츠 삭제
+        List<Long> partsKeys = new ArrayList<>(Arrays.asList(command.parentPartsKey()));
+        List<Long> childKeys = allParts.stream().map(Parts::getKey).toList();
+        partsKeys.addAll(childKeys);
+
+        List<ThemeParts> allThemeParts = themePartsRepository.findAllByParts_KeyIn(partsKeys);
+        allThemeParts.forEach(ThemeParts::deleteThemeParts);
+
+        // 파츠 태그 삭제
+        List<MoruPartsTag> allTags = moruPartsTagRepository.findAllByMoruParts_Key(command.parentPartsKey());
+        allTags.forEach(MoruPartsTag::deletePartsTag);
+
+        // 새로 저장
+        saveMoruParts(command);
     }
 
     @Transactional(readOnly = true)
