@@ -57,17 +57,14 @@ public class PartsCommandAdapter implements PartsPort {
         MoruParts parentSave = moruPartsRepository.save(parentMoruParts);
 
         // theme parts 저장
-        ThemeType type = ThemeType.ALL;
-        if (command.isAdmin()) {
-            type = ThemeType.HALLOWEEN;
-        }
+        ThemeType type = command.theme();
         Theme themeByType = getThemeByType(type);
 
         // TOOD 파츠 저장시 부위 선택 필요 확인
         ThemeParts themeParts = ThemeParts.builder()
                 .parts(parentSave)
                 .theme(themeByType)
-                .position(ThemePosition.ALL)
+                .position(command.position())
                 .build();
         themePartsRepository.save(themeParts);
 

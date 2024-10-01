@@ -1,6 +1,8 @@
 package kitten.diy.api.adapter.in.web.request;
 
 import kitten.core.corecommon.annotation.Description;
+import kitten.core.coredomain.theme.consts.ThemePosition;
+import kitten.core.coredomain.theme.consts.ThemeType;
 import kitten.diy.api.application.port.in.command.command.PartsRegisterCommand;
 
 import java.util.List;
@@ -15,6 +17,11 @@ public record MoruPartsRequest(
 
         @Description("세로 실물 크기 (mm)")
         Integer height,
+        @Description("테마")
+        String theme,
+
+        @Description("부위")
+        String position,
 
         @Description("구입 상호처")
         List<String> purchaseInfos,
@@ -52,6 +59,8 @@ public record MoruPartsRequest(
                         .partsName(partsName)
                         .width(width)
                         .height(height)
+                        .theme(ThemeType.valueOf(theme))
+                        .position(ThemePosition.valueOf(position))
                         .purchaseInfos(purchaseInfos)
                         .tags(tags)
                         .childData(childDatas)

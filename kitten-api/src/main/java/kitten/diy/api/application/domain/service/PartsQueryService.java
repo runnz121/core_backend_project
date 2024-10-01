@@ -1,5 +1,6 @@
 package kitten.diy.api.application.domain.service;
 
+import kitten.diy.api.adapter.out.model.PartDetail;
 import kitten.diy.api.application.port.in.command.command.PartsSearchCommand;
 import kitten.diy.api.application.port.in.query.PartsQueryUseCase;
 import kitten.diy.api.application.port.in.query.data.PartsThemeData;
@@ -18,5 +19,10 @@ public class PartsQueryService implements PartsQueryUseCase {
     @Override
     public List<PartsThemeData> getPartsByTheme(PartsSearchCommand command) {
         return partsFetchPort.getPartsByTheme(command);
+    }
+
+    @Override
+    public PartDetail getPartsDetail(Long parentPartsKey) {
+        return partsFetchPort.getPartsDetail(parentPartsKey);
     }
 }

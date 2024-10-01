@@ -10,7 +10,9 @@ import kitten.core.coredomain.theme.entity.Theme;
 import kitten.core.coredomain.theme.entity.ThemeParts;
 import kitten.core.coredomain.theme.repository.ThemePartsRepository;
 import kitten.core.coredomain.theme.repository.ThemeRepository;
+import kitten.diy.api.adapter.out.error.PartsErrorCode;
 import kitten.diy.api.adapter.out.error.ThemeError;
+import kitten.diy.api.adapter.out.model.PartDetail;
 import kitten.diy.api.application.port.in.command.command.PartsSearchCommand;
 import kitten.diy.api.application.port.in.query.data.PartsThemeData;
 import kitten.diy.api.application.port.out.PartsFetchPort;
@@ -40,6 +42,44 @@ public class PartsFetchAdapter implements PartsFetchPort {
                 .orElseThrow(() -> new CommonRuntimeException(ThemeError.THEME_NOT_FOUND));
 //        if (theme.isPresent() == false) return new ArrayList<>();
         return getPartsThemeDatas(theme);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PartDetail getPartsDetail(Long parentPartsKey) {
+        MoruParts parentParts = moruPartsRepository.findByKey(parentPartsKey)
+                .orElseThrow(() -> new CommonRuntimeException(PartsErrorCode.NOT_FOUND_MORU_PARTS));
+        List<MoruParts> childParts = moruPartsRepository.findAllByParentKey(parentPartsKey);
+
+        List<PartDetail.ChildPartDetail> childPartDetails = childParts.stream()
+                .map(child -> {
+                    return PartDetail.ChildPartDetail.builder()
+                            .childPartsKey(child.getKey())
+                            .imageUrl(child.getImageUrl())
+                            .colorHexCode(child.getColorHexCode())
+                            .build();
+                })
+                .toList();
+
+        List<PartDetail.Position> themePosition = themePartsRepository.findAllByParts_Key(parentPartsKey).stream()
+                .map(position -> {
+                    return PartDetail.Position.builder()
+                            .type(position.getTheme().getType())
+                            .position(position.getPosition())
+                            .build();
+                })
+                .toList();
+
+        return PartDetail.builder()
+                .name(parentParts.getName())
+                .imageUrl(parentParts.getImageUrl())
+                .width(parentParts.getWidth())
+                .height(parentParts.getHeight())
+                .colorHexCode(parentParts.getColorHexCode())
+                .purchaseInfos(parentParts.getPurchaseInfos())
+                .childPartDetails(childPartDetails)
+                .themePosition(themePosition)
+                .build();
     }
 
     private List<PartsThemeData> getPartsThemeDatas(Theme theme) {

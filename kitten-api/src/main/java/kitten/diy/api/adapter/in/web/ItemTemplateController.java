@@ -5,6 +5,7 @@ import kitten.core.corecommon.security.jwt.AccessAccount;
 import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.diy.api.adapter.in.web.request.MoruPartsRequest;
 import kitten.diy.api.adapter.in.web.request.TagLikeSearchRequest;
+import kitten.diy.api.adapter.out.model.PartDetail;
 import kitten.diy.api.application.port.in.command.PartsCommandUseCase;
 import kitten.diy.api.application.port.in.command.command.ItemSearchCommand;
 import kitten.diy.api.application.port.in.command.command.PartsSearchCommand;
@@ -59,5 +60,26 @@ public class ItemTemplateController {
     @PostMapping("/parts/like/tags")
     public List<String> getPartsLikeTags(@RequestBody TagLikeSearchRequest request) {
         return itemQueryUseCase.getLikePartsTags(request.toCommand());
+    }
+
+    @Description("모루 파츠 상세조회 (부모키로 조회)")
+    @GetMapping("/moru/parts/{partsParentKey}")
+    public PartDetail getMoruPartsDetail(@PathVariable Long partsParentKey) {
+        return partsQueryUseCase.getPartsDetail(partsParentKey);
+    }
+
+    @Description("모루 파츠 수정 (관리자만 diy kitten)")
+    @Secured(value = "ROLE_ADMIN")
+    @PutMapping("/moru/parts")
+    public void modifyMoruParts(@RequestBody MoruPartsRequest request,
+                                @AccessAccount CurrentAccount account) {
+
+    }
+
+    @Description("모루 파츠 삭제 (관리자만 diy kitten)")
+    @Secured(value = "ROLE_ADMIN")
+    @DeleteMapping("/moru/parts")
+    public void deleteMoruPart() {
+
     }
 }

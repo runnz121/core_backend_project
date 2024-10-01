@@ -7,10 +7,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ThemePosition {
 
-    ALL("전체"),
+    ALL("모든 부위"),
     NECK("목"),
-    TAIL("꼬리"),
-    HEAD("머리")
+    HEAD("머리"),
+    ORNAMENT("장식품"),
+    MOUTH("입"),
+    EYE("눈")
     ;
 
     private final String desc;

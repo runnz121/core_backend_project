@@ -9,4 +9,6 @@ import java.util.List;
 public interface ThemePartsRepository extends CrudRepository<ThemeParts, Long> {
 
     List<ThemeParts> findAllByTheme(Theme theme);
+
+    List<ThemeParts> findAllByParts_Key(Long parentPartKey);
 }

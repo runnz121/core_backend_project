@@ -2,6 +2,8 @@ package kitten.diy.api.application.port.in.command.command;
 
 import kitten.core.corecommon.annotation.Description;
 import kitten.core.coredomain.moru.entity.MoruParts;
+import kitten.core.coredomain.theme.consts.ThemePosition;
+import kitten.core.coredomain.theme.consts.ThemeType;
 import lombok.Builder;
 
 import java.util.List;
@@ -17,6 +19,12 @@ public record PartsRegisterCommand(
 
         @Description("세로 실물 크기 (mm)")
         Integer height,
+
+        @Description("테마")
+        ThemeType theme,
+
+        @Description("부위")
+        ThemePosition position,
 
         @Description("구입 상호처")
         List<String> purchaseInfos,
