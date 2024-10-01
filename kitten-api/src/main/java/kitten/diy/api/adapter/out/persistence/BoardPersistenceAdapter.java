@@ -40,11 +40,11 @@ public class BoardPersistenceAdapter implements BoardPersistentPort {
                             Board board = boardRepository.findByKey(command.boardKey())
                                     .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
 
-                            Users user = getUsers(command.userName());
+//                            Users user = getUsers(command.userName());
 
                             BoardLike newLike = BoardLike.builder()
                                     .board(board)
-                                    .users(user)
+                                    .users(board.getUser()) // 게시글 작성한 유저 정보를 저장
                                     .build();
 
                             boardLikeRepository.save(newLike);

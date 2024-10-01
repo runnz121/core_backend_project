@@ -1,7 +1,9 @@
 package kitten.core.coredomain.board.entity;
 
 import jakarta.persistence.*;
+import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
+import kitten.core.coredomain.user.entity.Users;
 import lombok.*;
 
 @Getter
@@ -22,6 +24,8 @@ public class BoardView extends Audit {
     @JoinColumn(name = "BOARD_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Board board;
 
-    @Column(name = "VIEW_COUNT")
-    private Integer viewCount;
+    @Description("조회한 한 유저 키")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USER_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Users users;
 }

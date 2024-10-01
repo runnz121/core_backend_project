@@ -1,6 +1,7 @@
 package kitten.core.coredomain.board.entity;
 
 import jakarta.persistence.*;
+import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.user.entity.Users;
 import lombok.*;
@@ -23,6 +24,7 @@ public class BoardLike extends Audit {
     @JoinColumn(name = "BOARD_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Board board;
 
+    @Description("좋아요 한 유저 키")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Users users;

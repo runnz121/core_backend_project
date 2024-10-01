@@ -5,11 +5,10 @@ import kitten.core.corecommon.security.jwt.AccessAccount;
 import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.diy.api.adapter.in.web.request.AvatarRequest;
 import kitten.diy.api.application.port.in.command.ItemCommandUseCase;
+import kitten.diy.api.application.port.in.query.MyPageQueryUseCase;
+import kitten.diy.api.application.port.in.query.data.MyPageData;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final ItemCommandUseCase itemCommandUseCase;
+    private final MyPageQueryUseCase myPageQueryUseCase;
 
     @Description("유저 아트 정보 업로드 및 게시글 (모루 + 파츠 + 공간 + 게시글)")
 //    @Secured(value = "ROLE_USER")
@@ -25,5 +25,13 @@ public class UserController {
                                @RequestBody AvatarRequest avatarRequest) {
         account = CurrentAccount.defaultValue();
         itemCommandUseCase.saveAvatar(avatarRequest.toCommand(account.getUserEmail()));
+    }
+
+    @Description("마이페이지 조회")
+//    @Secured(value = "ROLE_USER")
+    @GetMapping("/mypage")
+    public MyPageData getMyPage(@AccessAccount CurrentAccount account) {
+        account = CurrentAccount.defaultValue();
+        return myPageQueryUseCase.getMyPageInfo(account.getUserEmail());
     }
 }
