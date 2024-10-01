@@ -10,5 +10,7 @@ public interface PartsQueryUseCase {
 
     List<PartsThemeData> getPartsByTheme(PartsSearchCommand command);
 
-    PartDetail getPartsDetail(Long parentPartsKey);
+    PartDetail getPartDetail(Long parentPartsKey);
+
+    List<PartDetail> getAllPartsDetails();
 }

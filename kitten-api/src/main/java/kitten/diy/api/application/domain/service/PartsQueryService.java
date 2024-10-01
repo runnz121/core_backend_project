@@ -22,7 +22,12 @@ public class PartsQueryService implements PartsQueryUseCase {
     }
 
     @Override
-    public PartDetail getPartsDetail(Long parentPartsKey) {
+    public PartDetail getPartDetail(Long parentPartsKey) {
         return partsFetchPort.getPartsDetail(parentPartsKey);
+    }
+
+    @Override
+    public List<PartDetail> getAllPartsDetails() {
+        return partsFetchPort.getAllPartsDetails();
     }
 }

@@ -64,7 +64,14 @@ public class ItemTemplateController {
     @Description("모루 파츠 상세조회 (부모키로 조회)")
     @GetMapping("/moru/parts/{partsParentKey}")
     public PartDetail getMoruPartsDetail(@PathVariable Long partsParentKey) {
-        return partsQueryUseCase.getPartsDetail(partsParentKey);
+        return partsQueryUseCase.getPartDetail(partsParentKey);
+    }
+
+    @Description("모루 파츠 정보 리스트 조회 (관리자만 diy kitten)")
+    @Secured(value = "ROLE_USER")
+    @GetMapping("/moru/parts/all")
+    public List<PartDetail> getMoruPartDetails() {
+        return partsQueryUseCase.getAllPartsDetails();
     }
 
     @Description("모루 파츠 수정 (관리자만 diy kitten)")

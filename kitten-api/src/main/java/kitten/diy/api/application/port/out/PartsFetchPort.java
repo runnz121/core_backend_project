@@ -11,4 +11,6 @@ public interface PartsFetchPort {
     List<PartsThemeData> getPartsByTheme(PartsSearchCommand command);
 
     PartDetail getPartsDetail(Long parentPartsKey);
+
+    List<PartDetail> getAllPartsDetails();
 }

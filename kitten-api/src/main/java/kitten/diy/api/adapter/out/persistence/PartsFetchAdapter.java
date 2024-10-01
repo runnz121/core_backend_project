@@ -48,10 +48,16 @@ public class PartsFetchAdapter implements PartsFetchPort {
     @Override
     @Transactional(readOnly = true)
     public PartDetail getPartsDetail(Long parentPartsKey) {
+
         MoruParts parentParts = moruPartsRepository.findByKey(parentPartsKey)
                 .orElseThrow(() -> new CommonRuntimeException(PartsErrorCode.NOT_FOUND_MORU_PARTS));
-        List<MoruParts> childParts = moruPartsRepository.findAllByParentKey(parentPartsKey);
-        List<String> partTags = getTags(parentPartsKey);
+
+        return getPartDetail(parentParts);
+    }
+
+    private PartDetail getPartDetail(MoruParts parentParts) {
+        List<MoruParts> childParts = moruPartsRepository.findAllByParentKey(parentParts.getKey());
+        List<String> partTags = getTags(parentParts.getKey());
         List<PartDetail.ChildPartDetail> childPartDetails = childParts.stream()
                 .map(child -> {
                     return PartDetail.ChildPartDetail.builder()
@@ -62,7 +68,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
                 })
                 .toList();
 
-        List<Long> partsKeys = new ArrayList<>(Arrays.asList(parentPartsKey));
+        List<Long> partsKeys = new ArrayList<>(Arrays.asList(parentParts.getKey()));
         List<Long> childKeys = childParts.stream().map(Parts::getKey).toList();
         partsKeys.addAll(childKeys);
 
@@ -76,7 +82,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
                 .toList();
 
         return PartDetail.builder()
-                .parentPartKey(parentPartsKey)
+                .parentPartKey(parentParts.getKey())
                 .name(parentParts.getName())
                 .imageUrl(parentParts.getImageUrl())
                 .width(parentParts.getWidth())
@@ -87,6 +93,15 @@ public class PartsFetchAdapter implements PartsFetchPort {
                 .childPartDetails(childPartDetails)
                 .themePosition(themePosition)
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PartDetail> getAllPartsDetails() {
+        List<MoruParts> allMoruParts = (List<MoruParts>) moruPartsRepository.findAll();
+        return allMoruParts.stream()
+                .map(this::getPartDetail)
+                .toList();
     }
 
     private List<PartsThemeData> getPartsThemeDatas(Theme theme) {
