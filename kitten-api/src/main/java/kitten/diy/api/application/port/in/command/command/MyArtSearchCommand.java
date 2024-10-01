@@ -9,6 +9,8 @@ public record MyArtSearchCommand(
 
         PageRequest pageRequest,
 
-        MyArtType searchType
+        MyArtType searchType,
+
+        String userEmail
 ) {
 }

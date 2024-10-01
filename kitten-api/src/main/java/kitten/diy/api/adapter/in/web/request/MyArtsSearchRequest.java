@@ -32,7 +32,7 @@ public record MyArtsSearchRequest(
     ) {
     }
 
-    public MyArtSearchCommand toCommand() {
+    public MyArtSearchCommand toCommand(String userEmail) {
         return MyArtSearchCommand.builder()
                 .pageRequest(
                         PageRequest.of(
@@ -41,6 +41,7 @@ public record MyArtsSearchRequest(
                         )
                 )
                 .searchType(MyArtType.of(criteria.searchType))
+                .userEmail(userEmail)
                 .build();
     }
 }

@@ -10,7 +10,7 @@ public enum MyArtType {
 
     MY_ARTS("내 작품"),
     MY_LIKE_ARTS("내가 찜한 작품"),
-    MY_PARTS("내가 업로드한 파츠")
+//    MY_PARTS("내가 업로드한 파츠")
     ;
 
     private final String desc;
