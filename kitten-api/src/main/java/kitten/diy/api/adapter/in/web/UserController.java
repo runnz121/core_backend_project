@@ -4,6 +4,7 @@ import kitten.core.corecommon.annotation.Description;
 import kitten.core.corecommon.security.jwt.AccessAccount;
 import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.diy.api.adapter.in.web.request.AvatarRequest;
+import kitten.diy.api.adapter.in.web.request.MyArtsSearchRequest;
 import kitten.diy.api.application.port.in.command.ItemCommandUseCase;
 import kitten.diy.api.application.port.in.query.MyPageQueryUseCase;
 import kitten.diy.api.application.port.in.query.data.MyPageData;
@@ -33,5 +34,12 @@ public class UserController {
     public MyPageData getMyPage(@AccessAccount CurrentAccount account) {
         account = CurrentAccount.defaultValue();
         return myPageQueryUseCase.getMyPageInfo(account.getUserEmail());
+    }
+
+    @Description("마이페이지 > 타입별 작품, 파츠 목록 불러오기")
+    @PostMapping("/mypage/arts")
+    public void getMyArts(@AccessAccount CurrentAccount account,
+                          @RequestBody MyArtsSearchRequest request) {
+
     }
 }
