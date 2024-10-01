@@ -9,7 +9,6 @@ import kitten.core.corecommon.utils.CookieUtils;
 import kitten.core.coredomain.model.AuthRoles;
 import kitten.core.coredomain.user.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
