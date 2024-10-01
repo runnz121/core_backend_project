@@ -128,8 +128,7 @@ public class BoardFetchAdapter implements BoardFetchPort {
 
     private Integer getViewCounts(Board board) {
         return boardViewRepository.findByBoard(board)
-                .map(BoardView::getViewCount)
-                .orElse(0);
+                .size();
     }
 
     private List<String> getTags(Board board) {

@@ -4,9 +4,9 @@ import kitten.core.coredomain.board.entity.Board;
 import kitten.core.coredomain.board.entity.BoardView;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface BoardViewRepository extends CrudRepository<BoardView, Long> {
 
-    Optional<BoardView> findByBoard(Board board);
+    List<BoardView> findByBoard(Board board);
 }
