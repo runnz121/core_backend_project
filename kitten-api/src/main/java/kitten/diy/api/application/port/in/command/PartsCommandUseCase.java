@@ -7,4 +7,6 @@ public interface PartsCommandUseCase {
     void registerMoruParts(PartsCommand command);
 
     void modifyMoruParts(PartsCommand command);
+
+    void deleteMoruParts(Long parentPartsKey);
 }

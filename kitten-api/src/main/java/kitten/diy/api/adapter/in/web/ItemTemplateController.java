@@ -83,9 +83,9 @@ public class ItemTemplateController {
     }
 
     @Description("모루 파츠 삭제 (관리자만 diy kitten)")
-    @Secured(value = "ROLE_ADMIN")
+    @Secured(value = "ROLE_USER")
     @DeleteMapping("/moru/parts")
-    public void deleteMoruPart() {
-
+    public void deleteMoruPart(@RequestParam Long parentPartsKey) {
+        partsCommandUseCase.deleteMoruParts(parentPartsKey);
     }
 }

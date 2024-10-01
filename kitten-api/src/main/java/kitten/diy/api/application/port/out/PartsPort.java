@@ -7,4 +7,6 @@ public interface PartsPort {
     void saveMoruParts(PartsCommand command);
 
     void modifyMoruParts(PartsCommand command);
+
+    void deleteMoruParts(Long parentPartKey);
 }

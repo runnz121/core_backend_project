@@ -103,18 +103,30 @@ public class PartsCommandAdapter implements PartsPort {
     @Override
     @Transactional
     public void modifyMoruParts(PartsCommand command) {
-        MoruParts parentMoruParts = moruPartsRepository.findByKey(command.parentPartsKey())
+
+        // 기존거 삭제
+        deleteMoruParts(command.parentPartsKey());
+        // 새로 저장
+        saveMoruParts(command);
+    }
+
+
+    @Override
+    @Transactional
+    public void deleteMoruParts(Long parentPartKey) {
+
+        MoruParts parentMoruParts = moruPartsRepository.findByKey(parentPartKey)
                 .orElseThrow(() -> new CommonRuntimeException(PartsErrorCode.NOT_FOUND_MORU_PARTS));
 
         // 부모 파츠 삭제
         parentMoruParts.deleteParts();
 
         // 자식 파츠 삭제
-        List<MoruParts> allParts = moruPartsRepository.findAllByParentKey(command.parentPartsKey());
+        List<MoruParts> allParts = moruPartsRepository.findAllByParentKey(parentPartKey);
         allParts.forEach(MoruParts::deleteParts);
 
         // 테마 파츠 삭제
-        List<Long> partsKeys = new ArrayList<>(Arrays.asList(command.parentPartsKey()));
+        List<Long> partsKeys = new ArrayList<>(Arrays.asList(parentPartKey));
         List<Long> childKeys = allParts.stream().map(Parts::getKey).toList();
         partsKeys.addAll(childKeys);
 
@@ -122,11 +134,8 @@ public class PartsCommandAdapter implements PartsPort {
         allThemeParts.forEach(ThemeParts::deleteThemeParts);
 
         // 파츠 태그 삭제
-        List<MoruPartsTag> allTags = moruPartsTagRepository.findAllByMoruParts_Key(command.parentPartsKey());
+        List<MoruPartsTag> allTags = moruPartsTagRepository.findAllByMoruParts_Key(parentPartKey);
         allTags.forEach(MoruPartsTag::deletePartsTag);
-
-        // 새로 저장
-        saveMoruParts(command);
     }
 
     @Transactional(readOnly = true)

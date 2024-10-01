@@ -24,4 +24,10 @@ public class PartsCommandService implements PartsCommandUseCase {
     public void modifyMoruParts(PartsCommand command) {
         partsPort.modifyMoruParts(command);
     }
+
+    @Override
+    @Transactional
+    public void deleteMoruParts(Long parentPartsKey) {
+        partsPort.deleteMoruParts(parentPartsKey);
+    }
 }
