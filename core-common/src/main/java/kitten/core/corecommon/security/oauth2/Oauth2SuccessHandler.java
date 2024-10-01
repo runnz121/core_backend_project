@@ -43,7 +43,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                                  String accessToken,
                                  String userEmail) throws IOException {
         String targetUrl = UriComponentsBuilder
-                .fromUriString(getRedirectUrl(request.getRequestURI()))
+                .fromUriString(getRedirectUrl(request.getRequestURL().toString()))
                 .queryParam(AuthUtil.USER_EMAIL, userEmail)
                 .queryParam("accessToken", accessToken)
                 .build()
