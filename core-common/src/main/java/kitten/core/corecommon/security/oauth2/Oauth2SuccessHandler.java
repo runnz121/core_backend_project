@@ -9,6 +9,7 @@ import kitten.core.corecommon.utils.CookieUtils;
 import kitten.core.coredomain.model.AuthRoles;
 import kitten.core.coredomain.user.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                                  String accessToken,
                                  String userEmail) throws IOException {
         String targetUrl = UriComponentsBuilder
-                .fromUriString(AuthUtil.REDIRECT_URL)
+                .fromUriString(getRedirectUrl(request.getRequestURI()))
                 .queryParam(AuthUtil.USER_EMAIL, userEmail)
                 .queryParam("accessToken", accessToken)
                 .build()
@@ -58,6 +59,13 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private boolean isExistsUser(String email) {
         return usersRepository.existsByEmail(email);
+    }
+
+    private String getRedirectUrl(String requestURL) {
+        if (AuthUtil.PUBLIC_CALL_BACK.equals(requestURL)) {
+            return AuthUtil.PROD_REDIRECT_URL;
+        }
+        return AuthUtil.REDIRECT_URL;
     }
 }
 
