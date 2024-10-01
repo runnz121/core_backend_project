@@ -41,7 +41,7 @@ public record BoardInfoData(
                 .type(data.type())
                 .createTime(data.createTime())
                 .likeCount(data.likeCount().intValue())
-                .viewCount(data.viewCount())
+                .viewCount(data.viewCount().intValue())
                 .tags(tags)
                 .build();
     }

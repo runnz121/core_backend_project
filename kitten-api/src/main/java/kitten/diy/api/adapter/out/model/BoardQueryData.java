@@ -24,7 +24,7 @@ public record BoardQueryData(
         Long likeCount,
 
         @Description("조회수")
-        Integer viewCount
+        Long viewCount
 
 ) {
 

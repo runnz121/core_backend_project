@@ -43,7 +43,7 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                         board.type,
                         board.createTime,
                         getLikeCount(boardLike),
-                        boardView.viewCount
+                        getViewCount(boardView)
                 ))
                 .distinct()
                 .from(board)
@@ -83,6 +83,12 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                 .from(like);
     }
 
+    private JPQLQuery<Long> getViewCount(QBoardView view) {
+        return JPAExpressions
+                .select(view.key.count())
+                .from(view);
+    }
+
     private BooleanBuilder searchByTag(BoardInfoSearchCommand command) {
         BooleanBuilder br = new BooleanBuilder();
         if (command.isNotSearchByTag()) {
@@ -106,7 +112,7 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                                         QBoard board) {
         return switch (command.sortType()) {
             case LIKE -> new OrderSpecifier[]{new OrderSpecifier<>(Order.DESC, getLikeCount(boardLike))};
-            case VIEW -> new OrderSpecifier[]{boardView.viewCount.desc()};
+            case VIEW -> new OrderSpecifier[]{new OrderSpecifier<>(Order.DESC, getViewCount(boardView))};
             case RECENT -> new OrderSpecifier[]{board.createTime.desc()};
         };
     }
