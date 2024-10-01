@@ -50,7 +50,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
         MoruParts parentParts = moruPartsRepository.findByKey(parentPartsKey)
                 .orElseThrow(() -> new CommonRuntimeException(PartsErrorCode.NOT_FOUND_MORU_PARTS));
         List<MoruParts> childParts = moruPartsRepository.findAllByParentKey(parentPartsKey);
-
+        List<String> partTags = getTags(parentPartsKey);
         List<PartDetail.ChildPartDetail> childPartDetails = childParts.stream()
                 .map(child -> {
                     return PartDetail.ChildPartDetail.builder()
@@ -71,11 +71,13 @@ public class PartsFetchAdapter implements PartsFetchPort {
                 .toList();
 
         return PartDetail.builder()
+                .parentPartKey(parentPartsKey)
                 .name(parentParts.getName())
                 .imageUrl(parentParts.getImageUrl())
                 .width(parentParts.getWidth())
                 .height(parentParts.getHeight())
                 .colorHexCode(parentParts.getColorHexCode())
+                .tags(partTags)
                 .purchaseInfos(parentParts.getPurchaseInfos())
                 .childPartDetails(childPartDetails)
                 .themePosition(themePosition)

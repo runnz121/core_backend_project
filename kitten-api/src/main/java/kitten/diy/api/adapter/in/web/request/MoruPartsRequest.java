@@ -3,11 +3,16 @@ package kitten.diy.api.adapter.in.web.request;
 import kitten.core.corecommon.annotation.Description;
 import kitten.core.coredomain.theme.consts.ThemePosition;
 import kitten.core.coredomain.theme.consts.ThemeType;
-import kitten.diy.api.application.port.in.command.command.PartsRegisterCommand;
+import kitten.diy.api.application.port.in.command.command.PartsCommand;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
 public record MoruPartsRequest(
+
+        @Nullable
+        @Description("수정 api 로 호출시에만 사용")
+        Long parentPartsKey,
 
         @Description("파츠 이름(재료명)")
         String partsName,
@@ -35,8 +40,12 @@ public record MoruPartsRequest(
 
         public record MoruPartsChild(
 
+                @Nullable
+                @Description("수정 api 로 호출시에만 사용")
+                Long childPartsKey,
+
                 @Description("파츠 색깔 hexCode")
-                String colorhexCode,
+                String colorHexCode,
 
                 @Description("파츠 이미지 url")
                 String partImageUrl,
@@ -46,16 +55,18 @@ public record MoruPartsRequest(
         ) {
         }
 
-        public PartsRegisterCommand toCommand(String user) {
-                List<PartsRegisterCommand.PartsChild> childDatas = childData.stream()
+        public PartsCommand toCommand(String user) {
+                List<PartsCommand.PartsChild> childDatas = childData.stream()
                         .map(child ->
-                                PartsRegisterCommand.PartsChild.builder()
-                                        .colorhexCode(child.colorhexCode)
+                                PartsCommand.PartsChild.builder()
+                                        .childPartsKey(child.childPartsKey)
+                                        .colorhexCode(child.colorHexCode)
                                         .partImageUrl(child.partImageUrl)
                                         .isRepresentative(child.isRepresentative)
                                         .build())
                         .toList();
-                return PartsRegisterCommand.builder()
+                return PartsCommand.builder()
+                        .parentPartsKey(parentPartsKey)
                         .partsName(partsName)
                         .width(width)
                         .height(height)

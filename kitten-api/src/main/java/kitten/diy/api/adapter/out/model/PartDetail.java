@@ -21,6 +21,8 @@ public record PartDetail(
 
         String colorHexCode,
 
+        List<String> tags,
+
         List<ChildPartDetail> childPartDetails,
 
         List<String> purchaseInfos,

@@ -1,7 +1,5 @@
 package kitten.core.coredomain.moru.entity;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.hypersistence.utils.hibernate.type.json.JsonStringType;
 import jakarta.persistence.*;
 import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.moru.consts.MoruStatus;
@@ -10,19 +8,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@DynamicUpdate
+@SQLRestriction("deleted = false")
 @DiscriminatorValue("MORU_PARTS")
 @Table(name = "MORU_PARTS")
 @EntityListeners(AuditingEntityListener.class)
@@ -66,7 +64,16 @@ public class MoruParts extends Parts {
 //    @Type(JsonStringType.class)
     private String purchaseInfo;
 
+    @Description("삭제처리 여부")
+    @Builder.Default
+    private Boolean deleted = false;
+
     public List<String> getPurchaseInfos() {
         return List.of(purchaseInfo.split(","));
+    }
+
+    public MoruParts deleteParts() {
+        this.deleted = true;
+        return this;
     }
 }

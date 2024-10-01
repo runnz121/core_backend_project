@@ -33,7 +33,6 @@ public class ItemTemplateController {
     @PostMapping("/moru/parts")
     public void registerMoruParts(@RequestBody MoruPartsRequest request,
                                   @AccessAccount CurrentAccount account) {
-//        account = CurrentAccount.defaultValue();
         partsCommandUseCase.registerMoruParts(request.toCommand(account.getUserEmail()));
     }
 
@@ -69,11 +68,11 @@ public class ItemTemplateController {
     }
 
     @Description("모루 파츠 수정 (관리자만 diy kitten)")
-    @Secured(value = "ROLE_ADMIN")
+    @Secured(value = "ROLE_USER")
     @PutMapping("/moru/parts")
     public void modifyMoruParts(@RequestBody MoruPartsRequest request,
                                 @AccessAccount CurrentAccount account) {
-
+        partsCommandUseCase.modifyMoruParts(request.toCommand(account.getUserEmail()));
     }
 
     @Description("모루 파츠 삭제 (관리자만 diy kitten)")

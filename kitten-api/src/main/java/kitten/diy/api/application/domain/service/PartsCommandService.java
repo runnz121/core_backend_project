@@ -1,7 +1,7 @@
 package kitten.diy.api.application.domain.service;
 
 import kitten.diy.api.application.port.in.command.PartsCommandUseCase;
-import kitten.diy.api.application.port.in.command.command.PartsRegisterCommand;
+import kitten.diy.api.application.port.in.command.command.PartsCommand;
 import kitten.diy.api.application.port.out.PartsPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,13 @@ public class PartsCommandService implements PartsCommandUseCase {
 
     @Override
     @Transactional
-    public void registerMoruParts(PartsRegisterCommand command) {
+    public void registerMoruParts(PartsCommand command) {
         partsPort.saveMoruParts(command);
+    }
+
+    @Override
+    @Transactional
+    public void modifyMoruParts(PartsCommand command) {
+        partsPort.modifyMoruParts(command);
     }
 }

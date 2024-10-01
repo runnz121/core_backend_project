@@ -1,12 +1,12 @@
 package kitten.diy.api.adapter.out.persistence;
 
+import kitten.core.corecommon.annotation.Description;
 import kitten.core.corecommon.config.exception.CommonRuntimeException;
 import kitten.core.coredomain.moru.consts.MoruStatus;
 import kitten.core.coredomain.moru.entity.MoruParts;
 import kitten.core.coredomain.moru.entity.MoruPartsTag;
 import kitten.core.coredomain.moru.repository.MoruPartsRepository;
 import kitten.core.coredomain.moru.repository.MoruPartsTagRepository;
-import kitten.core.coredomain.theme.consts.ThemePosition;
 import kitten.core.coredomain.theme.consts.ThemeType;
 import kitten.core.coredomain.theme.entity.Theme;
 import kitten.core.coredomain.theme.entity.ThemeParts;
@@ -14,7 +14,7 @@ import kitten.core.coredomain.theme.repository.ThemePartsRepository;
 import kitten.core.coredomain.theme.repository.ThemeRepository;
 import kitten.diy.api.adapter.out.error.PartsErrorCode;
 import kitten.diy.api.adapter.out.error.ThemeError;
-import kitten.diy.api.application.port.in.command.command.PartsRegisterCommand;
+import kitten.diy.api.application.port.in.command.command.PartsCommand;
 import kitten.diy.api.application.port.out.PartsPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -35,10 +35,10 @@ public class PartsCommandAdapter implements PartsPort {
 
     @Override
     @Transactional
-    public void saveMoruParts(PartsRegisterCommand command) {
+    public void saveMoruParts(PartsCommand command) {
 
-        PartsRegisterCommand.PartsChild parentData = command.childData().stream()
-                .filter(PartsRegisterCommand.PartsChild::isRepresentative)
+        PartsCommand.PartsChild parentData = command.childData().stream()
+                .filter(PartsCommand.PartsChild::isRepresentative)
                 .findFirst()
                 .orElseThrow(() -> new CommonRuntimeException(PartsErrorCode.NOT_REPRESENTATIVE_PARTS_EXISTS));
 
@@ -94,6 +94,20 @@ public class PartsCommandAdapter implements PartsPort {
                 .collect(Collectors.toList());
 
         moruPartsTagRepository.saveAll(partsTags);
+    }
+
+    @Description("기존의 파츠 정보를 soft delete 하고 다시 저장")
+    @Override
+    @Transactional
+    public void modifyMoruParts(PartsCommand command) {
+        MoruParts parentMoruParts = moruPartsRepository.findByKey(command.parentPartsKey())
+                .orElseThrow(() -> new CommonRuntimeException(PartsErrorCode.NOT_FOUND_MORU_PARTS));
+        parentMoruParts.deleteParts();
+
+         moruPartsRepository.findAllByParentKey(command.parentPartsKey())
+                 .forEach(MoruParts::deleteParts);
+
+         saveMoruParts(command);
     }
 
     @Transactional(readOnly = true)
