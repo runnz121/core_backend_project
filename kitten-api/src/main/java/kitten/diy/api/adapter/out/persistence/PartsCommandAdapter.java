@@ -122,7 +122,7 @@ public class PartsCommandAdapter implements PartsPort {
         parentMoruParts.deleteParts();
 
         // 자식 파츠 삭제
-        List<MoruParts> allParts = moruPartsRepository.findAllByParentKey(parentPartKey);
+        List<MoruParts> allParts = moruPartsRepository.findAllByParentKeyAndDeletedIsFalse(parentPartKey);
         allParts.forEach(MoruParts::deleteParts);
 
         // 테마 파츠 삭제
@@ -130,7 +130,7 @@ public class PartsCommandAdapter implements PartsPort {
         List<Long> childKeys = allParts.stream().map(Parts::getKey).toList();
         partsKeys.addAll(childKeys);
 
-        List<ThemeParts> allThemeParts = themePartsRepository.findAllByParts_KeyIn(partsKeys);
+        List<ThemeParts> allThemeParts = themePartsRepository.findAllByParts_KeyInAndDeletedIsFalse(partsKeys);
         allThemeParts.forEach(ThemeParts::deleteThemeParts);
 
         // 파츠 태그 삭제

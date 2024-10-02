@@ -30,7 +30,7 @@ public class BoardImage {
     @Column(name = "SORT")
     private Integer sort;
 
-    @Column(name = "DELETED", nullable = false)
     @Builder.Default
+    @Column(name = "DELETED", nullable = false)
     private Boolean deleted = false;
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface MoruPartsRepository extends CrudRepository<MoruParts, Long> {
 
-    List<MoruParts> findAllByParentKey(Long parentKey);
+    List<MoruParts> findAllByParentKeyAndDeletedIsFalse(Long parentKey);
 
     @Description("파츠의 part key")
     Optional<MoruParts> findByKey(Long parentPartKey);
@@ -17,5 +17,5 @@ public interface MoruPartsRepository extends CrudRepository<MoruParts, Long> {
     @Description("파츠의 부모 key")
     Optional<MoruParts> findByParentKey(Long parentKey);
 
-    List<MoruParts> findAllByParentKeyIsNull();
+    List<MoruParts> findAllByParentKeyIsNullAndDeletedIsFalse();
 }

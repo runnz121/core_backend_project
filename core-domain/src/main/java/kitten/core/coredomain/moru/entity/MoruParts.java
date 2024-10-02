@@ -66,6 +66,7 @@ public class MoruParts extends Parts {
 
     @Description("삭제처리 여부")
     @Builder.Default
+    @Column(name = "DELETED", nullable = false)
     private Boolean deleted = false;
 
     public List<String> getPurchaseInfos() {

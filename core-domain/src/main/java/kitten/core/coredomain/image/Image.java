@@ -24,7 +24,7 @@ public class Image extends Audit {
     @Column(name = "IMAGE_URL", nullable = false)
     private String imageUrl;
 
-    @Column(name = "DELETED", nullable = false)
     @Builder.Default
+    @Column(name = "DELETED", nullable = false)
     private Boolean deleted = false;
 }

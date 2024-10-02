@@ -56,7 +56,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
     }
 
     private PartDetail getPartDetail(MoruParts parentParts) {
-        List<MoruParts> childParts = moruPartsRepository.findAllByParentKey(parentParts.getKey());
+        List<MoruParts> childParts = moruPartsRepository.findAllByParentKeyAndDeletedIsFalse(parentParts.getKey());
         List<String> partTags = getTags(parentParts.getKey());
         List<PartDetail.ChildPartDetail> childPartDetails = childParts.stream()
                 .map(child -> {
@@ -72,7 +72,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
         List<Long> childKeys = childParts.stream().map(Parts::getKey).toList();
         partsKeys.addAll(childKeys);
 
-        List<PartDetail.Position> themePosition = themePartsRepository.findAllByParts_KeyIn(partsKeys).stream()
+        List<PartDetail.Position> themePosition = themePartsRepository.findAllByParts_KeyInAndDeletedIsFalse(partsKeys).stream()
                 .map(position -> {
                     return PartDetail.Position.builder()
                             .type(position.getTheme().getType())
@@ -98,7 +98,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
     @Override
     @Transactional(readOnly = true)
     public List<PartDetail> getAllPartsDetails() {
-        List<MoruParts> allMoruParts = moruPartsRepository.findAllByParentKeyIsNull();
+        List<MoruParts> allMoruParts = moruPartsRepository.findAllByParentKeyIsNullAndDeletedIsFalse();
         return allMoruParts.stream()
                 .map(this::getPartDetail)
                 .toList();
@@ -140,7 +140,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
 
     private List<PartsThemeData.PartsData> getPartsData(ThemeParts partParent) {
         Long parentPartKey = partParent.getParts().getKey();
-        List<MoruParts> childMoruParts = moruPartsRepository.findAllByParentKey(parentPartKey);
+        List<MoruParts> childMoruParts = moruPartsRepository.findAllByParentKeyAndDeletedIsFalse(parentPartKey);
         // 대표 이미지만 존재할 경우 child data는 보내지 않음
         if (CollectionUtils.isEmpty(childMoruParts)) {
             return Collections.emptyList();

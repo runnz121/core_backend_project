@@ -10,5 +10,5 @@ public interface ThemePartsRepository extends CrudRepository<ThemeParts, Long> {
 
     List<ThemeParts> findAllByTheme(Theme theme);
 
-    List<ThemeParts> findAllByParts_KeyIn(List<Long> partKeys);
+    List<ThemeParts> findAllByParts_KeyInAndDeletedIsFalse(List<Long> partKeys);
 }

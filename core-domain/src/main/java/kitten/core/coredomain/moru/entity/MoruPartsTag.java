@@ -30,6 +30,7 @@ public class MoruPartsTag extends Audit {
 
     @Description("삭제처리 여부")
     @Builder.Default
+    @Column(name = "DELETED", nullable = false)
     private Boolean deleted = false;
 
     public MoruPartsTag deletePartsTag() {
