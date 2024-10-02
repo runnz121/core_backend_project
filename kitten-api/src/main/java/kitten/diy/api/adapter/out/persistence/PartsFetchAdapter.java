@@ -49,7 +49,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
     @Transactional(readOnly = true)
     public PartDetail getPartsDetail(Long parentPartsKey) {
 
-        MoruParts parentParts = moruPartsRepository.findByKey(parentPartsKey)
+        MoruParts parentParts = moruPartsRepository.findByKeyAndDeletedIsFalse(parentPartsKey)
                 .orElseThrow(() -> new CommonRuntimeException(PartsErrorCode.NOT_FOUND_MORU_PARTS));
 
         return getPartDetail(parentParts);
@@ -129,7 +129,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
     }
 
     private PartsThemeData.PartsData createPartsData(ThemeParts parent) {
-        return moruPartsRepository.findByKey(parent.getParts().getKey())
+        return moruPartsRepository.findByKeyAndDeletedIsFalse(parent.getParts().getKey())
                 .map(parentParts -> {
                     List<String> partTags = getTags(parentParts.getKey());
                     List<PartsThemeData.PartsData> childDatas = getPartsData(parent);
@@ -145,7 +145,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
         if (CollectionUtils.isEmpty(childMoruParts)) {
             return Collections.emptyList();
         }
-        MoruParts parentMoruParts = moruPartsRepository.findByKey(parentPartKey).get();
+        MoruParts parentMoruParts = moruPartsRepository.findByKeyAndDeletedIsFalse(parentPartKey).get();
         List<PartsThemeData.PartsData> childData = childMoruParts.stream()
                 .map(childMoruPart -> PartsThemeData.PartsData.createMoruParts(childMoruPart,null,null, true))
                 .collect(Collectors.toList());

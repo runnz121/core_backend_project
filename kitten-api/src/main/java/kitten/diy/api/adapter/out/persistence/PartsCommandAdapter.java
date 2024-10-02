@@ -115,7 +115,7 @@ public class PartsCommandAdapter implements PartsPort {
     @Transactional
     public void deleteMoruParts(Long parentPartKey) {
 
-        MoruParts parentMoruParts = moruPartsRepository.findByKey(parentPartKey)
+        MoruParts parentMoruParts = moruPartsRepository.findByKeyAndDeletedIsFalse(parentPartKey)
                 .orElseThrow(() -> new CommonRuntimeException(PartsErrorCode.NOT_FOUND_MORU_PARTS));
 
         // 부모 파츠 삭제

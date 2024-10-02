@@ -12,7 +12,7 @@ public interface MoruPartsRepository extends CrudRepository<MoruParts, Long> {
     List<MoruParts> findAllByParentKeyAndDeletedIsFalse(Long parentKey);
 
     @Description("파츠의 part key")
-    Optional<MoruParts> findByKey(Long parentPartKey);
+    Optional<MoruParts> findByKeyAndDeletedIsFalse(Long parentPartKey);
 
     @Description("파츠의 부모 key")
     Optional<MoruParts> findByParentKey(Long parentKey);

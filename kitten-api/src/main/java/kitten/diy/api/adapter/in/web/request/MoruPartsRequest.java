@@ -22,6 +22,7 @@ public record MoruPartsRequest(
 
         @Description("세로 실물 크기 (mm)")
         Integer height,
+
         @Description("테마")
         String theme,
 
