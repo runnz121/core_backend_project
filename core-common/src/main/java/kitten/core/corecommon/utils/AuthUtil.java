@@ -3,7 +3,7 @@ package kitten.core.corecommon.utils;
 public class AuthUtil {
     public static final int MAX_AGE = 24 * 60 * 60 * 100;
     public static final String REDIRECT_URL = "http://localhost:3000/signup";
-    public static final String PROD_REDIRECT_URL = "https://diykitten.com/main";
+    public static final String PROD_REDIRECT_URL = "https://diykitten.com/signup-complete";
     public static final String PUBLIC_CALL_BACK = "http://core-api.diykitten-backend.site/oauth2/callback/google";
     public static final String DOMAIN = "diykitten.com";
     public static final String ISSUER = "diykitten.com";

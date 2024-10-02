@@ -247,3 +247,8 @@ server {
 ``````
 
 - customFilter 에 cors 빈 다시 생성하여 추가설정함 
+
+#### 3. 모바일 환경에셔 authorization_request_not_found 로 로그인 안되는 현상
+- AuthorizationRequestRepository 를 상속받아 커스텀하게 repository를 구현하였으나 동작안함
+- 쿠키에 secure = true로 주어서 https 환경이 아닌 경우에는 쿠기가 날라가지 않아 인증 쿠키를 다시보내지 않아 OAuth2LoginAuthenticationFilter 필터체인에서 발생한 문제
+- secure = true를 주석처리하여 해결함 
