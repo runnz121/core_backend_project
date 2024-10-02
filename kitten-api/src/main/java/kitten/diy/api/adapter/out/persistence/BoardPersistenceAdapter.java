@@ -37,7 +37,7 @@ public class BoardPersistenceAdapter implements BoardPersistentPort {
                             boardLikeRepository.delete(existingLike);
                         },
                         () -> {
-                            Board board = boardRepository.findByKey(command.boardKey())
+                            Board board = boardRepository.findByKeyAndDeletedIsFalse(command.boardKey())
                                     .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
 
 //                            Users user = getUsers(command.userName());
@@ -98,6 +98,14 @@ public class BoardPersistenceAdapter implements BoardPersistentPort {
                 .build();
 
         boardItemRepository.save(boardItem);
+    }
+
+    @Override
+    @Transactional
+    public void deleteBoard(Long boardKey) {
+        boardRepository.findByKeyAndDeletedIsFalse(boardKey).ifPresent(
+                Board::deleteBoard
+        );
     }
 
     @Transactional(readOnly = true)

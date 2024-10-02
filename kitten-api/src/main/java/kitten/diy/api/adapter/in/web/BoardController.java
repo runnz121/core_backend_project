@@ -61,11 +61,18 @@ public class BoardController {
     }
 
     @Description("게시글 좋아요")
-//    @Secured(value = "ROLE_USER")
+    @Secured(value = "ROLE_USER")
     @PostMapping("/{boardKey}/like")
     public Boolean likeBoard(@AccessAccount CurrentAccount currentAccount,
                              @PathVariable("boardKey") Long boardKey) {
-        currentAccount = CurrentAccount.defaultValue();
         return boardCommandUseCase.likeBoard(BoardLikeCommand.of(boardKey, currentAccount.getUserEmail()));
+    }
+
+    @Description("마이페이지 > 관리자 > 게시글 삭제")
+    @Secured(value = "ROLE_USER")
+    @DeleteMapping("/delete")
+    public void deleteBoard(@AccessAccount CurrentAccount account,
+                            @RequestParam("boardKey") Long boardKey) {
+        boardCommandUseCase.deleteBoard(boardKey);
     }
 }

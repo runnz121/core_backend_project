@@ -33,4 +33,9 @@ public class BoardImage {
     @Builder.Default
     @Column(name = "DELETED", nullable = false)
     private Boolean deleted = false;
+
+    public BoardImage deleteBoardImage() {
+        this.deleted = true;
+        return this;
+    }
 }

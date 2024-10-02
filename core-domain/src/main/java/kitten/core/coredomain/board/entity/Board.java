@@ -39,7 +39,16 @@ public class Board extends Audit {
     @Column(name = "COMMENT")
     private String comment;
 
+    @Builder.Default
+    @Column(name = "DELETED", nullable = false)
+    private Boolean deleted = false;
+
     public String getWriterNickName() {
         return user.getNickName();
+    }
+
+    public Board deleteBoard() {
+        this.deleted = true;
+        return this;
     }
 }

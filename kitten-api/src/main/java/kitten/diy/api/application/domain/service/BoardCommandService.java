@@ -16,4 +16,9 @@ public class BoardCommandService implements BoardCommandUseCase {
     public Boolean likeBoard(BoardLikeCommand command) {
         return boardPersistentPort.likeBoard(command);
     }
+
+    @Override
+    public void deleteBoard(Long boardKey) {
+        boardPersistentPort.deleteBoard(boardKey);
+    }
 }

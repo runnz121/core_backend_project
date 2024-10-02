@@ -48,12 +48,17 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                 .distinct()
                 .from(board)
                 .leftJoin(boardImage)
-                .on(boardImage.board.eq(board).and(boardImage.representative.isTrue()))
+                .on(boardImage.board.eq(board)
+                        .and(board.deleted.isFalse())
+                        .and(boardImage.deleted.isFalse())
+                        .and(boardImage.representative.isTrue())
+                )
                 .leftJoin(boardTag)
                 .on(boardTag.board.eq(board))
                 .leftJoin(boardView)
                 .on(boardView.board.eq(board))
                 .where(
+                        board.deleted.isFalse(),
                         searchByTag(command),
                         filterByType(command)
                 )

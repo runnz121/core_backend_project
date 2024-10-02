@@ -9,4 +9,6 @@ public interface BoardPersistentPort {
     boolean likeBoard(BoardLikeCommand command);
 
     void saveBoard(AvatarCommand command, MoruUserArtInfo savedArtInfo);
+
+    void deleteBoard(Long boardKey);
 }

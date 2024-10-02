@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface BoardRepository extends CrudRepository<Board, Long> {
 
-    Optional<Board> findByKey(Long boardKey);
+    Optional<Board> findByKeyAndDeletedIsFalse(Long boardKey);
 
     List<Board> findByUser(Users users);
 

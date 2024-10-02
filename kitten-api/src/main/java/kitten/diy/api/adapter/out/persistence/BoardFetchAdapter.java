@@ -50,7 +50,7 @@ public class BoardFetchAdapter implements BoardFetchPort {
     @Override
     @Transactional(readOnly = true)
     public BoardDetailData getBoardDetail(Long boardKey) {
-        Board board = boardRepository.findByKey(boardKey)
+        Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
         return BoardDetailData.of(
                 board,
@@ -64,7 +64,7 @@ public class BoardFetchAdapter implements BoardFetchPort {
     @Override
     @Transactional(readOnly = true)
     public List<BoardLikeUsersData> getBoardLikeUsers(Long boardKey) {
-        Board board = boardRepository.findByKey(boardKey)
+        Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
         List<BoardLike> boardLikes = boardLikeRepository.findByBoard(board);
         List<Users> likeUsers = boardLikes.stream().map(BoardLike::getUsers).toList();
@@ -89,7 +89,7 @@ public class BoardFetchAdapter implements BoardFetchPort {
     @Override
     @Transactional(readOnly = true)
     public List<BoardPartsInfo> getBoardPartsInfos(Long boardKey) {
-        Board board = boardRepository.findByKey(boardKey)
+        Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
         BoardItem boardItem = boardItemRepository.findByBoard_Key(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_ITEM_NOT_FOUND));

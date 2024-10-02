@@ -7,6 +7,7 @@ import kitten.core.coredomain.page.PageableData;
 import kitten.diy.api.adapter.in.web.request.AvatarRequest;
 import kitten.diy.api.adapter.in.web.request.MyArtsSearchRequest;
 import kitten.diy.api.application.port.in.command.ItemCommandUseCase;
+import kitten.diy.api.application.port.in.command.MyPageCommandUseCase;
 import kitten.diy.api.application.port.in.query.MyPageQueryUseCase;
 import kitten.diy.api.application.port.in.query.data.MyPageArtData;
 import kitten.diy.api.application.port.in.query.data.MyPageData;
@@ -23,13 +24,13 @@ public class UserController {
 
     private final ItemCommandUseCase itemCommandUseCase;
     private final MyPageQueryUseCase myPageQueryUseCase;
+    private final MyPageCommandUseCase myPageCommandUseCase;
 
     @Description("유저 아트 정보 업로드 및 게시글 (모루 + 파츠 + 공간 + 게시글)")
-//    @Secured(value = "ROLE_USER")
+    @Secured(value = "ROLE_USER")
     @PostMapping("/moru/arts")
     public void registerAvatar(@AccessAccount CurrentAccount account,
                                @RequestBody AvatarRequest avatarRequest) {
-        account = CurrentAccount.defaultValue();
         itemCommandUseCase.saveAvatar(avatarRequest.toCommand(account.getUserEmail()));
     }
 
@@ -37,7 +38,6 @@ public class UserController {
     @Secured(value = "ROLE_USER")
     @GetMapping("/mypage")
     public MyPageData getMyPage(@AccessAccount CurrentAccount account) {
-        account = CurrentAccount.defaultValue();
         return myPageQueryUseCase.getMyPageInfo(account.getUserEmail());
     }
 
@@ -47,5 +47,13 @@ public class UserController {
     public PageableData<List<MyPageArtData>> getMyArts(@AccessAccount CurrentAccount account,
                                                        @RequestBody MyArtsSearchRequest request) {
         return myPageQueryUseCase.getMyArtInfos(request.toCommand(account.getUserEmail()));
+    }
+
+    @Description("마이페이지 > 관리자 > 게시글 삭제")
+    @Secured(value = "ROLE_USER")
+    @DeleteMapping("/mypage")
+    public void deleteMyBoard(@AccessAccount CurrentAccount account,
+                              @RequestParam("boardKey") Long boardKey) {
+        myPageCommandUseCase.deleteMyBoard(boardKey);
     }
 }
