@@ -59,7 +59,13 @@ public record AvatarRequest(
             Integer rotation,
 
             @Description(value = "파츠 앞/뒤 상태", example = "[FRONT, BACK]")
-            String side
+            String side,
+
+            @Description("유저가 조절한 파츠 가로길이")
+            Integer customWidth,
+
+            @Description("유저가 조절한 파츠 세로길이")
+            Integer customHeight
     ) {
 
         public AvatarCommand.PartInfo toInfoCommand() {
@@ -70,6 +76,8 @@ public record AvatarRequest(
                     .corZ(corZ)
                     .rotation(rotation)
                     .side(MoruSide.valueOf(side))
+                    .customWidth(customWidth)
+                    .customHeight(customHeight)
                     .build();
         }
     }

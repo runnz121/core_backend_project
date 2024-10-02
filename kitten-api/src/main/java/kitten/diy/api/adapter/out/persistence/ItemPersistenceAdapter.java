@@ -58,6 +58,8 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
                             .corZ(partInfo.corZ())
                             .rotation(partInfo.rotation())
                             .side(partInfo.side())
+                            .customWidth(partInfo.customWidth())
+                            .customHeight(partInfo.customHeight())
                             .build();
 
                     moruUsePartRepository.save(userArt);

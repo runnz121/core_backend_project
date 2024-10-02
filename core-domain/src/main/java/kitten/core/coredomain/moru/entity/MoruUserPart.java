@@ -51,4 +51,12 @@ public class MoruUserPart extends Audit {
     @Column(name = "SIDE")
     @Enumerated(EnumType.STRING)
     private MoruSide side;
+
+    @Description("유저가 커스텀한 파츠 가로길이")
+    @Column(name = "CUSTOM_WIDTH")
+    private Integer customWidth;
+
+    @Description("모루 파츠 y좌표")
+    @Column(name = "CUSTOM_HEIGHT")
+    private Integer customHeight;
 }

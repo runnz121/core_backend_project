@@ -60,7 +60,13 @@ public record AvatarCommand(
             Integer rotation,
 
             @Description("파츠 앞/뒤 상태")
-            MoruSide side
+            MoruSide side,
+
+            @Description("유저가 조절한 파츠 가로길이")
+            Integer customWidth,
+
+            @Description("유저가 조절한 파츠 세로길이")
+            Integer customHeight
     ) {
     }
 }
