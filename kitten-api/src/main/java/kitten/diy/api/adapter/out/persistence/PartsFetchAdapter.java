@@ -98,7 +98,7 @@ public class PartsFetchAdapter implements PartsFetchPort {
     @Override
     @Transactional(readOnly = true)
     public List<PartDetail> getAllPartsDetails() {
-        List<MoruParts> allMoruParts = (List<MoruParts>) moruPartsRepository.findAll();
+        List<MoruParts> allMoruParts = moruPartsRepository.findAllByParentKeyIsNull();
         return allMoruParts.stream()
                 .map(this::getPartDetail)
                 .toList();

@@ -16,4 +16,6 @@ public interface MoruPartsRepository extends CrudRepository<MoruParts, Long> {
 
     @Description("파츠의 부모 key")
     Optional<MoruParts> findByParentKey(Long parentKey);
+
+    List<MoruParts> findAllByParentKeyIsNull();
 }
