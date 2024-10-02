@@ -12,7 +12,8 @@ public enum ThemePosition {
     HEAD("머리"),
     ORNAMENT("장식품"),
     MOUTH("입"),
-    EYE("눈")
+    EYE("눈"),
+    WING("날개")
     ;
 
     private final String desc;
