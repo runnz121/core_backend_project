@@ -33,7 +33,7 @@ public class CookieUtils {
         cookie.setSecure(true);
         cookie.setPath("/");
         // TODO 다시 활성화
-//        cookie.setDomain(AuthUtil.DOMAIN);
+        cookie.setDomain(AuthUtil.DOMAIN);
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
