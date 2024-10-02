@@ -30,10 +30,10 @@ public class CookieUtils {
         Cookie cookie = new Cookie(name, value);
         // TODO 다시 활성화
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+//        cookie.setSecure(true);
         cookie.setPath("/");
         // TODO 다시 활성화
-        cookie.setDomain(AuthUtil.DOMAIN);
+//        cookie.setDomain(AuthUtil.DOMAIN);
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
