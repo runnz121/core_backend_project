@@ -6,6 +6,7 @@ import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.core.coredomain.page.PageableData;
 import kitten.diy.api.adapter.in.web.request.AvatarRequest;
 import kitten.diy.api.adapter.in.web.request.MyArtsSearchRequest;
+import kitten.diy.api.adapter.in.web.request.MyProfileRequest;
 import kitten.diy.api.application.port.in.command.ItemCommandUseCase;
 import kitten.diy.api.application.port.in.command.MyPageCommandUseCase;
 import kitten.diy.api.application.port.in.query.MyPageQueryUseCase;
@@ -25,6 +26,14 @@ public class UserController {
     private final ItemCommandUseCase itemCommandUseCase;
     private final MyPageQueryUseCase myPageQueryUseCase;
     private final MyPageCommandUseCase myPageCommandUseCase;
+
+    @Description("유저 프로필 정보 수정")
+    @Secured(value = "ROLE_USER")
+    @PutMapping("/profile")
+    public void modifyMyProfile(@AccessAccount CurrentAccount account,
+                               @RequestBody MyProfileRequest request) {
+        myPageCommandUseCase.modifyMyProfile(request.toCommand(account.getUserEmail()));
+    }
 
     @Description("유저 아트 정보 업로드 및 게시글 (모루 + 파츠 + 공간 + 게시글)")
     @Secured(value = "ROLE_USER")

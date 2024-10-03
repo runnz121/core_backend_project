@@ -35,4 +35,14 @@ public class Users extends Audit {
     @Column(name = "AUTH_ROLE", nullable = false)
     @Enumerated(EnumType.STRING)
     private AuthRoles authRoles;
+
+    public Users changeNickName(String nickName) {
+        this.nickName = nickName;
+        return this;
+    }
+
+    public Users changeProfileImgUrl(String profileImgUrl) {
+        this.profileImgUrl = profileImgUrl;
+        return this;
+    }
 }

@@ -1,6 +1,7 @@
 package kitten.diy.api.application.domain.service;
 
 import kitten.diy.api.application.port.in.command.MyPageCommandUseCase;
+import kitten.diy.api.application.port.in.command.command.MyProfileCommand;
 import kitten.diy.api.application.port.out.MyPagePersistentPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,5 +15,10 @@ public class MyPageCommandService implements MyPageCommandUseCase {
     @Override
     public void deleteMyBoard(Long boardKey) {
         myPagePersistentPort.deleteBoard(boardKey);
+    }
+
+    @Override
+    public void modifyMyProfile(MyProfileCommand command) {
+        myPagePersistentPort.modifyMyProfile(command);
     }
 }
