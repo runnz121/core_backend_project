@@ -15,5 +15,5 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 
     List<Board> findByUser(Users users);
 
-    Page<Board> findAllByUser(Users users, PageRequest pageRequest);
+    Page<Board> findAllByUserAndDeletedIsFalse(Users users, PageRequest pageRequest);
 }
