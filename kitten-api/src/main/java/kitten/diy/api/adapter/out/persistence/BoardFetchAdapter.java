@@ -21,8 +21,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Component
@@ -49,7 +51,8 @@ public class BoardFetchAdapter implements BoardFetchPort {
 
     @Override
     @Transactional(readOnly = true)
-    public BoardDetailData getBoardDetail(Long boardKey) {
+    public BoardDetailData getBoardDetail(Long boardKey,
+                                          String userEmail) {
         Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
         return BoardDetailData.of(
@@ -57,7 +60,8 @@ public class BoardFetchAdapter implements BoardFetchPort {
                 getBoardImage(board),
                 getLikeCounts(board),
                 getViewCounts(board),
-                getTags(board)
+                getTags(board),
+                getIsMyLike(board, userEmail)
         );
     }
 
@@ -140,5 +144,14 @@ public class BoardFetchAdapter implements BoardFetchPort {
         return usersRepository.findByEmail(userEmail)
                 .map(Users::getNickName)
                 .orElse("");
+    }
+
+    private Boolean getIsMyLike(Board board, String userEmail) {
+        if (!StringUtils.hasText(userEmail)) {
+            return false;
+        }
+        return usersRepository.findByEmail(userEmail)
+                .flatMap(user -> boardLikeRepository.findByBoardAndUsers(board, user))
+                .isPresent();
     }
 }

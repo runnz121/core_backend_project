@@ -14,7 +14,7 @@ public interface BoardFetchPort {
 
     Page<BoardQueryData> getBoardDatas(BoardInfoSearchCommand command);
 
-    BoardDetailData getBoardDetail(Long boardKey);
+    BoardDetailData getBoardDetail(Long boardKey, String userEmail);
 
     List<BoardLikeUsersData> getBoardLikeUsers(Long boardKey);
 

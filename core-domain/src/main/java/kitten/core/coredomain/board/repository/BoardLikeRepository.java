@@ -17,4 +17,6 @@ public interface BoardLikeRepository extends CrudRepository<BoardLike, Long> {
     Optional<BoardLike> findByCreateByAndBoard_key(String email, Long boardKey);
 
     Page<BoardLike> findAllByUsers(Users users, PageRequest pageRequest);
+
+    Optional<BoardLike> findByBoardAndUsers(Board board, Users users);
 }

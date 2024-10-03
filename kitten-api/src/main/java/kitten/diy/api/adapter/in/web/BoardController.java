@@ -36,10 +36,11 @@ public class BoardController {
 
     @Description("게시글 상세 정보 조회")
     @GetMapping("/detail/{boardKey}")
-    public BoardDetailData getBoardDetail(@PathVariable("boardKey") Long boardKey) {
+    public BoardDetailData getBoardDetail(@AccessAccount CurrentAccount currentAccount,
+                                          @PathVariable("boardKey") Long boardKey) {
         // 접속시 조회수 증가하도록 조건 추가
         //boardCommandUseCase
-        return boardQueryUseCase.getDetailData(boardKey);
+        return boardQueryUseCase.getDetailData(boardKey, currentAccount.getUserEmail());
     }
 
     @Description("게시글 상세 좋아요 한 유저 리스트 조회")

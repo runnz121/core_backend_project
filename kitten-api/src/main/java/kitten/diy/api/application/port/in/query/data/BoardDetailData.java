@@ -25,6 +25,8 @@ public record BoardDetailData(
 
         BoardType type,
 
+        Boolean isMyLike,
+
         List<String> tags
 ) {
 
@@ -32,11 +34,14 @@ public record BoardDetailData(
                                      List<BoardImage> images,
                                      Integer likeCounts,
                                      Integer viewCounts,
-                                     List<String> tags) {
+                                     List<String> tags,
+                                     Boolean isMyLike
+    ) {
         return BoardDetailData.builder()
                 .nickName(board.getWriterNickName())
                 .comment(board.getComment())
                 .type(board.getType())
+                .isMyLike(isMyLike)
                 .frontImgUrl(
                         Stream.ofNullable(images)
                         .flatMap(List::stream)

@@ -14,7 +14,7 @@ public interface BoardQueryUseCase {
 
     PageableData<List<BoardInfoData>> getBoardInfos(BoardInfoSearchCommand command);
 
-    BoardDetailData getDetailData(Long boardKey);
+    BoardDetailData getDetailData(Long boardKey, String userEmail);
 
     List<BoardLikeUsersData> getBoardLikeUsers(Long boardKey);
 

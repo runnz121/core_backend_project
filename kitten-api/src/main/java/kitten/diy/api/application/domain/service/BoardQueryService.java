@@ -33,8 +33,9 @@ public class BoardQueryService implements BoardQueryUseCase {
     }
 
     @Override
-    public BoardDetailData getDetailData(Long boardKey) {
-        return boardFetchPort.getBoardDetail(boardKey);
+    public BoardDetailData getDetailData(Long boardKey,
+                                         String userEmai) {
+        return boardFetchPort.getBoardDetail(boardKey, userEmai);
     }
 
     @Override
