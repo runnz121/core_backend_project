@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ItemFetchPort {
 
-    ItemThemeData getItemThemeData(ItemSearchCommand command);
+    List<ItemThemeData> getItemThemeData(ItemSearchCommand command);
 
     List<String> getPartsLikeTags(TagLikeSearchCommand command);
 }

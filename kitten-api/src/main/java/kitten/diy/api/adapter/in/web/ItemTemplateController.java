@@ -47,12 +47,12 @@ public class ItemTemplateController {
         partsCommandUseCase.registerMoruParts(request.toCommand(account.getUserEmail()));
     }
 
-    @Description("모루 아이템 정보 조회")
+    @Description("모루 인형 테마별 정보 조회")
     @GetMapping("/moru")
     @Secured(value = {"ROLE_USER", "ROLE_ANONYMOUS"})
-    public ItemThemeData getItem(@AccessAccount CurrentAccount account,
-                                 @RequestParam("item") String item,
-                                 @RequestParam("theme") String theme) {
+    public List<ItemThemeData> getItem(@AccessAccount CurrentAccount account,
+                                       @RequestParam("item") String item,
+                                       @RequestParam("theme") String theme) {
         return itemQueryUseCase.getThemeItemData(ItemSearchCommand.of(item, theme));
     }
 

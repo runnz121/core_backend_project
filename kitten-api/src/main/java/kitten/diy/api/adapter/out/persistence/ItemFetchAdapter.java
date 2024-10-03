@@ -24,14 +24,15 @@ public class ItemFetchAdapter implements ItemFetchPort {
 
     @Override
     @Transactional(readOnly = true)
-    public ItemThemeData getItemThemeData(ItemSearchCommand command) {
+    public List<ItemThemeData> getItemThemeData(ItemSearchCommand command) {
         return themeRepository.findByType(command.themeType())
                 .map(theme -> {
-                    return moruRepository.findByTheme(theme)
+                    return moruRepository.findAllByTheme(theme)
+                            .stream()
                             .map(ItemThemeData::createMoruItemData)
-                            .orElseGet(() -> ItemThemeData.EMPTY);
+                            .collect(Collectors.toList());
                 })
-                .orElseGet(() -> ItemThemeData.EMPTY);
+                .orElseGet(() -> List.of(ItemThemeData.EMPTY));
     }
 
     @Override

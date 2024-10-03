@@ -17,7 +17,7 @@ public class ItemQueryService implements ItemQueryUseCase {
     private final ItemFetchPort itemFetchPort;
 
     @Override
-    public ItemThemeData getThemeItemData(ItemSearchCommand command) {
+    public List<ItemThemeData> getThemeItemData(ItemSearchCommand command) {
         return itemFetchPort.getItemThemeData(command);
     }
 

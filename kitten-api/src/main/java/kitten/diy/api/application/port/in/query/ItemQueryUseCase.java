@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ItemQueryUseCase {
 
-    ItemThemeData getThemeItemData(ItemSearchCommand command);
+    List<ItemThemeData> getThemeItemData(ItemSearchCommand command);
 
     List<String> getLikePartsTags(TagLikeSearchCommand command);
 }
