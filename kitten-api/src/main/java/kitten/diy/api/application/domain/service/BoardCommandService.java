@@ -1,5 +1,6 @@
 package kitten.diy.api.application.domain.service;
 
+import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.diy.api.application.port.in.command.BoardCommandUseCase;
 import kitten.diy.api.application.port.in.command.command.BoardLikeCommand;
 import kitten.diy.api.application.port.out.BoardPersistentPort;
@@ -20,5 +21,11 @@ public class BoardCommandService implements BoardCommandUseCase {
     @Override
     public void deleteBoard(Long boardKey) {
         boardPersistentPort.deleteBoard(boardKey);
+    }
+
+    @Override
+    public void updateViewCount(CurrentAccount currentAccount,
+                                Long boardKey) {
+        boardPersistentPort.updateBoardViewCount(currentAccount, boardKey);
     }
 }

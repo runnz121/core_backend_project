@@ -1,9 +1,11 @@
 package kitten.diy.api.adapter.out.persistence;
 
 import kitten.core.corecommon.config.exception.CommonRuntimeException;
+import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.core.coredomain.board.consts.BoardType;
 import kitten.core.coredomain.board.entity.*;
 import kitten.core.coredomain.board.repository.*;
+import kitten.core.coredomain.model.AuthRoles;
 import kitten.core.coredomain.moru.entity.MoruUserArtInfo;
 import kitten.core.coredomain.user.entity.Users;
 import kitten.core.coredomain.user.repository.UsersRepository;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -29,6 +32,7 @@ public class BoardPersistenceAdapter implements BoardPersistentPort {
     private final BoardTagRepository boardTagRepository;
     private final BoardImageRepository boardImageRepository;
     private final BoardItemRepository boardItemRepository;
+    private final BoardViewRepository boardViewRepository;
 
     @Override
     @Transactional
@@ -135,6 +139,26 @@ public class BoardPersistenceAdapter implements BoardPersistentPort {
         );
 
         saveBoardFeatures(command, savedArtInfo, board);
+    }
+
+    @Override
+    public void updateBoardViewCount(CurrentAccount account,
+                                     Long boardKey) {
+        if (Objects.isNull(account) ||
+                AuthRoles.ANONYMOUS == account.getAuthRoles())  {
+            return;
+        }
+        Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
+                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+
+        Users users = getUsers(account.getUserEmail());
+
+        BoardView boardView = BoardView.builder()
+                .board(board)
+                .users(users)
+                .build();
+
+        boardViewRepository.save(boardView);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class BoardController {
     public BoardDetailData getBoardDetail(@AccessAccount CurrentAccount currentAccount,
                                           @PathVariable("boardKey") Long boardKey) {
         // 접속시 조회수 증가하도록 조건 추가
-        //boardCommandUseCase
+        boardCommandUseCase.updateViewCount(currentAccount, boardKey);
         return boardQueryUseCase.getDetailData(boardKey, currentAccount.getUserEmail());
     }
 
