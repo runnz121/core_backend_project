@@ -68,7 +68,7 @@ public class BoardController {
 
     @Description("마이페이지 > 관리자 > 게시글 삭제")
     @Secured(value = "ROLE_USER")
-    @DeleteMapping("/delete")
+    @PutMapping("/delete")
     public void deleteBoard(@AccessAccount CurrentAccount account,
                             @RequestParam("boardKey") Long boardKey) {
         boardCommandUseCase.deleteBoard(boardKey);

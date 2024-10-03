@@ -69,7 +69,7 @@ public class UserController {
 
     @Description("마이페이지 > 관리자 > 게시글 삭제")
     @Secured(value = "ROLE_USER")
-    @DeleteMapping("/mypage")
+    @PutMapping("/mypage")
     public void deleteMyBoard(@AccessAccount CurrentAccount account,
                               @RequestParam("boardKey") Long boardKey) {
         myPageCommandUseCase.deleteMyBoard(boardKey);
