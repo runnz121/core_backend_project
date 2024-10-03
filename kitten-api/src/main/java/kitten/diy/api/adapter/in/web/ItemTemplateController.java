@@ -4,8 +4,10 @@ import kitten.core.corecommon.annotation.Description;
 import kitten.core.corecommon.security.jwt.AccessAccount;
 import kitten.core.corecommon.security.jwt.CurrentAccount;
 import kitten.diy.api.adapter.in.web.request.MoruPartsRequest;
+import kitten.diy.api.adapter.in.web.request.MoruRequest;
 import kitten.diy.api.adapter.in.web.request.TagLikeSearchRequest;
 import kitten.diy.api.adapter.out.model.PartDetail;
+import kitten.diy.api.application.port.in.command.ItemCommandUseCase;
 import kitten.diy.api.application.port.in.command.PartsCommandUseCase;
 import kitten.diy.api.application.port.in.command.command.ItemSearchCommand;
 import kitten.diy.api.application.port.in.command.command.PartsSearchCommand;
@@ -25,8 +27,17 @@ import java.util.List;
 public class ItemTemplateController {
 
     private final ItemQueryUseCase itemQueryUseCase;
+    private final ItemCommandUseCase itemCommandUseCase;
     private final PartsCommandUseCase partsCommandUseCase;
     private final PartsQueryUseCase partsQueryUseCase;
+
+    @Description("모루 인형 정보 저장")
+    @Secured(value = "ROLE_USER")
+    @PostMapping("/moru")
+    public void registerMoru(@RequestBody MoruRequest request,
+                             @AccessAccount CurrentAccount account) {
+        itemCommandUseCase.saveMoru(request.toCommand());
+    }
 
     @Description("모루 파츠 정보 저장")
     @Secured(value = "ROLE_USER")

@@ -3,6 +3,7 @@ package kitten.diy.api.application.domain.service;
 import kitten.core.coredomain.moru.entity.MoruUserArtInfo;
 import kitten.diy.api.application.port.in.command.ItemCommandUseCase;
 import kitten.diy.api.application.port.in.command.command.AvatarCommand;
+import kitten.diy.api.application.port.in.command.command.MoruCommand;
 import kitten.diy.api.application.port.out.BoardFetchPort;
 import kitten.diy.api.application.port.out.BoardPersistentPort;
 import kitten.diy.api.application.port.out.ItemPersistentPort;
@@ -17,6 +18,12 @@ public class ItemCommandService implements ItemCommandUseCase {
     private final ItemPersistentPort itemPersistentPort;
     private final BoardPersistentPort boardPersistentPort;
     private final BoardFetchPort boardFetchPort;
+
+    @Override
+    @Transactional
+    public void saveMoru(MoruCommand command) {
+        itemPersistentPort.saveMoru(command);
+    }
 
     @Override
     @Transactional

@@ -11,13 +11,13 @@ import kitten.core.coredomain.moru.repository.MoruPartsRepository;
 import kitten.core.coredomain.moru.repository.MoruRepository;
 import kitten.core.coredomain.moru.repository.MoruUsePartRepository;
 import kitten.core.coredomain.moru.repository.MoruUserArtInfoRepository;
+import kitten.core.coredomain.theme.entity.Theme;
+import kitten.core.coredomain.theme.repository.ThemeRepository;
 import kitten.core.coredomain.user.entity.Users;
 import kitten.core.coredomain.user.repository.UsersRepository;
-import kitten.diy.api.adapter.out.error.BoardErrorCode;
-import kitten.diy.api.adapter.out.error.ItemErrorCode;
-import kitten.diy.api.adapter.out.error.PartsErrorCode;
-import kitten.diy.api.adapter.out.error.UserErrorCode;
+import kitten.diy.api.adapter.out.error.*;
 import kitten.diy.api.application.port.in.command.command.AvatarCommand;
+import kitten.diy.api.application.port.in.command.command.MoruCommand;
 import kitten.diy.api.application.port.out.ItemPersistentPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -34,6 +34,7 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
     private final MoruUserArtInfoRepository moruUserArtInfoRepository;
 
     private final BoardItemRepository boardItemRepository;
+    private final ThemeRepository themeRepository;
 
     @Override
     @Transactional
@@ -84,6 +85,24 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
 
         // 아이템 저장
         return saveItem(command);
+    }
+
+    @Override
+    @Transactional
+    public void saveMoru(MoruCommand command) {
+        Theme theme = themeRepository.findByType(command.themeType())
+                .orElseThrow(() -> new CommonRuntimeException(ThemeError.THEME_NOT_FOUND));
+
+        Moru moru = Moru.builder()
+                .theme(theme)
+                .name(command.name())
+                .frontImageUrl(command.frontImgUrl())
+                .backImageUrl(command.backImgUrl())
+                .width(command.width())
+                .height(command.height())
+                .build();
+
+        moruRepository.save(moru);
     }
 
     private void deleteMoruUserArtInfo(AvatarCommand command, Long boardKey) {
