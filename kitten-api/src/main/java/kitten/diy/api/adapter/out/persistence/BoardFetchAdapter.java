@@ -115,10 +115,8 @@ public class BoardFetchAdapter implements BoardFetchPort {
                 .toList();
     }
 
-    private String getBoardImage(Board board) {
-        return boardImageRepository.findByBoardAndRepresentativeIsTrue(board)
-                .map(BoardImage::getImageUrl)
-                .orElse(null);
+    private List<BoardImage> getBoardImage(Board board) {
+        return boardImageRepository.findAllByBoard_Key(board.getKey());
     }
 
     private Integer getLikeCounts(Board board) {
