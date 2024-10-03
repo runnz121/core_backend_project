@@ -3,7 +3,9 @@ package kitten.diy.api.adapter.out.persistence;
 import kitten.core.corecommon.config.exception.CommonRuntimeException;
 import kitten.core.coredomain.board.entity.*;
 import kitten.core.coredomain.board.repository.*;
+import kitten.core.coredomain.moru.entity.Moru;
 import kitten.core.coredomain.moru.entity.MoruParts;
+import kitten.core.coredomain.moru.entity.MoruUserArtInfo;
 import kitten.core.coredomain.moru.entity.MoruUserPart;
 import kitten.core.coredomain.moru.repository.MoruUsePartRepository;
 import kitten.core.coredomain.user.entity.Users;
@@ -16,6 +18,7 @@ import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
 import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
 import kitten.diy.api.application.port.in.query.data.BoardPartsInfo;
+import kitten.diy.api.application.port.in.query.data.MyArtDetailData;
 import kitten.diy.api.application.port.out.BoardFetchPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -117,6 +120,50 @@ public class BoardFetchAdapter implements BoardFetchPort {
                     return boardPartsInfo;
                 })
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public MyArtDetailData getMyArtDetail(Long boardKey,
+                                          String userEmail) {
+        String userNickName = getUsersNickName(userEmail);
+        BoardItem boardItem = boardItemRepository.findByBoard_KeyAndDeletedIsFalse(boardKey)
+                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_ITEM_NOT_FOUND));
+
+        Board board = boardItem.getBoard();
+
+        Moru moru = boardItem.getUserArtInfo().getMoru();
+        MoruUserArtInfo moruUserArtInfo = boardItem.getUserArtInfo();
+
+        List<MoruUserPart> useMoruParts = moruUsePartRepository.findAllByMoruUserArtInfo(moruUserArtInfo);
+
+        List<MyArtDetailData.PartInfo> partInfos = useMoruParts.stream().map(part -> {
+            return MyArtDetailData.PartInfo.builder()
+                    .partKey(part.getMoruParts().getKey())
+                    .corX(part.getCorX())
+                    .corY(part.getCorY())
+                    .corZ(part.getCorZ())
+                    .rotation(part.getRotation())
+                    .side(part.getSide())
+                    .customWidth(part.getCustomWidth())
+                    .customHeight(part.getCustomHeight())
+                    .build();
+                })
+                .toList();
+
+       return MyArtDetailData.builder()
+                .itemKey(moru.getKey())
+                .width(moru.getWidth())
+                .height(moru.getHeight())
+                .frontImgUrl(moru.getFrontImageUrl())
+                .backImgUrl(moru.getBackImageUrl())
+                .colorHexCode(moruUserArtInfo.getMoruColorHexCode())
+                .tags(getTags(board))
+                .comment(board.getComment())
+                .partInfos(partInfos)
+                .userName(userNickName)
+                .postStatus(board.getPostStatus())
+                .build();
     }
 
     private List<BoardImage> getBoardImage(Board board) {

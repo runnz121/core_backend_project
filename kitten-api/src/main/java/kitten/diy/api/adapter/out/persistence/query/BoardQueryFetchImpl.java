@@ -7,6 +7,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import kitten.core.coredomain.board.consts.BoardPostStatus;
 import kitten.core.coredomain.board.entity.QBoard;
 import kitten.core.coredomain.board.entity.QBoardLike;
 import kitten.core.coredomain.board.entity.QBoardView;
@@ -59,6 +60,7 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                 .on(boardView.board.eq(board))
                 .where(
                         board.deleted.isFalse(),
+                        board.postStatus.eq(BoardPostStatus.POST),
                         searchByTag(command),
                         filterByType(command)
                 )

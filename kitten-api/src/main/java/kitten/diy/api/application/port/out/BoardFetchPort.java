@@ -6,6 +6,7 @@ import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import kitten.diy.api.application.port.in.query.data.BoardDetailData;
 import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
 import kitten.diy.api.application.port.in.query.data.BoardPartsInfo;
+import kitten.diy.api.application.port.in.query.data.MyArtDetailData;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface BoardFetchPort {
     List<String> getTagsByBoardKey(Long boardKey);
 
     List<BoardPartsInfo> getBoardPartsInfos(Long boardKey);
+
+    MyArtDetailData getMyArtDetail(Long boardKey, String userEmail);
 }

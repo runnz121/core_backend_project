@@ -7,10 +7,7 @@ import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import kitten.diy.api.application.port.in.query.BoardQueryUseCase;
 import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
-import kitten.diy.api.application.port.in.query.data.BoardDetailData;
-import kitten.diy.api.application.port.in.query.data.BoardInfoData;
-import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
-import kitten.diy.api.application.port.in.query.data.BoardPartsInfo;
+import kitten.diy.api.application.port.in.query.data.*;
 import kitten.diy.api.application.port.out.BoardFetchPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -53,5 +50,11 @@ public class BoardQueryService implements BoardQueryUseCase {
     @Override
     public List<BoardPartsInfo> getPartsInfos(Long boardKey) {
         return boardFetchPort.getBoardPartsInfos(boardKey);
+    }
+
+    @Override
+    public MyArtDetailData getMyArtDetail(Long boardKey,
+                                          String userEmail) {
+        return boardFetchPort.getMyArtDetail(boardKey, userEmail);
     }
 }

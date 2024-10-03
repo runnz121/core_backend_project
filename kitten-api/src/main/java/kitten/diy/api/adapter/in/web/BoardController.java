@@ -9,10 +9,7 @@ import kitten.diy.api.adapter.in.web.request.TagLikeSearchRequest;
 import kitten.diy.api.application.port.in.command.BoardCommandUseCase;
 import kitten.diy.api.application.port.in.command.command.BoardLikeCommand;
 import kitten.diy.api.application.port.in.query.BoardQueryUseCase;
-import kitten.diy.api.application.port.in.query.data.BoardDetailData;
-import kitten.diy.api.application.port.in.query.data.BoardInfoData;
-import kitten.diy.api.application.port.in.query.data.BoardLikeUsersData;
-import kitten.diy.api.application.port.in.query.data.BoardPartsInfo;
+import kitten.diy.api.application.port.in.query.data.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -75,5 +72,13 @@ public class BoardController {
     public void deleteBoard(@AccessAccount CurrentAccount account,
                             @RequestParam("boardKey") Long boardKey) {
         boardCommandUseCase.deleteBoard(boardKey);
+    }
+
+    @Description("마이페이지 > 작품 정보")
+    @Secured(value = "ROLE_USER")
+    @GetMapping("/arts")
+    public MyArtDetailData getMyArtDetail(@AccessAccount CurrentAccount account,
+                                          @RequestParam("boardKey") Long boardKey) {
+        return boardQueryUseCase.getMyArtDetail(boardKey, account.getUserEmail());
     }
 }
