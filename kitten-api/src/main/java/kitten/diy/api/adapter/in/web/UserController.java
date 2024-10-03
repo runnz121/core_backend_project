@@ -34,6 +34,15 @@ public class UserController {
         itemCommandUseCase.saveAvatar(avatarRequest.toCommand(account.getUserEmail()));
     }
 
+    @Description("유저 아트 정보 수정")
+    @Secured(value = "ROLE_USER")
+    @PutMapping("/moru/arts")
+    public void modifyAvatar(@AccessAccount CurrentAccount account,
+                             @RequestBody AvatarRequest avatarRequest,
+                             @RequestParam("boardKey") Long boardKey) {
+        itemCommandUseCase.modifyAvatar(avatarRequest.toCommand(account.getUserEmail()), boardKey);
+    }
+
     @Description("마이페이지 조회")
     @Secured(value = "ROLE_USER")
     @GetMapping("/mypage")

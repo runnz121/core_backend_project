@@ -20,8 +20,11 @@ public record AvatarRequest(
         @Description("공간 세로 길이")
         Integer height,
 
-        @Description("대표사진 이미지 URL")
-        String repImgUrl,
+        @Description("작품 정면 이미지 URL")
+        String frontImgUrl,
+
+        @Description("작품 뒷면 이미지 URL")
+        String backImgUrl,
 
         @Description("태그 정보 들")
         List<String> tags,
@@ -87,7 +90,8 @@ public record AvatarRequest(
                 .itemKey(itemKey)
                 .width(width)
                 .height(height)
-                .repImgUrl(repImgUrl)
+                .frontImgUrl(frontImgUrl)
+                .backImgUrl(backImgUrl)
                 .tags(tags)
                 .comment(comment)
                 .colorHexCode(colorHexCode)

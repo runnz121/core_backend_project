@@ -1,7 +1,9 @@
 package kitten.core.coredomain.board.entity;
 
 import jakarta.persistence.*;
+import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
+import kitten.core.coredomain.moru.entity.MoruUserPart;
 import lombok.*;
 
 @Getter
@@ -24,4 +26,14 @@ public class BoardTag extends Audit {
 
     @Column(name = "TAG", nullable = false)
     private String tag;
+
+    @Description("삭제처리 여부")
+    @Builder.Default
+    @Column(name = "DELETED", nullable = false)
+    private Boolean deleted = false;
+
+    public BoardTag deleteBoardTag() {
+        this.deleted = true;
+        return this;
+    }
 }

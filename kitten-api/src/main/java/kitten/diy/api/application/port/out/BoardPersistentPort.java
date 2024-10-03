@@ -11,4 +11,6 @@ public interface BoardPersistentPort {
     void saveBoard(AvatarCommand command, MoruUserArtInfo savedArtInfo);
 
     void deleteBoard(Long boardKey);
+
+    void modifyBoard(AvatarCommand command, MoruUserArtInfo savedArtInfo, Long boardKey);
 }

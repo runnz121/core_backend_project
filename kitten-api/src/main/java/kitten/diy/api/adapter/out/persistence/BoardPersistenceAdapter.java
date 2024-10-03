@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class BoardPersistenceAdapter implements BoardPersistentPort {
@@ -54,7 +56,6 @@ public class BoardPersistenceAdapter implements BoardPersistentPort {
         return boardLikeRepository.findByCreateByAndBoard_key(command.userName(), command.boardKey()).isPresent();
     }
 
-
     @Override
     @Transactional
     public void saveBoard(AvatarCommand command,
@@ -72,6 +73,12 @@ public class BoardPersistenceAdapter implements BoardPersistentPort {
 
         Board savedBoard = boardRepository.save(board);
 
+        saveBoardFeatures(command, savedArtInfo, savedBoard);
+    }
+
+    private void saveBoardFeatures(AvatarCommand command,
+                                   MoruUserArtInfo savedArtInfo,
+                                   Board savedBoard) {
         command.tags().forEach(
                 tag -> {
                     BoardTag boardTag = BoardTag.builder()
@@ -83,21 +90,51 @@ public class BoardPersistenceAdapter implements BoardPersistentPort {
                 }
         );
 
-        BoardImage boardImage = BoardImage.builder()
-                .board(board)
-                .imageUrl(command.repImgUrl())
+        BoardImage boardImageFront = BoardImage.builder()
+                .board(savedBoard)
+                .imageUrl(command.frontImgUrl())
                 .representative(true)
                 .sort(1)
                 .build();
 
-        boardImageRepository.save(boardImage);
+        BoardImage boardImageBack = BoardImage.builder()
+                .board(savedBoard)
+                .imageUrl(command.backImgUrl())
+                .representative(false)
+                .sort(2)
+                .build();
+
+        boardImageRepository.saveAll(List.of(boardImageFront, boardImageBack));
 
         BoardItem boardItem = BoardItem.builder()
-                .board(board)
+                .board(savedBoard)
                 .userArtInfo(savedArtInfo)
                 .build();
 
         boardItemRepository.save(boardItem);
+    }
+
+    @Override
+    @Transactional
+    public void modifyBoard(AvatarCommand command,
+                            MoruUserArtInfo savedArtInfo,
+                            Long boardKey) {
+        Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
+                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+
+        boardTagRepository.findByBoard_Key(boardKey).forEach(
+                BoardTag::deleteBoardTag
+        );
+
+        boardImageRepository.findAllByBoard_Key(boardKey).forEach(
+                BoardImage::deleteBoardImage
+        );
+
+        boardItemRepository.findByBoard_Key(boardKey).ifPresent(
+                BoardItem::deleteBoardItem
+        );
+
+        saveBoardFeatures(command, savedArtInfo, board);
     }
 
     @Override

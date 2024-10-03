@@ -59,4 +59,35 @@ public class MoruUserPart extends Audit {
     @Description("모루 파츠 y좌표")
     @Column(name = "CUSTOM_HEIGHT")
     private Integer customHeight;
+
+    @Description("삭제처리 여부")
+    @Builder.Default
+    @Column(name = "DELETED", nullable = false)
+    private Boolean deleted = false;
+
+    public MoruUserPart deleteUserPart() {
+        this.deleted = true;
+        return this;
+    }
+
+    public MoruUserPart updateAll(MoruParts moruParts,
+                                  MoruUserArtInfo moruUserArtInfo,
+                                  Integer corX,
+                                  Integer corY,
+                                  Integer corZ,
+                                  Integer rotation,
+                                  MoruSide side,
+                                  Integer customWidth,
+                                  Integer customHeight) {
+        this.moruParts = moruParts;
+        this.moruUserArtInfo = moruUserArtInfo;
+        this.corX = corX;
+        this.corY = corY;
+        this.corZ = corZ;
+        this.rotation = rotation;
+        this.side = side;
+        this.customWidth = customWidth;
+        this.customHeight = customHeight;
+        return this;
+    }
 }

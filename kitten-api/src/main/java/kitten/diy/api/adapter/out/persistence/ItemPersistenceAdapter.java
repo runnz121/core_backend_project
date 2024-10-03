@@ -1,6 +1,8 @@
 package kitten.diy.api.adapter.out.persistence;
 
 import kitten.core.corecommon.config.exception.CommonRuntimeException;
+import kitten.core.coredomain.board.entity.BoardItem;
+import kitten.core.coredomain.board.repository.BoardItemRepository;
 import kitten.core.coredomain.moru.entity.Moru;
 import kitten.core.coredomain.moru.entity.MoruParts;
 import kitten.core.coredomain.moru.entity.MoruUserPart;
@@ -11,6 +13,7 @@ import kitten.core.coredomain.moru.repository.MoruUsePartRepository;
 import kitten.core.coredomain.moru.repository.MoruUserArtInfoRepository;
 import kitten.core.coredomain.user.entity.Users;
 import kitten.core.coredomain.user.repository.UsersRepository;
+import kitten.diy.api.adapter.out.error.BoardErrorCode;
 import kitten.diy.api.adapter.out.error.ItemErrorCode;
 import kitten.diy.api.adapter.out.error.PartsErrorCode;
 import kitten.diy.api.adapter.out.error.UserErrorCode;
@@ -30,6 +33,8 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
     private final MoruUsePartRepository moruUsePartRepository;
     private final MoruUserArtInfoRepository moruUserArtInfoRepository;
 
+    private final BoardItemRepository boardItemRepository;
+
     @Override
     @Transactional
     public MoruUserArtInfo saveItem(AvatarCommand command) {
@@ -43,6 +48,8 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
                 .moruColorHexCode(command.colorHexCode())
                 .width(command.width())
                 .height(command.height())
+                .frontImgUrl(command.frontImgUrl())
+                .backImgUrl(command.backImgUrl())
                 .build();
 
         moruUserArtInfoRepository.save(artInfo);
@@ -68,6 +75,34 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
         return artInfo;
     }
 
+    @Override
+    @Transactional
+    public MoruUserArtInfo modifyItem(AvatarCommand command,
+                                      Long boardKey) {
+        // 기존 유저 작품 삭제
+        deleteMoruUserArtInfo(command, boardKey);
+
+        // 아이템 저장
+        return saveItem(command);
+    }
+
+    private void deleteMoruUserArtInfo(AvatarCommand command, Long boardKey) {
+        BoardItem boardItem = boardItemRepository.findByBoard_Key(boardKey)
+                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_ITEM_NOT_FOUND));
+        // artiInfo 삭제
+        MoruUserArtInfo userArtInfo = boardItem.getUserArtInfo();
+        userArtInfo.deleteArtInfo();
+        // partsInfo 삭제
+        command.partInfos().forEach(
+                partInfo -> {
+                    MoruParts parts = getMoruParts(partInfo.partKey());
+                    moruUsePartRepository.findByMoruPartsAndMoruUserArtInfo(parts, userArtInfo).ifPresent(
+                            MoruUserPart::deleteUserPart
+                    );
+                }
+        );
+    }
+
     @Transactional(readOnly = true)
     public Moru getMoru(Long moruKey) {
         return moruRepository.findById(moruKey)
@@ -85,4 +120,5 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
         return usersRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new CommonRuntimeException(UserErrorCode.USER_NOT_EXISTS));
     }
+
 }

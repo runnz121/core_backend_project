@@ -43,4 +43,37 @@ public class MoruUserArtInfo {
     @Description("공간 세로 길이")
     @Column(name = "HEIGHT")
     private Integer height;
+
+    @Description("작품 앞 이미지")
+    @Column(name = "FRONT_IMG_URL")
+    private String frontImgUrl;
+
+    @Description("작품 뒤 이미지")
+    @Column(name = "BACK_IMG_URL")
+    private String backImgUrl;
+
+    @Description("삭제처리 여부")
+    @Builder.Default
+    @Column(name = "DELETED", nullable = false)
+    private Boolean deleted = false;
+
+    public MoruUserArtInfo deleteArtInfo() {
+        this.deleted = true;
+        return this;
+    }
+
+    public MoruUserArtInfo updateAll(Moru moru,
+                                     String moruColorHexCode,
+                                     Integer width,
+                                     Integer height,
+                                     String frontImgUrl,
+                                     String backImgUrl) {
+        this.moruColorHexCode = moruColorHexCode;
+        this.moru = moru;
+        this.width = width;
+        this.height = height;
+        this.frontImgUrl = frontImgUrl;
+        this.backImgUrl = backImgUrl;
+        return this;
+    }
 }

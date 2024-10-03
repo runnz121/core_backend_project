@@ -4,6 +4,7 @@ import kitten.core.corecommon.annotation.Description;
 import kitten.core.coredomain.board.consts.BoardPostStatus;
 import kitten.core.coredomain.moru.consts.MoruSide;
 import lombok.Builder;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -19,8 +20,11 @@ public record AvatarCommand(
         @Description("공간 세로 길이")
         Integer height,
 
-        @Description("대표사진 이미지 URL")
-        String repImgUrl,
+        @Description("작품 정면 이미지 URL")
+        String frontImgUrl,
+
+        @Description("작품 뒷면 이미지 URL")
+        String backImgUrl,
 
         @Description("태그 정보 들")
         List<String> tags,

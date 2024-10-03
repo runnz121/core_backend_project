@@ -46,12 +46,10 @@ public class ItemTemplateController {
     }
 
     @Description("모루 파츠 갖고오기")
-//    @Secured(value = "ROLE_USER")
     @GetMapping("/moru/parts")
     public List<PartsThemeData> getParts(@AccessAccount CurrentAccount account,
                                          @RequestParam("item") String item,
                                          @RequestParam("theme") String theme) {
-        account = CurrentAccount.defaultValue();
         return partsQueryUseCase.getPartsByTheme(PartsSearchCommand.of(item, theme));
     }
 
