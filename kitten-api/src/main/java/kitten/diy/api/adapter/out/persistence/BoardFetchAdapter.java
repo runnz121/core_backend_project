@@ -91,7 +91,7 @@ public class BoardFetchAdapter implements BoardFetchPort {
     public List<BoardPartsInfo> getBoardPartsInfos(Long boardKey) {
         Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
-        BoardItem boardItem = boardItemRepository.findByBoard_Key(boardKey)
+        BoardItem boardItem = boardItemRepository.findByBoard_KeyAndDeletedIsFalse(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_ITEM_NOT_FOUND));
         List<MoruUserPart> useMoruParts = moruUsePartRepository.findAllByMoruUserArtInfo(boardItem.getUserArtInfo());
 

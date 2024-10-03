@@ -130,7 +130,7 @@ public class BoardPersistenceAdapter implements BoardPersistentPort {
                 BoardImage::deleteBoardImage
         );
 
-        boardItemRepository.findByBoard_Key(boardKey).ifPresent(
+        boardItemRepository.findByBoard_KeyAndDeletedIsFalse(boardKey).ifPresent(
                 BoardItem::deleteBoardItem
         );
 

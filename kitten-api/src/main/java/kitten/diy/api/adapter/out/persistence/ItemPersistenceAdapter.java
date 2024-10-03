@@ -87,7 +87,7 @@ public class ItemPersistenceAdapter implements ItemPersistentPort {
     }
 
     private void deleteMoruUserArtInfo(AvatarCommand command, Long boardKey) {
-        BoardItem boardItem = boardItemRepository.findByBoard_Key(boardKey)
+        BoardItem boardItem = boardItemRepository.findByBoard_KeyAndDeletedIsFalse(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_ITEM_NOT_FOUND));
         // artiInfo 삭제
         MoruUserArtInfo userArtInfo = boardItem.getUserArtInfo();
