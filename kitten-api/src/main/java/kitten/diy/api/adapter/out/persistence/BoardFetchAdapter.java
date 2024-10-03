@@ -147,6 +147,7 @@ public class BoardFetchAdapter implements BoardFetchPort {
                     .side(part.getSide())
                     .customWidth(part.getCustomWidth())
                     .customHeight(part.getCustomHeight())
+                    .partsImgUrl(part.getMoruParts().getImageUrl())
                     .build();
                 })
                 .toList();

@@ -66,6 +66,9 @@ public record MyArtDetailData(
             @Description("파츠 앞/뒤 상태")
             MoruSide side,
 
+            @Description("파츠 이미지 url")
+            String partsImgUrl,
+
             @Description("유저가 조절한 파츠 가로길이")
             Integer customWidth,
 
