@@ -74,7 +74,7 @@ public class MyPageFetchAdapter implements MyPageFetchPort {
             Page<Board> boardPage = boardRepository.findAllByUserAndDeletedIsFalse(users, command.pageRequest());
             List<Board> boards = boardPage.stream().toList();
             List<MyPageArtData> myPageArtData = boards.stream().map(board -> {
-                String imageUrl = boardImageRepository.findByBoardAndRepresentativeIsTrue(board).map(BoardImage::getImageUrl).orElse("");
+                String imageUrl = boardImageRepository.findByBoardAndRepresentativeIsTrueAndDeletedIsFalse(board).map(BoardImage::getImageUrl).orElse("");
                 return new MyPageArtData(board.getKey(), imageUrl, board.getPostStatus());
             }).toList();
             return new PageableData<>(myPageArtData, PageData.of(boardPage));
@@ -89,7 +89,7 @@ public class MyPageFetchAdapter implements MyPageFetchPort {
                 .toList();
 
         List<MyPageArtData> myPageArtData = boards.stream().map(board -> {
-            String imageUrl = boardImageRepository.findByBoardAndRepresentativeIsTrue(board).map(BoardImage::getImageUrl).orElse("");
+            String imageUrl = boardImageRepository.findByBoardAndRepresentativeIsTrueAndDeletedIsFalse(board).map(BoardImage::getImageUrl).orElse("");
             return new MyPageArtData(board.getKey(), imageUrl, board.getPostStatus());
         }).toList();
         return new PageableData<>(myPageArtData, PageData.of(boardLikePage));
