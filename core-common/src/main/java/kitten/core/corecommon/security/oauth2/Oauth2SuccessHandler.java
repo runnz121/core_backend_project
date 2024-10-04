@@ -63,9 +63,9 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private String getRedirectUrl(String requestURL) {
         if (AuthUtil.PUBLIC_CALL_BACK.equals(requestURL)) {
-            return AuthUtil.PROD_REDIRECT_URL;
+            return AuthUtil.REDIRECT_URL;
         }
-        return AuthUtil.PROD_REDIRECT_URL;
+        return AuthUtil.REDIRECT_URL;
     }
 }
 
