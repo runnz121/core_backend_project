@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface BoardImageRepository extends CrudRepository<BoardImage, Long> {
 
-    Optional<BoardImage> findByBoardAndRepresentativeIsTrue(Board board);
+    Optional<BoardImage> findByBoardAndRepresentativeIsTrueAndDeletedIsFalse(Board board);
 
     List<BoardImage> findAllByBoard_Key(Long boardKey);
 }
