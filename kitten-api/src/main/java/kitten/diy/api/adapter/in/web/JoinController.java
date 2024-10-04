@@ -20,10 +20,10 @@ public class JoinController {
     private final JoinQueryUseCase joinQueryUseCase;
 
     @PostMapping
-    public void join(@RequestBody JoinRequest joinRequest,
+    public String join(@RequestBody JoinRequest joinRequest,
                      HttpServletRequest request,
                      HttpServletResponse response) {
-        joinCommandUseCase.joinUser(joinRequest.toCommand(request, response));
+        return joinCommandUseCase.joinUser(joinRequest.toCommand(request, response));
     }
 
     @PostMapping("/check/nick-name")

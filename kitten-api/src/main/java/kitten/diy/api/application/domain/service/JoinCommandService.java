@@ -20,9 +20,9 @@ public class JoinCommandService implements JoinCommandUseCase {
 
     @Override
     @Transactional
-    public void joinUser(JoinCommand command) {
+    public String joinUser(JoinCommand command) {
         joinPersistentPort.saveNewUser(command);
         termsAgreementPort.saveUserTermsAgreement(TermsAgreementCommand.of(command.email(), command.termsKeys()));
-        joinTokenPort.createToken(command);
+        return joinTokenPort.createToken(command);
     }
 }

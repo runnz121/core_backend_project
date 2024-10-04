@@ -4,5 +4,5 @@ import kitten.diy.api.application.port.in.command.command.JoinCommand;
 
 public interface JoinTokenPort {
 
-    void createToken(JoinCommand command);
+    String createToken(JoinCommand command);
 }

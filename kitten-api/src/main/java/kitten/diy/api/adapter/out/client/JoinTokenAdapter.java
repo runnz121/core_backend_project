@@ -18,10 +18,11 @@ public class JoinTokenAdapter implements JoinTokenPort {
     private final TokenService tokenService;
 
     @Override
-    public void createToken(JoinCommand command) {
+    public String createToken(JoinCommand command) {
         String accessToken = tokenService.generateJwt(AuthRoles.ROLE_USER, command.email());
         CookieUtils.deleteCookie(command.request(), command.response(), AuthUtil.KITTEN_COOKIE_NAME);
         CookieUtils.addCookie(command.response(), AuthUtil.KITTEN_COOKIE_NAME, accessToken, AuthUtil.MAX_AGE);
         command.response().setHeader(AUTHORIZATION, accessToken);
+        return accessToken;
     }
 }
