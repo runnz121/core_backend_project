@@ -41,7 +41,7 @@ public record BoardSearchRequest(
     ) {
     }
 
-    public BoardInfoSearchCommand toCommand() {
+    public BoardInfoSearchCommand toCommand(String userEmail) {
         return BoardInfoSearchCommand.builder()
                 .pageRequest(
                         PageRequest.of(
@@ -52,6 +52,7 @@ public record BoardSearchRequest(
                 .sortType(SortType.valueOf(criteria.sortType))
                 .searchTags(criteria.searchTags)
                 .searchType(BoardType.of(criteria.searchType))
+                .userEmail(userEmail)
                 .build();
     }
 }

@@ -18,7 +18,9 @@ public record BoardInfoSearchCommand(
 
         List<String> searchTags,
 
-        BoardType searchType
+        BoardType searchType,
+
+        String userEmail
 ) {
 
     public boolean isNotSearchByTag() {

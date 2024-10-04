@@ -26,9 +26,10 @@ public class BoardController {
 
     @Description("게시글 리스트 조회")
     @PostMapping("/list")
-    @Secured(value = {"ROLE_USER", "ROLE_ANONYMOUS"})
-    public PageableData<List<BoardInfoData>> getBoardList(@RequestBody BoardSearchRequest request) {
-        return boardQueryUseCase.getBoardInfos(request.toCommand());
+//    @Secured(value = {"ROLE_USER", "ROLE_ANONYMOUS"})
+    public PageableData<List<BoardInfoData>> getBoardList(@RequestBody BoardSearchRequest request,
+                                                          @AccessAccount CurrentAccount currentAccount) {
+        return boardQueryUseCase.getBoardInfos(request.toCommand(currentAccount.getUserEmail()));
     }
 
     @Description("게시글 상세 정보 조회")

@@ -56,8 +56,7 @@ public class BoardFetchAdapter implements BoardFetchPort {
     @Transactional(readOnly = true)
     public BoardDetailData getBoardDetail(Long boardKey,
                                           String userEmail) {
-        Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
-                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+        Board board = getBoard(boardKey);
         return BoardDetailData.of(
                 board,
                 getBoardImage(board),
@@ -69,10 +68,16 @@ public class BoardFetchAdapter implements BoardFetchPort {
     }
 
     @Override
+    @Transactional
+    public Board getBoard(Long boardKey) {
+        return boardRepository.findByKeyAndDeletedIsFalse(boardKey)
+                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<BoardLikeUsersData> getBoardLikeUsers(Long boardKey) {
-        Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
-                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+        Board board = getBoard(boardKey);
         List<BoardLike> boardLikes = boardLikeRepository.findByBoard(board);
         List<Users> likeUsers = boardLikes.stream().map(BoardLike::getUsers).toList();
         return likeUsers.stream().map(user -> BoardLikeUsersData.of(user.getNickName(), user.getProfileImgUrl())).toList();
@@ -96,8 +101,7 @@ public class BoardFetchAdapter implements BoardFetchPort {
     @Override
     @Transactional(readOnly = true)
     public List<BoardPartsInfo> getBoardPartsInfos(Long boardKey) {
-        Board board = boardRepository.findByKeyAndDeletedIsFalse(boardKey)
-                .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_NOT_FOUND));
+        Board board = getBoard(boardKey);
         BoardItem boardItem = boardItemRepository.findByBoard_KeyAndDeletedIsFalse(boardKey)
                 .orElseThrow(() -> new CommonRuntimeException(BoardErrorCode.BOARD_ITEM_NOT_FOUND));
         List<MoruUserPart> useMoruParts = moruUsePartRepository.findAllByMoruUserArtInfo(boardItem.getUserArtInfo());
@@ -194,7 +198,9 @@ public class BoardFetchAdapter implements BoardFetchPort {
                 .orElse("");
     }
 
-    private Boolean getIsMyLike(Board board, String userEmail) {
+    @Override
+    public Boolean getIsMyLike(Board board,
+                               String userEmail) {
         if (!StringUtils.hasText(userEmail)) {
             return false;
         }

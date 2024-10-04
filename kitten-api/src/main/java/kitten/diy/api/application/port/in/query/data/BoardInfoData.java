@@ -2,6 +2,7 @@ package kitten.diy.api.application.port.in.query.data;
 
 import kitten.core.corecommon.annotation.Description;
 import kitten.core.coredomain.board.consts.BoardType;
+import kitten.core.coredomain.user.entity.Users;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import lombok.Builder;
 
@@ -29,12 +30,23 @@ public record BoardInfoData(
         @Description("조회수")
         Integer viewCount,
 
+        @Description("내가 찜한 여부")
+        Boolean isMyLike,
+
+        @Description("게시글 유저 닉네임")
+        String nickName,
+
+        @Description("게시글 유저 프로필 이미지 url")
+        String profileImgUrl,
+
         @Description("태그")
         List<String> tags
 ) {
 
     public static BoardInfoData of(BoardQueryData data,
-                                   List<String> tags) {
+                                   List<String> tags,
+                                   Boolean isMyLike,
+                                   Users boardCreateUser) {
         return BoardInfoData.builder()
                 .boardKey(data.boardKey())
                 .imageUrl(data.imageUrl())
@@ -43,6 +55,9 @@ public record BoardInfoData(
                 .likeCount(data.likeCount().intValue())
                 .viewCount(data.viewCount().intValue())
                 .tags(tags)
+                .nickName(boardCreateUser.getNickName())
+                .profileImgUrl(boardCreateUser.getProfileImgUrl())
+                .isMyLike(isMyLike)
                 .build();
     }
 }

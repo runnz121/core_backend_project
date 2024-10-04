@@ -1,5 +1,6 @@
 package kitten.diy.api.application.port.out;
 
+import kitten.core.coredomain.board.entity.Board;
 import kitten.diy.api.adapter.out.model.BoardQueryData;
 import kitten.diy.api.application.port.in.command.command.BoardInfoSearchCommand;
 import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
@@ -26,4 +27,8 @@ public interface BoardFetchPort {
     List<BoardPartsInfo> getBoardPartsInfos(Long boardKey);
 
     MyArtDetailData getMyArtDetail(Long boardKey, String userEmail);
+
+    Boolean getIsMyLike(Board board, String userEmail);
+
+    Board getBoard(Long boardKey);
 }

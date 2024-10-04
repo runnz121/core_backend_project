@@ -43,8 +43,8 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                         boardImage.imageUrl,
                         board.type,
                         board.createTime,
-                        getLikeCount(boardLike),
-                        getViewCount(boardView)
+                        getLikeCount(boardLike, board),
+                        getViewCount(boardView, board)
                 ))
                 .distinct()
                 .from(board)
@@ -84,15 +84,19 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                 .fetch();
     }
 
-    private JPQLQuery<Long> getLikeCount(QBoardLike like) {
+    private JPQLQuery<Long> getLikeCount(QBoardLike like,
+                                         QBoard board) {
         return JPAExpressions
                 .select(like.key.count())
+                .where(board.key.eq(like.board.key))
                 .from(like);
     }
 
-    private JPQLQuery<Long> getViewCount(QBoardView view) {
+    private JPQLQuery<Long> getViewCount(QBoardView view,
+                                         QBoard board) {
         return JPAExpressions
                 .select(view.key.count())
+                .where(board.key.eq(view.board.key))
                 .from(view);
     }
 
@@ -118,8 +122,8 @@ public class BoardQueryFetchImpl implements BoardQueryFetch {
                                         QBoardView boardView,
                                         QBoard board) {
         return switch (command.sortType()) {
-            case LIKE -> new OrderSpecifier[]{new OrderSpecifier<>(Order.DESC, getLikeCount(boardLike))};
-            case VIEW -> new OrderSpecifier[]{new OrderSpecifier<>(Order.DESC, getViewCount(boardView))};
+            case LIKE -> new OrderSpecifier[]{new OrderSpecifier<>(Order.DESC, getLikeCount(boardLike, board))};
+            case VIEW -> new OrderSpecifier[]{new OrderSpecifier<>(Order.DESC, getViewCount(boardView, board))};
             case RECENT -> new OrderSpecifier[]{board.createTime.desc()};
         };
     }
