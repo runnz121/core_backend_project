@@ -1,3 +1,3 @@
-# KITTEN-BEADS-API
+# KITTEN-API
 
-beads string 에 필요한 api를 제공
+- kitten-api 의 core 백엔드 서비스 모듈

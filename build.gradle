@@ -65,6 +65,8 @@ subprojects {
 		implementation 'io.jsonwebtoken:jjwt:0.12.5'
 		implementation 'net.minidev:json-smart:2.5.1'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.springframework.boot:spring-boot-starter-webflux'
+		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 		implementation 'software.amazon.awssdk:s3'
 		implementation 'software.amazon.awssdk:sns'
