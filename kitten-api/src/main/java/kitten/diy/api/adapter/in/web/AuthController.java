@@ -9,7 +9,6 @@ import kitten.diy.api.application.port.in.command.command.LogoutCommand;
 import kitten.diy.api.application.port.in.query.data.LogoutResultData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
