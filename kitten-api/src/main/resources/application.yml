@@ -52,13 +52,13 @@ core:
       write:
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: jdbc:mysql://tutorial-database-1.cd4y8y00gnoy.ap-northeast-2.rds.amazonaws.com/beads
-        username: admin
-        password: skarnddmstjs
+        username: 
+        password: 
       read:
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: jdbc:mysql://tutorial-database-1.cd4y8y00gnoy.ap-northeast-2.rds.amazonaws.com/beads
-        username: admin
-        password: skarnddmstjs
+        username: 
+        password: 
 
 springdoc:
   swagger-ui:
@@ -76,15 +76,15 @@ spring:
       client:
         registration:
           google:
-            client-id: 1095737006624-tbucpt82dee4ju1g4dg0kafcgbqisl2i.apps.googleusercontent.com
-            client-secret: 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
+            client-id: 
+            client-secret: 
             scope:
               - email
               - profile
             redirect-uri: "http://core-api.diykitten-backend.site/oauth2/callback/google"
 #            redirect-uri: "http://localhost:8080/oauth2/callback/google"
           kakao:
-            client-id: 81b6777f08a10e8e5fa70763d40385b3
+            client-id: 
             client-name: kakao
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
@@ -92,8 +92,8 @@ spring:
               - profile_nickname
             redirect-uri: "http://localhost:8080/oauth2/callback/kakao"
           naver:
-            client-id: mjaOVjhRIMMPBJsE_qT1
-            client-secret: 1fT2FTnTOZ
+            client-id: 
+            client-secret: 
             client-name: naver
             authorization-grant-type: authorization_code
             scope:
@@ -101,8 +101,8 @@ spring:
               - name
             redirect-uri: "http://localhost:8080/oauth2/callback/naver"
           linkedin:
-            client-id: 867mol0hcfdh3h
-            client-secret: FxSwIrX0NYnhfEyj
+            client-id: 
+            client-secret: 
             client-name: LinkedIn
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
@@ -128,6 +128,6 @@ spring:
             user-name-attribute: id
 
 aws.s3:
-  aws-access-key-id: AKIA2UC3AUG77KT4FTOZ
-  aws-secret-access-key: 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
-  aws-bucket-name: mium-eunsun
+  aws-access-key-id: 
+  aws-secret-access-key: 
+  aws-bucket-name: 
