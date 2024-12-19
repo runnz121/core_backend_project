@@ -9,8 +9,10 @@
 
 ### API 모듈
 
-- kitten-beads-api
-  - beads api 제공 모듈 
+- kitten-api
+  - 모루인형 생성 api 제공 모듈 
+- pay-api
+  - 결제관련 제공 api 모듈
 
 ### EC2 배포 설치
 
