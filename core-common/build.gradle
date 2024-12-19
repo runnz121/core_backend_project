@@ -1,0 +1,12 @@
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    // 모듈 임포트
+    implementation project(':core-domain')
+}
+
+tasks.register("prepareKotlinBuildScriptModel"){}
+tasks.named('test') {
+    useJUnitPlatform()
+}

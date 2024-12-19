@@ -1,0 +1,12 @@
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    
+    runtimeOnly 'com.mysql:mysql-connector-j'
+}
+
+tasks.register("prepareKotlinBuildScriptModel"){}
+tasks.named('test') {
+    useJUnitPlatform()
+}
