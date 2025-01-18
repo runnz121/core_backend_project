@@ -51,12 +51,12 @@ core:
     default:
       write:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://tutorial-database-1.cd4y8y00gnoy.ap-northeast-2.rds.amazonaws.com/beads
+        jdbc-url: jdbc:mysql://tutorial-db.cd4y8y00gnoy.ap-northeast-2.rds.amazonaws.com/beads
         username: admin
         password: skarnddmstjs
       read:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://tutorial-database-1.cd4y8y00gnoy.ap-northeast-2.rds.amazonaws.com/beads
+        jdbc-url: jdbc:mysql://tutorial-db.cd4y8y00gnoy.ap-northeast-2.rds.amazonaws.com/beads
         username: admin
         password: skarnddmstjs
 
