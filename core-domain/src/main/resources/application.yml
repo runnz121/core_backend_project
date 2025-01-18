@@ -1,7 +1,7 @@
 aws.s3:
-  aws-access-key-id: AKIA2UC3AUG77KT4FTOZ
-  aws-secret-access-key: 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
-  aws-bucket-name: mium-eunsun
+  aws-access-key-id: 
+  aws-secret-access-key: 
+  aws-bucket-name: 
 
 id:
   gen: 123
