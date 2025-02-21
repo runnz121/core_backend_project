@@ -7,6 +7,8 @@ import kitten.core.coredomain.config.annotation.Description;
 import kitten.core.coredomain.model.Audit;
 import kitten.core.coredomain.user.entity.Users;
 import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 @Getter
 @NoArgsConstructor
@@ -22,6 +24,7 @@ public class Board extends Audit {
     @Column(name = "BOARD_KEY", nullable = false)
     private Long key;
 
+    @NotFound(action = NotFoundAction.IGNORE)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_KEY", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Users user;

@@ -8,6 +8,7 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 public record BoardInfoData(
@@ -55,8 +56,8 @@ public record BoardInfoData(
                 .likeCount(data.likeCount().intValue())
                 .viewCount(data.viewCount().intValue())
                 .tags(tags)
-                .nickName(boardCreateUser.getNickName())
-                .profileImgUrl(boardCreateUser.getProfileImgUrl())
+                .nickName(Optional.ofNullable(boardCreateUser).map(Users::getNickName).orElse(""))
+                .profileImgUrl(Optional.ofNullable(boardCreateUser).map(Users::getProfileImgUrl).orElse(""))
                 .isMyLike(isMyLike)
                 .build();
     }
