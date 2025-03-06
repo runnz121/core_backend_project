@@ -51,14 +51,14 @@ core:
     default:
       write:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://tutorial-db.cd4y8y00gnoy.ap-northeast-2.rds.amazonaws.com/beads
-        username: admin
-        password: skarnddmstjs
+        jdbc-url: jdbc:mysql://localhost:3306/moru
+        username: root
+        password: 698427
       read:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://tutorial-db.cd4y8y00gnoy.ap-northeast-2.rds.amazonaws.com/beads
-        username: admin
-        password: skarnddmstjs
+        jdbc-url: jdbc:mysql://localhost:3306/moru
+        username: root
+        password: 698427
 
 springdoc:
   swagger-ui:
