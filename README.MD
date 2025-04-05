@@ -14,6 +14,37 @@
 - pay-api
   - 결제관련 제공 api 모듈
 
+
+### 폴더 구조 (예시)
+```
+src/main/java/com/example/board
+├── adapter
+│   ├── in
+│   │   └── web
+│   │       └── BoardController.java         // REST API 요청을 처리 (Inbound Adapter)
+│   └── out
+│       └── persistence
+│           ├── BoardRepositoryImpl.java     // 도메인 포트(BoardRepository)의 구현 (Outbound Adapter)
+│           └── JpaBoardRepository.java      // Spring Data JPA 인터페이스 (실제 DB 연동)
+├── application
+│   └── service
+│       └── BoardQueryService.java            // 비즈니스 로직(UseCase)를 구현
+└── domain
+    ├── model
+    │   └── Board.java                        // 도메인 엔티티 (게시판)
+    └── port
+        ├── in
+        │   └── command
+        │         └── BoardCommandRepository.java  // 도메인에서 정의한 Repository 인터페이스 (포트)
+        ├── out
+        └── └─── query
+                 └── BoardQueryRepository.java       // 도메인에서 정의한 Repository 인터페이스 (포트)
+```
+
+### 요청 흐름도
+adapter/web -> application/service -> in/out -> domain/port -> repository
+
+
 ### EC2 배포 설치
 
 - IAM EC2 역할 할당 -> s3FullAccess
