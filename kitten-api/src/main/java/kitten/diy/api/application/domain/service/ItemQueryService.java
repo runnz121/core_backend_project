@@ -16,9 +16,16 @@ public class ItemQueryService implements ItemQueryUseCase {
 
     private final ItemFetchPort itemFetchPort;
 
+    /**
+     * 캐시 데이터 미 존재시 실 데이터 조회 반환
+     *
+     * @param command
+     * @return
+     */
     @Override
     public List<ItemThemeData> getThemeItemData(ItemSearchCommand command) {
-        return itemFetchPort.getItemThemeData(command);
+
+        return itemFetchPort.getCachedItemThemeData(command);
     }
 
     @Override

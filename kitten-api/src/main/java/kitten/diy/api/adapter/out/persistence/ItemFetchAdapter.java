@@ -8,6 +8,7 @@ import kitten.diy.api.application.port.in.command.command.TagLikeSearchCommand;
 import kitten.diy.api.application.port.in.query.data.ItemThemeData;
 import kitten.diy.api.application.port.out.ItemFetchPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,14 @@ public class ItemFetchAdapter implements ItemFetchPort {
                             .collect(Collectors.toList());
                 })
                 .orElseGet(() -> List.of(ItemThemeData.EMPTY));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "itemCaffeineCache", key = "'ITEM'")
+    public List<ItemThemeData> getCachedItemThemeData(ItemSearchCommand command) {
+
+        return getItemThemeData(command);
     }
 
     @Override

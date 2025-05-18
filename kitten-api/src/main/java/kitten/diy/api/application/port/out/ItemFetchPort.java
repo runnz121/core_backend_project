@@ -10,5 +10,7 @@ public interface ItemFetchPort {
 
     List<ItemThemeData> getItemThemeData(ItemSearchCommand command);
 
+    List<ItemThemeData> getCachedItemThemeData(ItemSearchCommand command);
+
     List<String> getPartsLikeTags(TagLikeSearchCommand command);
 }
