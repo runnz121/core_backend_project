@@ -1,13 +1,14 @@
 package kitten.diy.api.application.domain.service;
 
 import kitten.core.coredomain.moru.entity.MoruUserArtInfo;
+import kitten.diy.api.adapter.out.model.ItemEventData;
 import kitten.diy.api.application.port.in.command.ItemCommandUseCase;
 import kitten.diy.api.application.port.in.command.command.AvatarCommand;
 import kitten.diy.api.application.port.in.command.command.MoruCommand;
-import kitten.diy.api.application.port.out.BoardFetchPort;
 import kitten.diy.api.application.port.out.BoardPersistentPort;
 import kitten.diy.api.application.port.out.ItemPersistentPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,14 +16,20 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ItemCommandService implements ItemCommandUseCase {
 
+    private final ApplicationEventPublisher publisher;
+
     private final ItemPersistentPort itemPersistentPort;
     private final BoardPersistentPort boardPersistentPort;
-    private final BoardFetchPort boardFetchPort;
 
     @Override
     @Transactional
     public void saveMoru(MoruCommand command) {
+
+        // 1. 아이템 저장
         itemPersistentPort.saveMoru(command);
+
+        // 2. 이벤트 발행으로 캐시 초기화
+        publisher.publishEvent(ItemEventData.CREATE);
     }
 
     @Override
