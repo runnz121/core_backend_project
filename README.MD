@@ -1,3 +1,7 @@
+### ERD
+![Image](https://github.com/user-attachments/assets/1e8550e9-34e2-408d-a9b8-5105aeb63da9)
+
+
 ### CORE 모듈
 
 - domain
@@ -13,7 +17,6 @@
   - 모루인형 생성 api 제공 모듈 
 - pay-api
   - 결제관련 제공 api 모듈
-
 
 ### 폴더 구조 (예시)
 ```
@@ -43,7 +46,6 @@ src/main/java/com/example/board
 
 ### 요청 흐름도
 adapter/web -> application/service -> in/out -> domain/port -> repository
-
 
 ### EC2 배포 설치
 
