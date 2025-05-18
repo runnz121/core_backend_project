@@ -14,13 +14,13 @@ import java.time.Duration;
 @EnableCaching
 public class CaffeineCacheConfig {
 
-    private static final String ADS_CAFFEINE_CACHE = "boardCaffeineCache";
+    private static final String ITEM_CAFFEINE_CACHE = "itemCaffeineCache";
 
     @Bean
     @Primary
     public CacheManager cacheManager() {
 
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager(ADS_CAFFEINE_CACHE);
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager(ITEM_CAFFEINE_CACHE);
 
         cacheManager.setCaffeine(Caffeine.newBuilder()
                 .initialCapacity(100)
