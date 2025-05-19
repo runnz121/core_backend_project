@@ -1,289 +1,144 @@
-### ERD
-![Image](https://github.com/user-attachments/assets/1e8550e9-34e2-408d-a9b8-5105aeb63da9)
+# DIY KITTEN - Backend System
 
 
-### CORE 모듈
+## 🧩 서비스 개요
 
-- domain
-  - 공통의 entity 가 선언됨
-- common
-  - 공통의 서비스가 선언됨
-    - security
-    - utils
+DIY 인형 제작 서비스를 위한 백엔드 시스템을 구축하였습니다.  
+MSA 전환을 고려한 모듈 아키텍처, CQRS 패턴, 고성능 캐시 전략, OAuth 인증 및 CI/CD 자동화까지 포함된 서비스입니다.
 
-### API 모듈
+---
 
-- kitten-api
-  - 모루인형 생성 api 제공 모듈 
-- pay-api
-  - 결제관련 제공 api 모듈
+## ✨ 주요 기능
 
-### 폴더 구조 (예시)
+- 🔐 **OAuth 로그인 및 인증**
+  - 카카오, 구글, 네이버 로그인 지원
+  - SpEL 기반의 커스텀 인증 어노테이션으로 인증 로직 간소화
+
+- 🧵 **인형 생성 정보 임시 저장**
+  - 인형 파트별 좌표 기반 Redis 캐싱
+  - API 기반으로 임시 저장/조회 기능 제공
+
+- 📝 **게시판 캐싱 및 조회 성능 개선**
+  - 게시글 생성일 기준 Redis score 사용
+  - 날짜 기반 탐색 및 페이지네이션 성능 최적화
+
+- 🧸 **아이템 캐싱 및 응답 속도 개선**
+  - Caffeine + Redis를 활용한 하이브리드 캐시 구성
+  - Redis Pub/Sub 기반 로컬 캐시 무효화 로직 구현
+
+- 🚀 **CI/CD 파이프라인 구성**
+  - GitHub Action → AWS CodeDeploy 연동으로 자동 배포 구축
+
+---
+
+## 🧱 프로젝트 구조
+
+핵사고날 아키텍처(Hexagonal Architecture)와 CQRS 패턴을 기반으로 모듈을 분리하고, 추후 MSA 전환을 고려해 유연하게 구성했습니다.
+
+- `core-common`: 공통 설정 및 상수 정의
+- `core-domain`: 도메인 모델과 포트 정의
+- `kitten-api`: 인형 관련 API 서비스 구현
+
+📦 게시판 기능 예시 구조:
 ```
-src/main/java/com/example/board
+
 ├── adapter
 │   ├── in
 │   │   └── web
-│   │       └── BoardController.java         // REST API 요청을 처리 (Inbound Adapter)
+│   │       └── BoardController.java         // REST API 요청을 처리
 │   └── out
 │       └── persistence
-│           ├── BoardRepositoryImpl.java     // 도메인 포트(BoardRepository)의 구현 (Outbound Adapter)
-│           └── JpaBoardRepository.java      // Spring Data JPA 인터페이스 (실제 DB 연동)
+│           ├── BoardRepositoryImpl.java     // 도메인 포트
+│           └── JpaBoardRepository.java      // Spring Data JPA 인터페이스
 ├── application
 │   └── service
-│       └── BoardQueryService.java            // 비즈니스 로직(UseCase)를 구현
+│       └── BoardQueryService.java            // 비즈니스 로직(UseCase)
 └── domain
-    ├── model
-    │   └── Board.java                        // 도메인 엔티티 (게시판)
-    └── port
-        ├── in
-        │   └── command
-        │         └── BoardCommandRepository.java  // 도메인에서 정의한 Repository 인터페이스 (포트)
-        ├── out
-        └── └─── query
-                 └── BoardQueryRepository.java       // 도메인에서 정의한 Repository 인터페이스 (포트)
+├── model
+│   └── Board.java                        // 도메인 엔티티
+└── port
+├── in
+│   └── command
+│         └── BoardCommandRepository.java  // Repository 인터페이스 (포트)
+├── out
+└── └─── query
+└── BoardQueryRepository.java
+
+````
+
+---
+
+## 🧮 테이블 설계
+
+- Entity 기반의 도메인을 정의하고, JPA를 통해 테이블 자동 생성
+- 전체 스키마는 ERD 또는 개발 문서에서 관리 (미리보기 이미지 예시)
+
+[테이블 설계]![Image](https://github.com/user-attachments/assets/1e8550e9-34e2-408d-a9b8-5105aeb63da9)
+
+---
+
+## 🛠 트러블슈팅
+
+### 1️⃣ 아이템 등록 및 조회 최적화를 위한 로컬 캐시 무효화
+
+- **문제**: 조회/등록의 책임 분리를 고려하던 중, 신규 등록 시 로컬 캐시 무효화 필요
+- **해결**:
+  - Redisson `RTopic` 기반 메시지 발행/구독
+  - `ApplicationEventPublisher`로 이벤트 트리거 → 로컬 캐시 무효화
+```
+    public void publish(String message) {
+
+        RTopic topic = redissonClient.getTopic(ITEM_TOPIC);
+        
+        long receivers = topic.publish(message);
+        
+        log.info("<REDISSON:PUBLISHER:메시지 발행> 메시지 수신 : {}", receivers);
+    }
 ```
 
-### 요청 흐름도
-adapter/web -> application/service -> in/out -> domain/port -> repository
-
-### EC2 배포 설치
-
-- IAM EC2 역할 할당 -> s3FullAccess
-- 다음의 명령을 실행
-- sudo apt update
-- sudo apt install ruby-full
-- sudo apt install wget
-- cd /home/ubuntu
-- wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install
-- chmod +x ./install
-- sudo ./install auto > /tmp/logfile
-- sudo service codedeploy-agent status
-- sudo apt install openjdk-21-jdk
-- sudo lsof -i :8080 # 포트 확인하기 
-
-
-### 트러블 슈팅
-1. 로컬에서는 정상 api 호출되나 ec2 에서 호출시 302 /login redirect 되는 현상
-- 커밋 : 13c3698
-- 원인 : H2 콘솔 접근을 위해 설정한 스프링 시큐리티 설정이 원인 
-  - .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-  )
-- 해당 옵션은 csrf 와 same origin 정책을 허용 시킴
-- 하지만 csrf 가 허용되면 302 redirect 되는 현상이 발생함
-- 따라서 해당 옵션 disabled 처리함
-- 의문 .. 해당 옵션은 최초 설정 후 변경한게 없는데, 왜 EC2 에 올렸을시 발생하는가..
-- 참고
-  - https://velog.io/@kide77/Spring-Boot-3.x-Security-%EA%B8%B0%EB%B3%B8-%EC%84%A4%EC%A0%95-%EB%B0%8F-%EB%B3%80%ED%99%94
-
-2. CORS 에러 설정
-- nginx 설정을 다음과 같이 수정
-``````
-##
-# You should look at the following URL's in order to grasp a solid understanding
-# of Nginx configuration files in order to fully unleash the power of Nginx.
-# https://www.nginx.com/resources/wiki/start/
-# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
-# https://wiki.debian.org/Nginx/DirectoryStructure
-#
-# In most cases, administrators will remove this file from sites-enabled/ and
-# leave it as reference inside of sites-available where it will continue to be
-# updated by the nginx packaging team.
-#
-# This file will automatically load configuration files provided by other
-# applications, such as Drupal or Wordpress. These applications will be made
-# available underneath a path with that package name, such as /drupal8.
-#
-# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
-##
-
-# Default server configuration
-#
-server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-
-        # SSL configuration
-        #
-        # listen 443 ssl default_server;
-        # listen [::]:443 ssl default_server;
-        #
-        # Note: You should disable gzip for SSL traffic.
-        # See: https://bugs.debian.org/773332
-        #
-        # Read up on ssl_ciphers to ensure a secure configuration.
-        # See: https://bugs.debian.org/765782
-        #
-        # Self signed certs generated by the ssl-cert package
-        # Don't use them in a production server!
-        #
-        # include snippets/snakeoil.conf;
-
-        root /var/www/html;
-
-        # Add index.php to the list if you are using PHP
-        index index.html index.htm index.nginx-debian.html;
-
-        server_name core-api.diykitten-backend.site;
-
-        location / {
-                if ($request_method = 'OPTIONS') {
-                add_header 'Access-Control-Allow-Origin' 'http://localhost:3000';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, DELETE, PATCH, OPTIONS';
-                add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization';
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                return 204;
-            }
-
-                proxy_set_header Host $host;
-                proxy_pass http://localhost:8080;
-
+```
+    public void subscribe() {
+    
+        RTopic topic = redissonClient.getTopic(ITEM_TOPIC);
+        
+        topic.addListener((MessageListener<String>) (channel, msg) -> {
+        
+            if (cacheManager.getCache(ITEM_CAFFEINE_CACHE) == null) return;
+            cacheManager.getCache(ITEM_CAFFEINE_CACHE).evict(ITEM_CACHE_KEY);
             
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Origin' '*' always;
-                #add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection "upgrade";
-                proxy_set_header Origin "";
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
+            log.info("<REDISSON:SUBSCRIBER:수신> itemCaffeineCache 캐시 삭제");
+        });
+    }
+```
 
-        # pass PHP scripts to FastCGI server
-        #
-        #location ~ \.php$ {
-        #       include snippets/fastcgi-php.conf;
-        #
-        #       # With php-fpm (or other unix sockets):
-        #       fastcgi_pass unix:/run/php/php7.4-fpm.sock;
-        #       # With php-cgi (or other tcp sockets):
-        #       fastcgi_pass 127.0.0.1:9000;
-        #}
+---
 
-        # deny access to .htaccess files, if Apache's document root
-        # concurs with nginx's one
-        #
-        #location ~ /\.ht {
-        #       deny all;
-        #}
-}
+### 2️⃣ Score 기반 게시판 조회 최적화
+
+- **문제**: 최신 게시글 위주의 빠른 조회 필요
+- **해결**:
+  - 게시글 생성 시점으로 Redis Sorted Set에 Score 저장
+  - Score 기반으로 페이지네이션 및 시간 탐색 성능 향상
+
+---
+
+### 3️⃣ EC2 환경에서 API 호출 시 `/login`으로 리다이렉트 발생
+
+- **문제**: Spring Security의 `frameOptions` 설정으로 인해 CSRF 우회 발생
+- **해결**: `csrf().disable()` + `frameOptions(sameOrigin)` 설정으로 문제 해결
+
+```java
+.headers(headersConfigurer -> headersConfigurer
+.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)).disable()
+````
 
 
-# Virtual Host configuration for example.com
-#
-# You can move that to a different file under sites-available/ and symlink that
-# to sites-enabled/ to enable it.
-#
-#server {
-#       listen 80;
-#       listen [::]:80;
-#
-#       server_name example.com;
-#
-#       root /var/www/example.com;
-#       index index.html;
-#
-#       location / {
-#               try_files $uri $uri/ =404;
-#       }
-#}
+---
 
-server {
+## 🛠 사용 기술 스택
 
-        # SSL configuration
-        #
-        # listen 443 ssl default_server;
-        # listen [::]:443 ssl default_server;
-        #
-        # Note: You should disable gzip for SSL traffic.
-        # See: https://bugs.debian.org/773332
-        #
-        # Read up on ssl_ciphers to ensure a secure configuration.
-        # See: https://bugs.debian.org/765782
-        #
-        # Self signed certs generated by the ssl-cert package
-        # Don't use them in a production server!
-        #
-        # include snippets/snakeoil.conf;
+* **백엔드**: Spring Boot, Spring Security, JPA, QueryDSL
+* **인프라**: AWS EC2, S3, Aurora MySQL, IAM, Route 53, Nginx, Redis
+* **CI/CD**: GitHub Actions, AWS CodeDeploy
 
-        root /var/www/html;
-
-        # Add index.php to the list if you are using PHP
-        index index.html index.htm index.nginx-debian.html;
-    server_name core-api.diykitten-backend.site; # managed by Certbot
-
-
-        location / {
-                                if ($request_method = 'OPTIONS') {
-                add_header 'Access-Control-Allow-Origin' 'http://localhost:3000';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, DELETE, PATCH, OPTIONS';
-                add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization';
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                return 204;
-            }
-
-                proxy_set_header Host $host;
-                proxy_pass http://localhost:8080;
-
-
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Origin' '*' always;
-                #add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection "upgrade";
-                proxy_set_header Origin "";
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
-
-        # pass PHP scripts to FastCGI server
-        #
-        #location ~ \.php$ {
-        #       include snippets/fastcgi-php.conf;
-        #
-        #       # With php-fpm (or other unix sockets):
-        #       fastcgi_pass unix:/run/php/php7.4-fpm.sock;
-        #       # With php-cgi (or other tcp sockets):
-        #       fastcgi_pass 127.0.0.1:9000;
-        #}
-
-        # deny access to .htaccess files, if Apache's document root
-        # concurs with nginx's one
-        #
-        #location ~ /\.ht {
-        #       deny all;
-        #}
-
-
-    listen [::]:443 ssl ipv6only=on; # managed by Certbot
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/core-api.diykitten-backend.site/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/core-api.diykitten-backend.site/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-}
-server {
-        return 301 http://localhost:8080;
-    #if ($host = core-api.diykitten-backend.site) {
-    #    return 301 http://13.124.132.215:8080; 
-    # } # managed by Certbot
-
-
-        listen 80 ;
-        listen [::]:80 ;
-    server_name core-api.diykitten-backend.site;
-    return 404; # managed by Certbot
-
-
-}
-``````
-
-- customFilter 에 cors 빈 다시 생성하여 추가설정함 
-
-#### 3. 모바일 환경에셔 authorization_request_not_found 로 로그인 안되는 현상
-- AuthorizationRequestRepository 를 상속받아 커스텀하게 repository를 구현하였으나 동작안함
-- 쿠키에 secure = true로 주어서 https 환경이 아닌 경우에는 쿠기가 날라가지 않아 인증 쿠키를 다시보내지 않아 OAuth2LoginAuthenticationFilter 필터체인에서 발생한 문제
-- secure = true를 주석처리하여 해결함 
+---
