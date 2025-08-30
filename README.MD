@@ -122,19 +122,6 @@ MSA 전환을 고려한 모듈 아키텍처, CQRS 패턴, 고성능 캐시 전�
 
 ---
 
-### 3️⃣ EC2 환경에서 API 호출 시 `/login`으로 리다이렉트 발생
-
-- **문제**: Spring Security의 `frameOptions` 설정으로 인해 CSRF 우회 발생
-- **해결**: `csrf().disable()` + `frameOptions(sameOrigin)` 설정으로 문제 해결
-
-```java
-.headers(headersConfigurer -> headersConfigurer
-.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)).disable()
-````
-
-
----
-
 ## 🛠 사용 기술 스택
 
 * **백엔드**: Spring Boot, Spring Security, JPA, QueryDSL
